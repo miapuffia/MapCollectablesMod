@@ -133,7 +133,9 @@
 
 # Ignore intermediate folders
 Intermediate/
+Output/
 obj/
+Plugins/Wwise/
 
 # Ignore any saved local files
 Saved/
