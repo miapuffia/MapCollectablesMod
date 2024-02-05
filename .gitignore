@@ -137,6 +137,13 @@ Output/
 obj/
 Plugins/Wwise/
 
+!Content/**
+.vs/
+**/Binaries/**
+Binaries/
+Build/
+Platforms/
+
 # Ignore any saved local files
 Saved/
 /Engine/Programs/UnrealBuildTool/**
