@@ -231,6 +231,11 @@
 		{
 			"Name": "WebBrowserWidget",
 			"Enabled": true
+		},
+		{
+			"Name": "ElectronicNodes",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/5cb2a394d0c04e73891762be4cbd7216"
 		}
 	],
 	"TargetPlatforms": [
@@ -238,6 +243,7 @@
 		"Windows",
 		"XB1",
 		"XSX",
-		"WinGDK"
+		"WinGDK",
+		"HoloLens"
 	]
 }
