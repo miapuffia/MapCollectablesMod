@@ -11,7 +11,11 @@ class PAL_API UPalUICharacterStatus : public UPalUserWidgetOverlayUI {
     GENERATED_BODY()
 public:
     UPalUICharacterStatus();
+
 protected:
+    UFUNCTION(BlueprintCallable)
+    void ToggleFavoritePal(UPalIndividualCharacterHandle* targetHandle);
+    
     UFUNCTION(BlueprintCallable)
     void RemoveActiveSkill(UPalIndividualCharacterHandle* targetHandle, EPalWazaID targetWazaID);
     
@@ -19,7 +23,7 @@ protected:
     void DropCharacter(UPalIndividualCharacterHandle* targetHandle);
     
     UFUNCTION(BlueprintCallable)
-    void ChangeNickname(UPalIndividualCharacterHandle* targetHandle, const FText& newNickName);
+    void ChangeNickname(UPalIndividualCharacterHandle* targetHandle, const FText& NewNickName);
     
     UFUNCTION(BlueprintCallable)
     void ChangeActiveSkill(UPalIndividualCharacterHandle* targetHandle, EPalWazaID changeWazaID, EPalWazaID newWazaID);

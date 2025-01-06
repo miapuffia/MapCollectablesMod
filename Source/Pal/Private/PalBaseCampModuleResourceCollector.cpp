@@ -1,9 +1,15 @@
 #include "PalBaseCampModuleResourceCollector.h"
 
+UPalBaseCampModuleResourceCollector::UPalBaseCampModuleResourceCollector() {
+}
+
+void UPalBaseCampModuleResourceCollector::OnRespawnFoliageInstance(UPalFoliageInstance* Instance) {
+}
+
 void UPalBaseCampModuleResourceCollector::OnRegisteredMapObjectModel(UPalMapObjectModel* Model) {
 }
 
-void UPalBaseCampModuleResourceCollector::OnRegisteredFoliageModel(TScriptInterface<IPalMapObjectModelInterface> Model) {
+void UPalBaseCampModuleResourceCollector::OnRegisteredFoliageModel_ServerInternal(UPalFoliageInstance* Instance) {
 }
 
 void UPalBaseCampModuleResourceCollector::OnDestroyedMapObjectModel(UPalMapObjectModel* Model, const FPalMapObjectDisposeOptions& Options) {
@@ -12,6 +18,4 @@ void UPalBaseCampModuleResourceCollector::OnDestroyedMapObjectModel(UPalMapObjec
 void UPalBaseCampModuleResourceCollector::OnDestroyedFoliageInstance(UPalFoliageInstance* Instance) {
 }
 
-UPalBaseCampModuleResourceCollector::UPalBaseCampModuleResourceCollector() {
-}
 

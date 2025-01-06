@@ -1,5 +1,13 @@
 #include "PalVisualEffectBase.h"
 
+UPalVisualEffectBase::UPalVisualEffectBase() {
+    this->bIsEndVisualEffect = false;
+    this->bCanDeleteInstance = true;
+    this->VisualEffectID = EPalVisualEffectID::None;
+    this->IsCallEndOnComponentEndPlay = false;
+    this->bIsEnableForDedicatedServer = true;
+}
+
 void UPalVisualEffectBase::TickVisualEffect_Implementation(float DeltaTime) {
 }
 
@@ -22,6 +30,10 @@ bool UPalVisualEffectBase::IsEndVisualEffect_Implementation() {
     return false;
 }
 
+USkeletalMeshComponent* UPalVisualEffectBase::GetPlayerHeadMesh() const {
+    return NULL;
+}
+
 AActor* UPalVisualEffectBase::GetOwner() const {
     return NULL;
 }
@@ -32,6 +44,10 @@ TArray<UMaterialInstanceDynamic*> UPalVisualEffectBase::GetMainMeshMaterials() c
 
 USkeletalMeshComponent* UPalVisualEffectBase::GetMainMesh() const {
     return NULL;
+}
+
+TArray<UMaterialInstanceDynamic*> UPalVisualEffectBase::GetMainAndHeadMeshMaterials() const {
+    return TArray<UMaterialInstanceDynamic*>();
 }
 
 float UPalVisualEffectBase::GetFloatParameter(FName Name, float DefaultValue) {
@@ -53,9 +69,4 @@ bool UPalVisualEffectBase::CanDeleteInstance_Implementation() {
     return false;
 }
 
-UPalVisualEffectBase::UPalVisualEffectBase() {
-    this->bIsEndVisualEffect = false;
-    this->bCanDeleteInstance = true;
-    this->VisualEffectID = EPalVisualEffectID::None;
-}
 

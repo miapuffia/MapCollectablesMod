@@ -1,6 +1,10 @@
 #include "PalUIBaseCampWorkersModel.h"
 
-void UPalUIBaseCampWorkersModel::ToPage(const int32 PageIndex) {
+UPalUIBaseCampWorkersModel::UPalUIBaseCampWorkersModel() {
+    this->CurrentPageIndex = 0;
+}
+
+void UPalUIBaseCampWorkersModel::ToPage(const int32 pageIndex) {
 }
 
 void UPalUIBaseCampWorkersModel::SelectHandleSlot(const int32 DisplayIndex, const EPalItemSlotPressType PressType) {
@@ -21,7 +25,7 @@ TArray<UPalIndividualCharacterSlot*> UPalUIBaseCampWorkersModel::GetCurrentPageS
     return TArray<UPalIndividualCharacterSlot*>();
 }
 
-UPalBaseCampModel* UPalUIBaseCampWorkersModel::GetBaseCampModel(const int32 PageIndex) const {
+UPalBaseCampModel* UPalUIBaseCampWorkersModel::GetBaseCampModel(const int32 pageIndex) const {
     return NULL;
 }
 
@@ -29,7 +33,4 @@ FGuid UPalUIBaseCampWorkersModel::GetBaseCampId() const {
     return FGuid{};
 }
 
-UPalUIBaseCampWorkersModel::UPalUIBaseCampWorkersModel() {
-    this->CurrentPageIndex = 0;
-}
 

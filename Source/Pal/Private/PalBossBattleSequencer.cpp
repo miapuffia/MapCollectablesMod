@@ -1,5 +1,18 @@
 #include "PalBossBattleSequencer.h"
 
+UPalBossBattleSequencer::UPalBossBattleSequencer() {
+    this->RemainBattleTimer = -1.00f;
+    this->IsBattleTimerCountDown = false;
+    this->CombatResult = EPalBossBattleCombatResult::None;
+    this->CurrentSequence = NULL;
+    this->BossBattleInstanceModel = NULL;
+    this->SelfBossType = EPalBossType::None;
+    this->BossCharacter = NULL;
+    this->PlayingBGMId = 0;
+    this->bIsClientOnly = false;
+    this->BossBattleEvent = NULL;
+}
+
 
 void UPalBossBattleSequencer::StopBGM() {
 }
@@ -11,6 +24,9 @@ void UPalBossBattleSequencer::SetMutekiAllPlayer(bool bIsMuteki) {
 }
 
 void UPalBossBattleSequencer::SetBossCharacter(APalCharacter* BossActor) {
+}
+
+void UPalBossBattleSequencer::SetBossBattlEvent(UPalBossBattleEventBase* NewBossBattleEvent) {
 }
 
 void UPalBossBattleSequencer::SetAllPlayerMoveDisable(bool Disable) {
@@ -28,7 +44,7 @@ void UPalBossBattleSequencer::PlayBGM(UAkAudioEvent* BGMAudioEvent) {
 void UPalBossBattleSequencer::OnPlayerRespawn(APalPlayerCharacter* Player) {
 }
 
-void UPalBossBattleSequencer::OnPlayerDeadStopBGM(APalPlayerCharacter* PlayerCharacter) {
+void UPalBossBattleSequencer::OnPlayerDeadStopBGM(APalPlayerCharacter* PlayerCharacter, const FPalDyingEndInfo& DyingEndInfo) {
 }
 
 void UPalBossBattleSequencer::OnOpeningEnd(bool Success) {
@@ -37,7 +53,7 @@ void UPalBossBattleSequencer::OnOpeningEnd(bool Success) {
 void UPalBossBattleSequencer::OnEndingEnd(bool Success) {
 }
 
-void UPalBossBattleSequencer::OnDyingDeadEndDelegate(APalPlayerCharacter* PlayerCharacter) {
+void UPalBossBattleSequencer::OnDyingDeadEndDelegate(APalPlayerCharacter* PlayerCharacter, const FPalDyingEndInfo& DyingEndInfo) {
 }
 
 void UPalBossBattleSequencer::OnCompletedEnd(bool Success) {
@@ -50,6 +66,9 @@ void UPalBossBattleSequencer::OnCombatEnd(bool Success) {
 }
 
 void UPalBossBattleSequencer::NoticeClientCombatResult() {
+}
+
+void UPalBossBattleSequencer::LoadAndCreateBossBattleEvent(TSoftClassPtr<UPalBossBattleEventBase> BossBattleEventClass) {
 }
 
 void UPalBossBattleSequencer::KillAllPlayer() {
@@ -95,6 +114,10 @@ UPalBossBattleInstanceModel* UPalBossBattleSequencer::GetBossBattleInstanceModel
     return NULL;
 }
 
+UPalBossBattleEventBase* UPalBossBattleSequencer::GetBossBattleEvent() const {
+    return NULL;
+}
+
 TArray<APalPlayerCharacter*> UPalBossBattleSequencer::GetAliveOrDyingPlayers() {
     return TArray<APalPlayerCharacter*>();
 }
@@ -109,15 +132,4 @@ APalPlayerCharacter* UPalBossBattleSequencer::FindFirstCombatTargetForBossAI() {
     return NULL;
 }
 
-UPalBossBattleSequencer::UPalBossBattleSequencer() {
-    this->RemainBattleTimer = -1.00f;
-    this->IsBattleTimerCountDown = false;
-    this->CombatResult = EPalBossBattleCombatResult::None;
-    this->CurrentSequence = NULL;
-    this->BossBattleInstanceModel = NULL;
-    this->SelfBossType = EPalBossType::None;
-    this->BossCharacter = NULL;
-    this->PlayingBGMId = 0;
-    this->bIsClientOnly = false;
-}
 

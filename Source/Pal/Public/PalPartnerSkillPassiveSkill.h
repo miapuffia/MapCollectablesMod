@@ -1,6 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "UObject/NoExportTypes.h"
 #include "UObject/Object.h"
+#include "Chaos/ChaosEngineInterface.h"
 #include "PalDataTableRowName_PassiveSkillData.h"
 #include "PalPassivePartnerSkillIdAndParameters.h"
 #include "PalPassivePartnerSkillStatus.h"
@@ -9,8 +11,10 @@
 class AActor;
 class ACharacter;
 class APalCharacter;
+class APalPlayerCharacter;
 class APalPlayerController;
 class UPalCharacterParameterComponent;
+class UPalIndividualCharacterHandle;
 
 UCLASS(Blueprintable)
 class PAL_API UPalPartnerSkillPassiveSkill : public UObject {
@@ -45,6 +49,7 @@ private:
     
 public:
     UPalPartnerSkillPassiveSkill();
+
 private:
     UFUNCTION(BlueprintCallable)
     void OnWorkerAssignChanged(UPalCharacterParameterComponent* Parameter);
@@ -57,6 +62,14 @@ public:
     void OnUpdateInventoryContainer();
     
     UFUNCTION(BlueprintCallable)
+    void OnUpdateCurrentGround(TEnumAsByte<EPhysicalSurface> GroundType);
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnUpdateBaseCampId(const FGuid& BaseCampId);
+    
+public:
+    UFUNCTION(BlueprintCallable)
     void OnRideInactivated();
     
     UFUNCTION(BlueprintCallable)
@@ -68,6 +81,11 @@ public:
     UFUNCTION(BlueprintCallable)
     void OnReserveActivated();
     
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnRemoveWorker(UPalIndividualCharacterHandle* RemoveCharacterHandle);
+    
+public:
     UFUNCTION(BlueprintCallable)
     void OnInactivatedAsWorker();
     
@@ -77,6 +95,14 @@ public:
     UFUNCTION(BlueprintCallable)
     void OnInactivatedAsOtomo();
     
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnChangeDisablePassiveSkill(bool isDisable, bool IsAllReset);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnAddNewWorker(UPalIndividualCharacterHandle* AddCharacterHandle);
+    
+public:
     UFUNCTION(BlueprintCallable)
     void OnActivatedAsWorker();
     
@@ -105,7 +131,7 @@ private:
     APalPlayerController* GetTrainerController() const;
     
     UFUNCTION(BlueprintCallable)
-    APalCharacter* GetTrainerActor() const;
+    APalPlayerCharacter* GetTrainerActor() const;
     
     UFUNCTION(BlueprintCallable)
     ACharacter* GetTrainer() const;

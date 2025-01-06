@@ -30,7 +30,8 @@ private:
     UPalHUDDispatchParameter_FadeWidget* FadeParameter;
     
 public:
-    UPalSyncTeleportComponent();
+    UPalSyncTeleportComponent(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void SyncTeleport_ToClient(const FPalSyncTeleportRequestParameter& Parameter);
@@ -63,7 +64,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void OnEndSyncTeleportFadeIn();
     
-    UFUNCTION(BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsTeleporting() const;
     
     UFUNCTION(BlueprintCallable)

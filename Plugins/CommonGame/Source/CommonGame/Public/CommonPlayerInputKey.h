@@ -90,6 +90,7 @@ private:
     
 public:
     UCommonPlayerInputKey();
+
     UFUNCTION(BlueprintCallable)
     void UpdateKeybindWidget();
     

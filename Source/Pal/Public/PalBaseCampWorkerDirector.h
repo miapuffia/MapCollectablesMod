@@ -9,12 +9,12 @@
 #include "PalBaseCampWorkAssignRequest.h"
 #include "PalDeadInfo.h"
 #include "PalInstanceID.h"
-#include "PalOptionWorldSettings.h"
 #include "PalWorkAssignRequirementParameter.h"
 #include "PalBaseCampWorkerDirector.generated.h"
 
 class APalCharacter;
 class UPalBaseCampModel;
+class UPalBaseCampWorkerDirectorBattle;
 class UPalBaseCampWorkerTaskBase;
 class UPalIndividualCharacterContainer;
 class UPalIndividualCharacterHandle;
@@ -55,6 +55,9 @@ protected:
     UPalIndividualCharacterSlotsObserver* SlotObserverForServer;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPalBaseCampWorkerDirectorBattle* BattleDirector;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TArray<FPalBaseCampWorkAssignRequest> RequiredAssignWorks;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -72,8 +75,9 @@ private:
     
 public:
     UPalBaseCampWorkerDirector();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     void OrderCommand(const EPalMapBaseCampWorkerOrderType OrderType);
     
@@ -110,11 +114,6 @@ private:
     UFUNCTION(BlueprintCallable)
     void OnDeadWorkerInServer(const FPalDeadInfo Info);
     
-public:
-    UFUNCTION(BlueprintCallable)
-    void OnChangeWorldSettings_ServerInternal(const FPalOptionWorldSettings& PrevSettings, const FPalOptionWorldSettings& NewSettings);
-    
-private:
     UFUNCTION(BlueprintCallable)
     void OnAddedNewCharacterInServer(const FPalInstanceID& IndividualId);
     

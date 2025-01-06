@@ -2,13 +2,16 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
+#include "EPalAdditionalEffectType.h"
 #include "EPalDamageAnimationReactionType.h"
+#include "EPalDeadType.h"
 #include "EPalWazaID.h"
-#include "PalDamageInfo.h"
 #include "PalDamageRactionInfo.h"
 #include "PalDamageResult.h"
 #include "PalDeadInfo.h"
+#include "PalDyingEndInfo.h"
 #include "PalEachDamageRactionInfo.h"
+#include "PalInstanceID.h"
 #include "Templates/SubclassOf.h"
 #include "PalDamageReactionComponent.generated.h"
 
@@ -17,21 +20,20 @@ class APalPlayerCharacter;
 class UAnimMontage;
 class UPalHitEffectSlot;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSlipDamageDelegate, int32, Damage);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSleepDelegate, int32, LastDamage);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnNooseTrapDelegate, AActor*, TrapActor, FVector, FixLocation);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMentalDamageDelegate, FPalDamageResult, DamageResult);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEachDamageReactionDelegate, FPalEachDamageRactionInfo, EachReactionInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDyingDeadEnd, APalPlayerCharacter*, PlayerCharacter);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeadDelegate, FPalDeadInfo, DeadInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageReactionDelegate, FPalDamageRactionInfo, ReactionInfo);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageDelegate, FPalDamageResult, DamageResult);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCaptureStartDelegate);
-
 UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UPalDamageReactionComponent : public UActorComponent {
     GENERATED_BODY()
 public:
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSlipDamageDelegate, int32, Damage);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSleepDelegate, int32, LastDamage);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnNooseTrapDelegate, AActor*, TrapActor, FVector, FixLocation);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMentalDamageDelegate, FPalDamageResult, DamageResult);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEachDamageReactionDelegate, FPalEachDamageRactionInfo, EachReactionInfo);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDyingDeadEnd, APalPlayerCharacter*, PlayerCharacter, const FPalDyingEndInfo&, DyingEndInfo);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeadDelegate, FPalDeadInfo, DeadInfo);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageReactionDelegate, FPalDamageRactionInfo, ReactionInfo);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDamageDelegate, FPalDamageResult, DamageResult);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCaptureStartDelegate);
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnDamageDelegate OnDamageDelegate;
@@ -76,21 +78,33 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<float> RateList;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<float> LargeDownAbleHPRate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool DisableLargeDown;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FPalInstanceID LastAttackerInstanceID;
+    
 public:
-    UPalDamageReactionComponent();
+    UPalDamageReactionComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     void SlipDamageAndBlowWhenDead(int32 Damage, FVector Velocity);
     
     UFUNCTION(BlueprintCallable)
-    void SlipDamage(int32 Damage, bool ShieldIgnore);
+    void SlipDamage(int32 Damage, bool ShieldIgnore, EPalDeadType DeadType);
     
 private:
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void ProcessDeath_ToServer();
+    UFUNCTION(BlueprintCallable)
+    void ShowDeadDebugLog(FPalDeadInfo DeadInfo);
     
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void ProcessDamage_ToServer(const FPalDamageInfo& Info);
+public:
+    UFUNCTION(BlueprintCallable)
+    void SetDisableLargeDown();
     
+private:
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void PopupDamageBySlipDamage_ToALL(int32 Damage);
     
@@ -114,6 +128,14 @@ private:
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void OnDyingDeadEndDelegate_ToALL();
     
+public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsIgnoreElementStatus(EPalAdditionalEffectType Effect);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FPalInstanceID GetLastAttackerInstanceID();
+    
+private:
     UFUNCTION(BlueprintCallable)
     void ForceDamageDelegateForCaptureBall(AActor* Attacker);
     

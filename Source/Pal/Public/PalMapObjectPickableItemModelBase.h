@@ -19,15 +19,16 @@ private:
     
 public:
     UPalMapObjectPickableItemModelBase();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 protected:
     UFUNCTION(BlueprintCallable)
-    void RequestPickup_ServerInternal(const int32 RequestPlayerId);
+    void RequestPickup_ServerInternal(const int32 RequestPlayerId, const bool bByAutoPickup);
     
 public:
     UFUNCTION(BlueprintCallable)
-    void RequestPickup();
+    void RequestPickup(const bool bByAutoPickup);
     
     UFUNCTION(BlueprintCallable)
     void OnTimer_RemovePickupGuard();

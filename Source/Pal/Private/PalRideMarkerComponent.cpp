@@ -1,10 +1,25 @@
 #include "PalRideMarkerComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalRideMarkerComponent::UPalRideMarkerComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->RidePositionType = EPalRidePositionType::HorseRide;
+    this->bIsAdjustRotation = false;
+    this->bIsFixScale = true;
+    this->bHiddenCharacterWhenAim = true;
+    this->bDisableLookAtByRide = false;
+    this->bDisableFullBodyIK_UniqueRide = false;
+    this->UniqueRidePalWeaponClass = NULL;
+    this->SkillSlot = NULL;
+    this->WeaponActor = NULL;
+}
+
 void UPalRideMarkerComponent::SyncActiveSkill(UPalIndividualCharacterParameter* IndividualParameter) {
 }
 
 void UPalRideMarkerComponent::SetVisibleWeapon() {
+}
+
+void UPalRideMarkerComponent::SetupUniqueWeapon() {
 }
 
 void UPalRideMarkerComponent::SetRidingFlag_Implementation(bool bIsEnable) {
@@ -43,15 +58,4 @@ void UPalRideMarkerComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
     DOREPLIFETIME(UPalRideMarkerComponent, Rider);
 }
 
-UPalRideMarkerComponent::UPalRideMarkerComponent() {
-    this->RidePositionType = EPalRidePositionType::HorseRide;
-    this->bIsAdjustRotation = false;
-    this->bIsFixScale = true;
-    this->bHiddenCharacterWhenAim = true;
-    this->bDisableLookAtByRide = false;
-    this->bDisableFullBodyIK_UniqueRide = false;
-    this->UniqueRidePalWeaponClass = NULL;
-    this->SkillSlot = NULL;
-    this->WeaponActor = NULL;
-}
 

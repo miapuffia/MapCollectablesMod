@@ -29,8 +29,12 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TMap<FPalContainerId, FPalItemContainerBelongInfo> ItemContainerBelongInfo;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSet<FPalContainerId> LoadedContainerIDs;
+    
 public:
     UPalItemContainerManager();
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool TryGetSlot(const FPalItemSlotId& SlotID, UPalItemSlot*& Slot) const;
     
@@ -46,7 +50,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalItemContainer* GetContainer(const FPalContainerId& ContainerId) const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

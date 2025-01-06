@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "EPalCheckSpawnResultType.h"
 #include "EPalSpawnRadiusType.h"
+#include "EPalSpawnedCharacterType.h"
 #include "EPalSpwnerImportanceType.h"
 #include "FlagContainer.h"
 #include "PalSpawnerGroupInfo.h"
@@ -66,6 +67,9 @@ public:
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FCreatedGroupDelegate OnCreatedGroupDelegate;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<FPalSpawnerGroupInfo> RandomizeSpawnerGroupInfos;
+    
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     FGuid WildGroupGuid;
@@ -80,7 +84,8 @@ private:
     EPalSpwnerImportanceType ImportanceType;
     
 public:
-    APalNPCSpawnerBase();
+    APalNPCSpawnerBase(const FObjectInitializer& ObjectInitializer);
+
 protected:
     UFUNCTION(BlueprintCallable)
     void Tick_Spawning(float DeltaTime);
@@ -101,6 +106,9 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetSpawnDisableFlag(const FName& Name, bool isDisable);
     
+    UFUNCTION(BlueprintCallable)
+    void SetIgnoreRandomizer(bool bInIgnoreRandomizer);
+    
 protected:
     UFUNCTION(BlueprintCallable)
     void SetDisableBossSpawner_ToSaveData(FName KeyName);
@@ -110,6 +118,9 @@ protected:
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void SetAllNPCLocation();
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestDeleteGroup();
     
     UFUNCTION(BlueprintCallable)
     void RequestCreateGroup(TArray<FName> CharacterIDList);
@@ -163,6 +174,12 @@ protected:
     
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsIgnoreRandomizer() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    EPalSpawnRadiusType GetSpawnRadiusType() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetSpawnRadiusCM() const;
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
@@ -175,12 +192,26 @@ protected:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     int32 GetSpawnLevelRandom_OneTribe(FPalSpawnerOneTribeInfo Info);
     
-    UFUNCTION(BlueprintCallable)
-    float GetSpawnerRadiusByType();
+public:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, BlueprintPure, meta=(WorldContext="WorldContextObject"))
+    TArray<FPalSpawnerGroupInfo> GetSpawnGroupList(UObject* WorldContextObject) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    EPalSpawnedCharacterType GetSpawnerType() const;
+    
+protected:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetSpawnerRadiusByType() const;
     
 public:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    FName GetSpawnerName() const;
+    
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FString GetSpawnDisableDebugInfo() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    TArray<FPalSpawnerGroupInfo> GetOriginalSpawnGroupList() const;
     
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     int32 GetMaxMonsterLevel() const;
@@ -222,7 +253,7 @@ protected:
     void BlueprintTick(float DeltaTime);
     
     UFUNCTION(BlueprintCallable)
-    void AddGroupCharacterByGroupId(UPalIndividualCharacterHandle* AddIndividualHandle, const FGuid& GroupID, const FString& DebugName);
+    void AddGroupCharacterByGroupId(UPalIndividualCharacterHandle* AddIndividualHandle, const FGuid& GroupId, const FString& DebugName);
     
     UFUNCTION(BlueprintCallable)
     void AddGroupCharacter(UPalIndividualCharacterHandle* AddIndividualHandle);

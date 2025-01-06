@@ -17,10 +17,11 @@ public:
     int32 FadeDuration;
     
 private:
-    UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<AActor> PlayActor;
     
 public:
     UPalPersistentSoundPlayer();
+
 };
 

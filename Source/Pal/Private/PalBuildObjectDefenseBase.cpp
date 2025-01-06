@@ -1,7 +1,12 @@
 #include "PalBuildObjectDefenseBase.h"
 
-APalBuildObjectDefenseBase::APalBuildObjectDefenseBase() {
+APalBuildObjectDefenseBase::APalBuildObjectDefenseBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
     this->DefenseAIActionClass = NULL;
-    this->MagazineSize = 0;
 }
+
+
+void APalBuildObjectDefenseBase::GetCharacterLocationAndRotationWithOffset(APalCharacter* OwnerCharacter, FVector PreCharaLocation, FVector& OutLocation, FRotator& OutRotation) {
+}
+
+
 

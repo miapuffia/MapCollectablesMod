@@ -9,6 +9,7 @@ class UPalDefine : public UBlueprintFunctionLibrary {
     GENERATED_BODY()
 public:
     UPalDefine();
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FGameplayTag UILayerTag_Modal();
     
@@ -52,6 +53,15 @@ public:
     static FName TextId_UICommon_LOG_ConsumeItem();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName TextId_UICommon_InteractIndicator_OtomoOpen();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName TextId_UICommon_InteractIndicator_ObtainLongHold();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName TextId_UICommon_InteractIndicator_LockedPrivateByNotLocalPlayer();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName TextId_UICommon_InteractIndicator_InputPassword_CannotTry();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -65,6 +75,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName TextId_UICommon_DISMANTLING_CONFIRM_PALBOX();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName TextId_UICommon_ConfirmLockCheckPrivate();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName TextId_UICommon_CONFIRM_DUNGEON_EXIT();
@@ -91,10 +104,22 @@ public:
     static FName StatusPointName_AddCaptureLevel();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    static TArray<FName> StaticItemIDArray_UnlockPicking();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName StaticItemID_UnlockTalentCheck();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName StaticItemID_UnlockLantern();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName StaticItemID_UnlockAutoMeal_Tier(int32 Num);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName StaticItemID_UnlockAccessorySlot_02();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName StaticItemID_UnlockAccessorySlot_01();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName StaticItemID_Money();
@@ -119,6 +144,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName Socket_BodyCenter();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    static FName Socket_AimTarget();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FName NP_PlayerCenterPosition();

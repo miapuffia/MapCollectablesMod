@@ -29,6 +29,7 @@ class UPalDataTableRowIdMapper;
 class UPalDatabaseCharacterParameter;
 class UPalDeadBodyManager;
 class UPalDeathPenaltyManager;
+class UPalDisplaySafeAreaDebugger;
 class UPalEventNotifySystem;
 class UPalExpDatabase;
 class UPalGameSetting;
@@ -42,18 +43,24 @@ class UPalMapObjectManager;
 class UPalMasterDataTables;
 class UPalNPCManager;
 class UPalObjectCollector;
+class UPalOilrigManager;
 class UPalPassiveSkillManager;
 class UPalPersistentSoundPlayer;
 class UPalPlayerDataStorage;
 class UPalPlayerManager;
+class UPalRaidBossManager;
 class UPalSaveGameManager;
+class UPalShopManager;
+class UPalSkinManager;
+class UPalSupplyManager;
 class UPalTutorialManager;
 class UPalVisualEffectDataBase;
 class UPalWazaDatabase;
 class UPalWorkProgressManager;
 class UPalWorldSecuritySystem;
+class UWorld;
 
-UCLASS(Blueprintable, NonTransient)
+UCLASS(Blueprintable, NonTransient, Config=Engine)
 class PAL_API UPalGameInstance : public UGameInstance {
     GENERATED_BODY()
 public:
@@ -72,6 +79,9 @@ protected:
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bNetworkError;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bSaveError;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FString DisplayVersion;
@@ -144,6 +154,12 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TSubclassOf<UPalBossBattleManager> BossBattleManagerClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalRaidBossManager> RaidBossManagerClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalOilrigManager> OilrigManagerClass;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TSubclassOf<UPalPlayerDataStorage> PlayerDataStorageClass;
@@ -268,14 +284,32 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TSubclassOf<UPalLogManager> LogManagerClass;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalSkinManager> SkinManagerClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPalSkinManager* SkinManager;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalSupplyManager> SupplyManagerClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalShopManager> ShopManagerSubsystemClass;
+    
     UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 revisionNum;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bUseAsyncMovement;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FFxiedCharacterMakeData FxiedCharacterMakeDataDelegate;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FFxiedCharacterName FxiedCharacterNameDelegate;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UPalDisplaySafeAreaDebugger* DisplaySafeAreaDebugger;
     
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -301,6 +335,7 @@ private:
     
 public:
     UPalGameInstance();
+
     UFUNCTION(BlueprintCallable)
     void ShowUIMultiplayRestriction(bool bOverrideChecking);
     
@@ -321,6 +356,10 @@ public:
     
     UFUNCTION(BlueprintCallable)
     bool SelectWorld(const FString& WorldName);
+    
+protected:
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void OverrideLoadMap(const TSoftObjectPtr<UWorld>& World);
     
 private:
     UFUNCTION(BlueprintCallable)
@@ -353,6 +392,9 @@ public:
     
     UFUNCTION(BlueprintCallable)
     void CompleteInitCharacterMakeData();
+    
+    UFUNCTION(BlueprintCallable)
+    void ClearSaveError();
     
     UFUNCTION(BlueprintCallable)
     void ClearNetworkError();

@@ -1,45 +1,5 @@
 #include "PalMapObjectManager.h"
 
-void UPalMapObjectManager::UpdateSkeletalMeshComponentForLOD(int32 InExecuteCount) {
-}
-
-void UPalMapObjectManager::UpdatePointLightComponentForCulling() {
-}
-
-void UPalMapObjectManager::UnResisterSkeletalMeshComponentForLOD(UObject* InComponent) {
-}
-
-void UPalMapObjectManager::UnResisterPointLightComponent(UObject* InComponent) {
-}
-
-void UPalMapObjectManager::ResisterSkeletalMeshComponentForLOD(UObject* InComponent) {
-}
-
-void UPalMapObjectManager::ResisterPointLightComponent(UObject* InComponent) {
-}
-
-void UPalMapObjectManager::RequestDismantleObject_OnResponseDialog(const bool bResult, UPalDialogParameterBase* DialogParameter) {
-}
-
-void UPalMapObjectManager::RecalcPointLightOverlap() {
-}
-
-UPalMapObjectFoliage* UPalMapObjectManager::GetFoliage() const {
-    return NULL;
-}
-
-UPalBuildOperator* UPalMapObjectManager::GetBuildOperator() const {
-    return NULL;
-}
-
-UPalMapObjectModel* UPalMapObjectManager::FindModel(const FGuid& InstanceId) const {
-    return NULL;
-}
-
-UPalMapObjectConcreteModelBase* UPalMapObjectManager::FindConcreteModel(const FGuid& InstanceId) const {
-    return NULL;
-}
-
 UPalMapObjectManager::UPalMapObjectManager() {
     this->BuildObjectDataTable = NULL;
     this->BuildObjectNameTable = NULL;
@@ -67,8 +27,54 @@ UPalMapObjectManager::UPalMapObjectManager() {
     this->DropItemSpawnLocationFromActorBounds = 15.00f;
     this->DropItemSpawnDirectionZ = 6.00f;
     this->HitEffectSlotClass = NULL;
+    this->SnapModeFXClass = NULL;
     this->Registrator = NULL;
     this->InDoorCheckProcessIndex_AnyThread = 0;
     this->InDoorCheckMaxNumPerFrame_AnyThread = 1000;
+    this->SnapModeFX = NULL;
 }
+
+void UPalMapObjectManager::UpdateSkeletalMeshComponentForLOD(int32 InExecuteCount) {
+}
+
+void UPalMapObjectManager::UpdatePointLightComponentForCulling() {
+}
+
+void UPalMapObjectManager::UnResisterSkeletalMeshComponentForLOD(UObject* InComponent) {
+}
+
+void UPalMapObjectManager::UnResisterPointLightComponent(UObject* InComponent) {
+}
+
+void UPalMapObjectManager::ResisterSkeletalMeshComponentForLOD(UObject* InComponent) {
+}
+
+void UPalMapObjectManager::ResisterPointLightComponent(UObject* InComponent) {
+}
+
+void UPalMapObjectManager::RequestDismantleObject_OnResponseDialog(const bool bResult, UPalDialogParameterBase* DialogParameter) {
+}
+
+void UPalMapObjectManager::RecalcPointLightOverlap() {
+}
+
+void UPalMapObjectManager::PlayMapObjectDestroyFX(const FVector& Location, const FBoxSphereBounds& Bounds, const EPalMapObjectDestroyFXType Type) {
+}
+
+UPalMapObjectFoliage* UPalMapObjectManager::GetFoliage() const {
+    return NULL;
+}
+
+UPalBuildOperator* UPalMapObjectManager::GetBuildOperator() const {
+    return NULL;
+}
+
+UPalMapObjectModel* UPalMapObjectManager::FindModel(const FGuid& InstanceId) const {
+    return NULL;
+}
+
+UPalMapObjectConcreteModelBase* UPalMapObjectManager::FindConcreteModel(const FGuid& InstanceId) const {
+    return NULL;
+}
+
 

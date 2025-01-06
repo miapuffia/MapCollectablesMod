@@ -7,6 +7,7 @@
 #include "PalSystemInitializeInterface.h"
 #include "PalWorldSecurityWantedStateInfo.h"
 #include "PalWorldSubsystem.h"
+#include "Templates/SubclassOf.h"
 #include "PalWorldSecuritySystem.generated.h"
 
 class APalTriggerAreaBase;
@@ -39,7 +40,7 @@ private:
     TArray<UPalWorldSecurityLawBase*> Laws;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
-    FGuid GroupID;
+    FGuid GroupId;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TMap<FPalInstanceID, FPalCrimeStateInfo> IndividualCrimeStateMap;
@@ -57,7 +58,11 @@ private:
     TMap<FGuid, UPalIndividualCharacterHandle*> CriminalMap;
     
 public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<TSubclassOf<UPalWorldSecurityLawBase>> LawArray;
+    
     UPalWorldSecuritySystem();
+
     UFUNCTION(BlueprintCallable)
     void ReportCriminal(UPalIndividualCharacterHandle* CriminalHandle, UPalIndividualCharacterHandle* ReporterHandle);
     
@@ -73,7 +78,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FName GetCrimeIdByCrimeInstanceId(const FGuid& CrimeInstanceId);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

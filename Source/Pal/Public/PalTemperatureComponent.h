@@ -14,18 +14,24 @@ public:
     FOnChangeTemperatureDelegate OnChangeTemperatureDelegate;
     
 private:
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_CurrentTemperature, meta=(AllowPrivateAccess=true))
     int32 CurrentTemperature;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FName SelfKeyName;
     
 public:
-    UPalTemperatureComponent();
+    UPalTemperatureComponent(const FObjectInitializer& ObjectInitializer);
+
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
     UFUNCTION(BlueprintCallable)
     void RemoveHeatSource(FName UniqueName);
     
 private:
+    UFUNCTION(BlueprintCallable)
+    void OnRep_CurrentTemperature();
+    
     UFUNCTION(BlueprintCallable)
     void OnChangeHour();
     
@@ -33,11 +39,6 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     int32 GetCurrentTemperature();
     
-private:
-    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-    void CallOnChangeTemperature(int32 Next);
-    
-public:
     UFUNCTION(BlueprintCallable)
     void CallAllDelegate();
     

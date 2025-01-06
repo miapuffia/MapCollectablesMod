@@ -1,12 +1,8 @@
 #pragma once
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
 #include "EPalMapObjectOperationResult.h"
 #include "PalBuildObjectData.h"
-#include "PalBuildRequestDebugParameter.h"
-#include "PalNetArchive.h"
 #include "PalStaticItemIdAndNum.h"
 #include "PalBuilderComponent.generated.h"
 
@@ -50,19 +46,17 @@ private:
     APalDismantleObjectChecker* DismantleChecker;
     
 public:
-    UPalBuilderComponent();
+    UPalBuilderComponent(const FObjectInitializer& ObjectInitializer);
+
 private:
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestBuild_ToServer(const FName BuildObjectId, const FVector& Location, const FQuat& Rotation, const TArray<FPalNetArchive>& ExtraParameterArchives, FPalBuildRequestDebugParameter DebugParameter);
-    
-    UFUNCTION(BlueprintCallable, Client, Reliable)
-    void ReceiveBuildResult_ToRequestClient(const EPalMapObjectOperationResult Result);
-    
     UFUNCTION(BlueprintCallable)
     void OnExitBaseCamp(UPalBaseCampModel* BaseCampModel);
     
     UFUNCTION(BlueprintCallable)
     void OnEnterBaseCamp(UPalBaseCampModel* BaseCampModel);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsSnapMode() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsInstallAtReticle() const;
@@ -81,12 +75,19 @@ private:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalMapObjectOperationResult IsEnableBuild() const;
     
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    void GetSelectedBuildObjectId(FName& OutSelectedBuildObjectId) const;
+    
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     APalBuildObject* GetDismantleTargetObject();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     void CollectItemInfoEnableToUseMaterial(TArray<FName> StaticItemIds, TArray<FPalStaticItemIdAndNum>& OutItemInfos) const;
+    
+private:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    EPalMapObjectOperationResult CanRequestDismantle() const;
     
 };
 

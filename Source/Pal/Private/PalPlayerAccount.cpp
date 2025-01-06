@@ -9,6 +9,9 @@ UPalPlayerAccount::UPalPlayerAccount() {
     this->PalStorage = NULL;
     this->TechnologyData = NULL;
     this->RecordData = NULL;
+    this->PlayerSkinData = NULL;
     this->bIsSelectedInitMapPoint = false;
+    this->bShouldSaveOnNextTime = false;
 }
+
 

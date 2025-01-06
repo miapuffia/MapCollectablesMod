@@ -51,8 +51,12 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bInterruptSkill;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bInterruptSkillWaiting;
+    
 public:
     UPalAIActionCombatBase();
+
 protected:
     UFUNCTION(BlueprintCallable)
     void StartNextAction_Event(const UPalActionComponent* ActionComponent);
@@ -103,7 +107,7 @@ protected:
     UFUNCTION(BlueprintCallable)
     void ChangeNextAction();
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

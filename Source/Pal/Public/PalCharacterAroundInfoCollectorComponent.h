@@ -6,6 +6,7 @@
 #include "PalCharacterAroundInfoCollectorComponent.generated.h"
 
 class AActor;
+class APalMapObject;
 class UPrimitiveComponent;
 
 UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
@@ -25,8 +26,12 @@ private:
     TArray<FGuid> MapObjectModelIds;
     
 public:
-    UPalCharacterAroundInfoCollectorComponent();
+    UPalCharacterAroundInfoCollectorComponent(const FObjectInitializer& ObjectInitializer);
+
 private:
+    UFUNCTION(BlueprintCallable)
+    void OnSetMapObjectModel(APalMapObject* MapObject);
+    
     UFUNCTION(BlueprintCallable)
     void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     

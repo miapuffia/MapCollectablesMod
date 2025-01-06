@@ -9,6 +9,7 @@
 #include "PalWorkAssignHandleId.h"
 #include "PalWorkAssign.generated.h"
 
+class UPalCharacterParameterComponent;
 class UPalIndividualCharacterHandle;
 class UPalIndividualCharacterParameter;
 class UPalWorkBase;
@@ -38,8 +39,9 @@ private:
     
 public:
     UPalWorkAssign();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsWorking() const;
     
@@ -81,6 +83,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalIndividualCharacterHandle* GetAssignedIndividualHandle() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UPalCharacterParameterComponent* GetAssignedCharacterParameterComponent() const;
     
 };
 

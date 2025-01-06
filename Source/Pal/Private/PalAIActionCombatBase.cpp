@@ -1,5 +1,18 @@
 #include "PalAIActionCombatBase.h"
 
+UPalAIActionCombatBase::UPalAIActionCombatBase() {
+    this->DefaultPriority = EAIRequestPriority::Logic;
+    this->TargetActor = NULL;
+    this->SelfActor = NULL;
+    this->CombatModule = NULL;
+    this->NextIsWaza = false;
+    this->NextWazaSlotIndex = 0;
+    this->NextActionClass = NULL;
+    this->InterruptSkillSlotID = -1;
+    this->bInterruptSkill = false;
+    this->bInterruptSkillWaiting = false;
+}
+
 void UPalAIActionCombatBase::StartNextAction_Event(const UPalActionComponent* ActionComponent) {
 }
 
@@ -52,14 +65,4 @@ UPalActionComponent* UPalAIActionCombatBase::GetActorActionComponentRef() {
 void UPalAIActionCombatBase::ChangeNextAction() {
 }
 
-UPalAIActionCombatBase::UPalAIActionCombatBase() {
-    this->TargetActor = NULL;
-    this->SelfActor = NULL;
-    this->CombatModule = NULL;
-    this->NextIsWaza = false;
-    this->NextWazaSlotIndex = 0;
-    this->NextActionClass = NULL;
-    this->InterruptSkillSlotID = -1;
-    this->bInterruptSkill = false;
-}
 

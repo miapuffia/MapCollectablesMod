@@ -1,8 +1,9 @@
 #include "PalQuestRewardGiver.h"
 
-void UPalQuestRewardGiver::TakeReward() {
-}
-
 UPalQuestRewardGiver::UPalQuestRewardGiver() {
 }
+
+void UPalQuestRewardGiver::TakeReward(APalPlayerState* PlayerState) {
+}
+
 

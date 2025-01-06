@@ -1,12 +1,15 @@
 #include "PalNetworkCharacterStatusOperationComponent.h"
 
+UPalNetworkCharacterStatusOperationComponent::UPalNetworkCharacterStatusOperationComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+}
+
 void UPalNetworkCharacterStatusOperationComponent::RequestReviveCharacterFromDying_ToServer_Implementation(APalCharacter* Character) {
 }
 
 void UPalNetworkCharacterStatusOperationComponent::RequestReviveCharacterFromDying(APalCharacter* Character) {
 }
 
-void UPalNetworkCharacterStatusOperationComponent::RequestPlayerStatusUp_ToServer_Implementation(const int32 ToRank) {
+void UPalNetworkCharacterStatusOperationComponent::RequestPlayerStatusUp_ToServer_Implementation(int32 ToRank) {
 }
 
 void UPalNetworkCharacterStatusOperationComponent::RequestPlayerStatusClear_ToServer_Implementation() {
@@ -30,10 +33,10 @@ void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointClear_
 void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointClear(const UPalIndividualCharacterHandle* IndividualHandle, const EPalCharacterStatusOperationName StatusName) {
 }
 
-void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointAdd_ToServer_Implementation(const FPalInstanceID& IndividualId, const EPalCharacterStatusOperationName StatusName, const int32 ToRank) {
+void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointAdd_ToServer_Implementation(const FPalInstanceID& IndividualId, const TArray<FPalStatusAndRank>& ToStatusRank) {
 }
 
-void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointAdd(const UPalIndividualCharacterHandle* IndividualHandle, const EPalCharacterStatusOperationName StatusName, const int32 ToRank) {
+void UPalNetworkCharacterStatusOperationComponent::RequestOtomoStatusPointAdd(const UPalIndividualCharacterHandle* IndividualHandle, const TMap<EPalCharacterStatusOperationName, int32> ToStatusRank) {
 }
 
 void UPalNetworkCharacterStatusOperationComponent::ReceiveOperationResult_ToClient_Implementation(const EPalCharacterStatusOperationResult Result) {
@@ -43,6 +46,4 @@ UPalNetworkCharacterStatusOperationComponent* UPalNetworkCharacterStatusOperatio
     return NULL;
 }
 
-UPalNetworkCharacterStatusOperationComponent::UPalNetworkCharacterStatusOperationComponent() {
-}
 

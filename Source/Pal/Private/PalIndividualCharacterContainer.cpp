@@ -1,6 +1,10 @@
 #include "PalIndividualCharacterContainer.h"
 #include "Net/UnrealNetwork.h"
 
+UPalIndividualCharacterContainer::UPalIndividualCharacterContainer() {
+    this->bCanSetFavorite = true;
+}
+
 void UPalIndividualCharacterContainer::OnRep_Slots() {
 }
 
@@ -28,8 +32,7 @@ void UPalIndividualCharacterContainer::GetLifetimeReplicatedProps(TArray<FLifeti
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
     DOREPLIFETIME(UPalIndividualCharacterContainer, SlotArray);
+    DOREPLIFETIME(UPalIndividualCharacterContainer, bCanSetFavorite);
 }
 
-UPalIndividualCharacterContainer::UPalIndividualCharacterContainer() {
-}
 

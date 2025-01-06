@@ -18,7 +18,7 @@ UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnable
 class UPalRideMarkerComponent : public UStaticMeshComponent {
     GENERATED_BODY()
 public:
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeRiding, bool, isEnable);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeRiding, bool, IsEnable);
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     EPalRidePositionType RidePositionType;
@@ -48,7 +48,7 @@ public:
     FChangeRiding OnChangeRiding;
     
 private:
-    UPROPERTY(EditAnywhere, Export, Replicated, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Export, Replicated, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<UPalRiderComponent> Rider;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -58,9 +58,10 @@ private:
     APalUniqueRideWeaponBase* WeaponActor;
     
 public:
-    UPalRideMarkerComponent();
+    UPalRideMarkerComponent(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
     UFUNCTION(BlueprintCallable)
     void SyncActiveSkill(UPalIndividualCharacterParameter* IndividualParameter);
@@ -69,6 +70,9 @@ private:
     void SetVisibleWeapon();
     
 public:
+    UFUNCTION(BlueprintCallable)
+    void SetupUniqueWeapon();
+    
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void SetRidingFlag(bool bIsEnable);
     

@@ -1,6 +1,11 @@
 #include "PalMapObjectConcreteModelBase.h"
 #include "Net/UnrealNetwork.h"
 
+UPalMapObjectConcreteModelBase::UPalMapObjectConcreteModelBase() {
+    this->bDisposed = false;
+    this->WorkeeModuleCache = NULL;
+}
+
 FName UPalMapObjectConcreteModelBase::TryGetMapObjectId() {
     return NAME_None;
 }
@@ -63,6 +68,10 @@ FGuid UPalMapObjectConcreteModelBase::GetBaseCampIdBelongTo() const {
     return FGuid{};
 }
 
+APalMapObject* UPalMapObjectConcreteModelBase::GetActor() const {
+    return NULL;
+}
+
 void UPalMapObjectConcreteModelBase::CallOrRegisterOnReadyModule(const EPalMapObjectConcreteModelModuleType ModuleType, FPalMapObjectModuleDelegate Delegate) {
 }
 
@@ -75,8 +84,4 @@ void UPalMapObjectConcreteModelBase::GetLifetimeReplicatedProps(TArray<FLifetime
     DOREPLIFETIME(UPalMapObjectConcreteModelBase, ModuleRepInfoArray);
 }
 
-UPalMapObjectConcreteModelBase::UPalMapObjectConcreteModelBase() {
-    this->bDisposed = false;
-    this->WorkeeModuleCache = NULL;
-}
 

@@ -57,5 +57,6 @@ private:
     
 public:
     UPalObjectCollector();
+
 };
 

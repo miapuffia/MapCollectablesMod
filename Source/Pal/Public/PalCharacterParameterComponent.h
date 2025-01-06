@@ -10,6 +10,7 @@
 #include "EPalMapBaseCampWorkerOrderType.h"
 #include "EPalWorkSuitability.h"
 #include "EPalWorkType.h"
+#include "EPalWorkWorkerWorkingState.h"
 #include "FixedPoint64.h"
 #include "FlagContainer.h"
 #include "PalCharacterParameter_Work.h"
@@ -88,7 +89,7 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     APalCharacter* OtomoPal;
     
-    UPROPERTY(EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<AActor> ReticleTargetActor;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -154,6 +155,12 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool IsDisableOtomoReturnEffect;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
+    float MaxHPRate_ForTowerBoss;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    float MaxSPBuffRate;
+    
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     FHitResult GroundHitResult;
@@ -193,6 +200,14 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     FGuid BaseCampWalkAroundExcludeMapObjectInstanceId;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool bAppliedBaseCampWorkerInitialized;
+    
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
+    EPalWorkWorkerWorkingState WorkingState;
+    
+public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_PossessStaticItemId, meta=(AllowPrivateAccess=true))
     FName PossessStaticItemId;
     
@@ -240,6 +255,12 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     FFlagContainer DisableNaturalHealing_Component;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    bool IsImmortality;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsMimicryMode;
+    
 protected:
     UPROPERTY(EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TArray<TWeakObjectPtr<AActor>> TrapLegHoldList;
@@ -254,9 +275,10 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     TArray<FPalMapObjectAppearanceDataWithId> UnreachableMapObjectRepInfoArray;
     
-    UPalCharacterParameterComponent();
+    UPalCharacterParameterComponent(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void ZeroDyingHP_ToServer();
@@ -289,7 +311,7 @@ public:
     void SetOverrideTargetLocation(FVector TargetLocation);
     
     UFUNCTION(BlueprintCallable)
-    void SetMuteki(FName flagName, bool isEnable);
+    void SetMuteki(FName flagName, bool IsEnable);
     
     UFUNCTION(BlueprintCallable)
     void SetMP(FFixedPoint64 NewMP);
@@ -300,10 +322,13 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetMaxMP(FFixedPoint64 NewMaxMP);
     
-    UFUNCTION(BlueprintCallable)
-    void SetMaxHP(FFixedPoint64 NewMaxHP);
-    
 private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void SetIsOverrideTarget_ToServer(int32 ID, bool IsOverride);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void SetIsOverrideTarget_ToALL(int32 ID, bool IsOverride);
+    
     UFUNCTION(BlueprintCallable)
     void SetIsOverrideTarget_Innner(bool IsOverride);
     
@@ -318,7 +343,7 @@ public:
     void SetHP(FFixedPoint64 NewHP);
     
     UFUNCTION(BlueprintCallable)
-    void SetEnableSendReticleTarget(FName flagName, bool isEnable);
+    void SetEnableSendReticleTarget(FName flagName, bool IsEnable);
     
     UFUNCTION(BlueprintCallable)
     void SetElementTypeFromDatabase(APalCharacter* InCharacter);
@@ -330,7 +355,7 @@ public:
     void SetDisableCreateUNKO(FName flagName, bool isDisable);
     
     UFUNCTION(BlueprintCallable)
-    void SetCoopingFlag(bool isEnable);
+    void SetCoopingFlag(bool IsEnable);
     
     UFUNCTION(BlueprintCallable)
     void ReviveFromDying();
@@ -441,6 +466,9 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetSanity();
     
+    UFUNCTION(BlueprintCallable)
+    AActor* GetReticleTargetActor();
+    
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetRadius() const;
     
@@ -488,6 +516,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalIndividualCharacterParameter* GetIndividualParameter() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetHPRate();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FFixedPoint64 GetHP() const;

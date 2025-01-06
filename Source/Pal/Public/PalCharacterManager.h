@@ -62,8 +62,12 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TArray<UPalIndividualCharacterParameter*> CachedIndividualParameterList;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TSet<FPalInstanceID> LoadedCharacterIDs;
+    
 public:
     UPalCharacterManager();
+
     UFUNCTION(BlueprintCallable)
     void SpawnPhantomByHandle(UPalIndividualCharacterHandle* Handle, FNetworkActorSpawnParameters SpawnParameter, UPalCharacterManager::FIndividualPhantomIDCallback spawnCallback);
     
@@ -85,6 +89,9 @@ public:
 private:
     UFUNCTION(BlueprintCallable)
     void OnCreateIndividualID(FPalInstanceID ID);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnChangeIndividualID_ClientInternal(FPalInstanceID ID, UPalIndividualCharacterParameter* Parameter);
     
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -111,7 +118,7 @@ public:
     UFUNCTION(BlueprintCallable)
     UPalIndividualCharacterHandle* CreateIndividual(FPalIndividualCharacterSaveParameter initParameter, UPalCharacterManager::FIndividualIDCallback spawnCallback);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

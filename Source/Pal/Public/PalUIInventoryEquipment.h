@@ -11,6 +11,11 @@ class PAL_API UPalUIInventoryEquipment : public UPalUserWidget {
     GENERATED_BODY()
 public:
     UPalUIInventoryEquipment();
+
+protected:
+    UFUNCTION(BlueprintCallable)
+    void ToggleHeadEquipVisible();
+    
 private:
     UFUNCTION(BlueprintCallable)
     void SwapItemSlot(UPalItemSlot* SlotA, UPalItemSlot* SlotB);
@@ -24,6 +29,9 @@ protected:
     
     UFUNCTION(BlueprintCallable)
     void QuickSortInventory();
+    
+    UFUNCTION(BlueprintCallable)
+    void ChangeLocalPlayerNickname(const FString& NewName);
     
 };
 

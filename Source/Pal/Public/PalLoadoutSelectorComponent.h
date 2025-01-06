@@ -59,9 +59,10 @@ private:
     int32 replicatedCurrentItemSlotIndex;
     
 public:
-    UPalLoadoutSelectorComponent();
+    UPalLoadoutSelectorComponent(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void TryEquipNowSelectedWeapon_ToAll();
     
@@ -112,8 +113,14 @@ private:
     void OnEquipItem(EPalPlayerInventoryType inventoryType, int32 Index);
     
 public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    TArray<APalWeaponBase*> GetWeaponList() const;
+    
     UFUNCTION(BlueprintCallable)
     EPalPlayerInventoryType GetPrimaryInventoryType();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    TMap<FName, APalWeaponBase*> GetPalSphereActorMap();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     void GetNowEquipedBallItemID(FName& OutBallItemID) const;

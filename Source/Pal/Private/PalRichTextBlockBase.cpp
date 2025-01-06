@@ -1,6 +1,15 @@
 #include "PalRichTextBlockBase.h"
 
+UPalRichTextBlockBase::UPalRichTextBlockBase() {
+    this->IsAutoTextSetWhenWidgetRebuilt = false;
+    this->IsAutoAdjustScale = false;
+    this->MaxWidth = 100;
+}
+
 void UPalRichTextBlockBase::SetText_GDKInternal(bool IsSuccess, const FString& OutString) {
+}
+
+void UPalRichTextBlockBase::OnUISettingChanged(const FPalOptionUISettings& PreSetting, const FPalOptionUISettings& NewSetting) {
 }
 
 void UPalRichTextBlockBase::Left(const int32 Count, FText& OutText) {
@@ -14,9 +23,4 @@ FText UPalRichTextBlockBase::GetBindedOriginalText() const {
     return FText::GetEmpty();
 }
 
-UPalRichTextBlockBase::UPalRichTextBlockBase() {
-    this->IsAutoTextSetWhenWidgetRebuilt = false;
-    this->IsAutoAdjustScale = false;
-    this->MaxWidth = 100;
-}
 

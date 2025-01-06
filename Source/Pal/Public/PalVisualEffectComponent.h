@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine/EngineTypes.h"
 #include "EPalVisualEffectID.h"
 #include "PalVisualEffectDynamicParameter.h"
 #include "PalVisualEffectComponent.generated.h"
@@ -39,7 +40,8 @@ private:
     TArray<UPalVisualEffectBase*> TerminatingVisualEffects;
     
 public:
-    UPalVisualEffectComponent();
+    UPalVisualEffectComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     static void RemoveVisualEffectForActor_Local(AActor* Actor, EPalVisualEffectID VisualEffectID);
     

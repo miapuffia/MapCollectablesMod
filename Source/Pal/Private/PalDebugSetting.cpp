@@ -27,6 +27,7 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bGetAllBulletItems = false;
     this->bIgnoreItemDurabilityDecrease = false;
     this->bNotConsumeMaterialsInRepair = false;
+    this->bIgnoreDamageCheckByServer = false;
     this->bIsMutekiALL = false;
     this->bIsMutekiForPlayer = false;
     this->bIsMutekiForFriend = false;
@@ -40,6 +41,7 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bIsCaptureFailAlways_BounceBall = false;
     this->bIsShowActionName = false;
     this->bIsShowCharacterStatus = false;
+    this->bIsShowSkillCoolTime = false;
     this->bIsShowCharacterTickInfo = false;
     this->bIsWazaCoolTimeFast = false;
     this->bIsShowUseRootMotion = false;
@@ -81,6 +83,9 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bIsDisableShiftKey = false;
     this->IsSpawnAlwaysFromSpawner = false;
     this->IsDisableSpawner = false;
+    this->bIsRandomizerType_Override = false;
+    this->RandomizerType_Override = EPalRandomizerType::None;
+    this->bIsRandomizerSeed_Override = false;
     this->OverrideSpawnRadius = -1.00f;
     this->OverrideDespawnRadius = -1.00f;
     this->bIsPlayerCompleteSTEALTH = false;
@@ -90,6 +95,8 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bIsShowMovementMode = false;
     this->bIsShowOrganization = false;
     this->bCanAccessToOtherGuildMapObject = false;
+    this->ExpireGuildEnterRequestLogInfoMinutes = -1;
+    this->bActiveLog_UPalGroupManager_IsInGuild = false;
     this->bFirstBuildPalBox = false;
     this->WorkExtraRate = 1.00f;
     this->bIsDisableFootIK = false;
@@ -130,6 +137,8 @@ UPalDebugSetting::UPalDebugSetting() {
     this->BaseCampWorkerEatTime = 0.00f;
     this->bBaseCampShowCannotTransportTarget = false;
     this->bBaseCampMoveModeTeleportForce = false;
+    this->bShowBaseCampSquaredDistanceFromPlayer = false;
+    this->bVisibleSpawnPointFromPalBox = false;
     this->fallBackDefense = 0;
     this->bDebugLogWorldSecurity = false;
     this->bDebugLogEnableCriminal = false;
@@ -148,6 +157,7 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bPassiveSkill_CollectItem_10Sec = false;
     this->bPassiveSkill_LifeSteal_DisplayRecoverHp = false;
     this->bLogMapObjectFailedSpawn = false;
+    this->bShowMapObjectDebugDistanceInfinity = false;
     this->bShowMapObjectStatus = false;
     this->bShowMapObjectFoliageStatus = false;
     this->ShowMapObjectStatusRange = 1000.00f;
@@ -157,8 +167,15 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bDrawDetectMapObjectInDoor = false;
     this->bCanDamageToMapObjectFromSameGroup = false;
     this->MapObjectHpOverride = -1;
+    this->bShowUpdateInDoorLog = false;
     this->FoliageRespawnIntervalOverrideSeconds = -1.00f;
     this->bVisibleFoliageChunk = false;
+    this->bCanRegisterPalStaticMeshImposter = true;
+    this->MaxDrawDistancePalStaticMeshImposter = -1.00f;
+    this->ChunkGridSizePalStaticMeshImposter = -1.00f;
+    this->ActivateStaticMeshImposterDefaultRange = -1.00f;
+    this->bVisibleStaticMeshImposterChunk = false;
+    this->bEnablePalHLODVisibilityControll = true;
     this->bShowPalEggStatus = false;
     this->ShowPalEggStatusRange = 1000.00f;
     this->bIsHideAllHUD = false;
@@ -169,11 +186,15 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bIsCompletePaldex = false;
     this->bUseFixedPositionPlayerUI = true;
     this->bForceShowHPGauge = false;
+    this->bForceWordFilter_ACE = false;
+    this->ForceWordFilterAPIType_ACE = EPalACEWordFilterAPIType::Unknown;
     this->bIsFixedRandomSeed = false;
     this->actionRandomSeed = 1192;
     this->bAvailableBuildObjectInDevelop = false;
     this->bShowBuildObjectInstallCheck = false;
+    this->bDisableObstacleCheckFromCameraInBuild = false;
     this->bDrawDebugInstallConnection = false;
+    this->bDrawDebugSnapMode = false;
     this->bUseEagleForGlider = false;
     this->bEquipDefaultGlider = true;
     this->ExtraHpRegenRateInSleepingBed = 1.00f;
@@ -182,6 +203,7 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bForceDisableTickOptimization = false;
     this->bForceDisableDamagePopup = false;
     this->bIsShowTickOptimizationType = false;
+    this->bForceDisableAsyncMovement = false;
     this->bIgnoreFastTravelLock = false;
     this->bIsShowPostAkEvent = false;
     this->SoundDebugModelClass = NULL;
@@ -242,11 +264,21 @@ UPalDebugSetting::UPalDebugSetting() {
     this->bDrawDefenseAttackableRange = false;
     this->bShowDefenseAttackTarget = false;
     this->ShowDefenseRange = 2000.00f;
-    this->WorldPartitionLoadCheckRange = -1.00f;
-    this->WorldPartitionLoadActivatedCheck = false;
+    this->bNotDecreaseDefenseBullet = false;
     this->bDisableInteractRecicleTarget = false;
     this->bShowStageDeathPenaltyLocation = false;
     this->bForceLocationTeleport = false;
-    this->bShowInvaderDeubgLog = false;
+    this->bShowInvaderDebugLog = false;
+    this->bShowStreamingLevel = false;
+    this->bShowInteractPoints = false;
+    this->bEnableArenaTest = false;
+    this->EnableBossBattleHard = false;
+    this->bLoadWorldOptionInTestLevel = false;
+    this->bOilrigGoalShow = false;
+    this->bIgnoreTreasureBoxKey = false;
+    this->bAllUnlockSkin = false;
+    this->bEnableUserAchievementDebug = false;
+    this->HardTowerBossDebugNo = 0;
 }
+
 

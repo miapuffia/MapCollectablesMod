@@ -1,5 +1,7 @@
 #include "PalWorkFacingComponent.h"
 
-UPalWorkFacingComponent::UPalWorkFacingComponent() {
+UPalWorkFacingComponent::UPalWorkFacingComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->bReverseDirection = true;
 }
+
 

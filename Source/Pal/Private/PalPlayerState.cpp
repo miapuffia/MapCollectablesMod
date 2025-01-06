@@ -1,21 +1,42 @@
 #include "PalPlayerState.h"
 #include "Net/UnrealNetwork.h"
-#include "PalNetworkPlayerStateComponent.h"
 #include "PalSyncTeleportComponent.h"
 
+APalPlayerState::APalPlayerState(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->CachedIsPlayerDead = false;
+    this->CachedIsPlayerDying = false;
+    this->OtomoData = NULL;
+    this->CharacterMakeData = NULL;
+    this->InventoryData = NULL;
+    this->PalStorage = NULL;
+    this->TechnologyData = NULL;
+    this->RecordData = NULL;
+    this->PlayerSkinData = NULL;
+    this->bIsSelectedInitMapPoint = false;
+    this->bDetectedInValidPlayer = false;
+    this->LocalRecordData = NULL;
+    this->WorldMapData = NULL;
+    this->QuestManager = NULL;
+    this->GuildBelongTo = NULL;
+    this->SyncTeleportComp = CreateDefaultSubobject<UPalSyncTeleportComponent>(TEXT("SyncTeleportComp"));
+    this->UserAchievementChecker = NULL;
+    this->bIsNewCharacter = false;
+    this->TryCreateIndividualHandleTemporarily = NULL;
+    this->bIsCompleteSyncPlayerFromServer_InClient = false;
+    this->ChatCounter = 0;
+    this->DisableGuildJoin = false;
+}
+
 void APalPlayerState::WaitWorldPartitionDelegate(FTimerHandle& OutTimerHandle, APalPlayerState::FOnCompleteLoadWorldPartitionDelegate Delegate) {
+}
+
+void APalPlayerState::ShowUnlockHardModeUI() {
 }
 
 void APalPlayerState::ShowTowerBossDefeatRewardUI() {
 }
 
 void APalPlayerState::ShowBossDefeatRewardUI(int32 TechPoint) {
-}
-
-void APalPlayerState::SendDeath_ToServer_Implementation(APalCharacter* Target) {
-}
-
-void APalPlayerState::SendDamage_ToServer_Implementation(APalCharacter* Target, const FPalDamageInfo& Info) {
 }
 
 void APalPlayerState::SendAccountInitData_ForServer_Implementation(const FPalPlayerAccountInitData& accountInitData) {
@@ -30,10 +51,13 @@ void APalPlayerState::RequestSpawnMonsterForPlayer_Implementation(const FName& C
 void APalPlayerState::RequestRespawn_Implementation() {
 }
 
-void APalPlayerState::RequestObtainLevelObject_ToServer_Implementation(APalLevelObjectObtainable* TargetObject) {
+void APalPlayerState::RequestPalBoxSyncPage_ToServer_Implementation(int32 pageIndex) {
 }
 
 void APalPlayerState::RequestJoinPlayer_ToServer_Implementation(const FGuid& JoinPlayerUId, const FPalPlayerInitializeParameter& InitPlayerParam) {
+}
+
+void APalPlayerState::RequestForceSyncPalBoxSlot_ToServer_Implementation(bool isForceSync) {
 }
 
 void APalPlayerState::RequestBotLocation_Implementation() {
@@ -51,13 +75,10 @@ void APalPlayerState::RegisterForPalDex_ServerInternal(FPalInstanceID Individual
 void APalPlayerState::ReceiveNotifyLoginComplete_Implementation() {
 }
 
-void APalPlayerState::OpenRequestJoinGuildDialog_ToClient_Implementation(const FPalInstanceID& RequestPlayerInstanceId) {
+void APalPlayerState::ReceiveBuildResult_ToRequestClient_Implementation(const EPalMapObjectOperationResult Result) {
 }
 
 void APalPlayerState::OnUpdatePlayerInfoInGuildBelongTo(const UPalGroupGuildBase* Guild, const FGuid& InPlayerUId, const FPalGuildPlayerInfo& InPlayerInfo) {
-}
-
-void APalPlayerState::OnRep_WinGDKUniqueId() {
 }
 
 void APalPlayerState::OnRep_PlayerUId() {
@@ -69,13 +90,16 @@ void APalPlayerState::OnRep_GuildBelongTo(UPalGroupGuildBase* OldValue) {
 void APalPlayerState::OnRelicNumAdded(int32 AddNum) {
 }
 
-void APalPlayerState::OnRecievedGuildJoinRequestResult_Implementation(const EPalGuildJoinRequestResult ResultType, const FPalInstanceID& RequestPlayerInstanceId, const FPalInstanceID& TargerPlayerInstanceId) {
-}
-
 void APalPlayerState::OnNotifiedReturnToFieldFromStage_ToClient_Implementation() {
 }
 
 void APalPlayerState::OnNotifiedEnteredStage_ToClient_Implementation() {
+}
+
+void APalPlayerState::OnNotifiedClientInitializedEssentialInServer() {
+}
+
+void APalPlayerState::OnFinishInitSelectMapTeleport(const FGuid TeleportPlayerUId) {
 }
 
 void APalPlayerState::OnCreatePlayerIndividualHandle_InServer(FPalInstanceID ID) {
@@ -96,28 +120,10 @@ void APalPlayerState::OnCompleteSyncAll_InClient(APalPlayerState* PlayerState) {
 void APalPlayerState::OnCompleteLoadInitWorldPartition_InClient(APalPlayerState* PlayerState) {
 }
 
-void APalPlayerState::OnClosedRequestJoinGuildDialog(bool Result) {
-}
-
-void APalPlayerState::OnClosedOverBaseCampDialog(bool Result) {
-}
-
-void APalPlayerState::OnClosedCheckBaseCampAuthorityDialog(bool Result) {
-}
-
-void APalPlayerState::NotifyStartInitSelectMap_ToServer_Implementation() {
+void APalPlayerState::OnChangeOptionCommonSettings(const FPalOptionCommonSettings& PrevSettings, const FPalOptionCommonSettings& NewSettings) {
 }
 
 void APalPlayerState::NotifyRunInitialize_ToClient() {
-}
-
-void APalPlayerState::NotifyRemovedCharacterFromPalBox_ToServer_Implementation(const FPalInstanceID& IndividualId) {
-}
-
-void APalPlayerState::NotifyOpenClosePalBox_ToServer_Implementation(bool IsOpen) {
-}
-
-void APalPlayerState::NotifyObtainComplete_ToServer_Implementation(const FPalInstanceID& IndividualId) {
 }
 
 void APalPlayerState::NotifyInvalidPlayer_ToClient_Implementation() {
@@ -132,17 +138,24 @@ void APalPlayerState::NotifyFailedJoin_ToClient_Implementation(const EPalPlayerJ
 void APalPlayerState::NotifyDropOtomoInfo_Implementation(const TArray<FPalLogInfo_DropPal>& InDropPalInfo) {
 }
 
-void APalPlayerState::NotifyCompleteInitSelectMap_ToServer_Implementation() {
-}
-
-void APalPlayerState::NotifyClientInitializeToServer_Implementation(FUniqueNetIdRepl ReceiveUniqueId) {
-}
-
-void APalPlayerState::NotifyClientInitializedEssential_ToServer_Implementation() {
-}
-
 
 bool APalPlayerState::IsSelectedInitMapPoint() {
+    return false;
+}
+
+bool APalPlayerState::IsPlayerDying() const {
+    return false;
+}
+
+bool APalPlayerState::IsPlayerDead() const {
+    return false;
+}
+
+bool APalPlayerState::IsPlayerCompletelyDead() const {
+    return false;
+}
+
+bool APalPlayerState::IsInStateByStageType(EPalStageType StageType) const {
     return false;
 }
 
@@ -152,9 +165,6 @@ bool APalPlayerState::IsInStage() const {
 
 bool APalPlayerState::IsCompleteLoadInitWorldPartition() {
     return false;
-}
-
-void APalPlayerState::GrantExpForParty_Implementation(const int32 ExpValue) {
 }
 
 UPalWorldMapUIData* APalPlayerState::GetWorldMapData() const {
@@ -174,6 +184,10 @@ UPalPlayerRecordData* APalPlayerState::GetRecordData() const {
 }
 
 UPalQuestManager* APalPlayerState::GetQuestManager() const {
+    return NULL;
+}
+
+UPalPlayerSkinData* APalPlayerState::GetPlayerSkinData() const {
     return NULL;
 }
 
@@ -216,9 +230,6 @@ void APalPlayerState::EnterChat_Receive_Implementation(const FPalChatMessage& Ch
 
 bool APalPlayerState::EnterChat(FText Msg, EPalChatCategory Category) {
     return false;
-}
-
-void APalPlayerState::DropOtomoSingle_ToServer_Implementation(const FVector DropLocation, const FPalInstanceID& dropID) {
 }
 
 void APalPlayerState::Debug_ShutdownToClient_Implementation() {
@@ -269,7 +280,7 @@ void APalPlayerState::Debug_DeleteWorldAndShutdownRemoteServer_ToServer_Implemen
 void APalPlayerState::Debug_DeleteWorldAndShutdownRemoteServer() {
 }
 
-void APalPlayerState::Debug_CaptureNewMonsterByDebugOtomoInfo_ToServer_Implementation(const FPalDebugOtomoPalInfo& Info) {
+void APalPlayerState::Debug_CaptureNewMonsterByDebugOtomoInfo_ToServer_Implementation(const FPalDebugOtomoPalInfo& Info, bool bRandomPassiveSkill) {
 }
 
 void APalPlayerState::Debug_CaptureNewMonster_ToServer_Implementation(FName CharacterID) {
@@ -278,54 +289,48 @@ void APalPlayerState::Debug_CaptureNewMonster_ToServer_Implementation(FName Char
 void APalPlayerState::Debug_BuildDebugBaseCamp_ToServer_Implementation(FName CampMode, int32 workerCount) {
 }
 
+void APalPlayerState::Debug_BotEnterDungeon_ToServer_Implementation() {
+}
+
 void APalPlayerState::CallOrRegisterOnCompleteSyncPlayerFromServer_InClient(APalPlayerState::FReturnSelfSingleDelegate Delegate) {
 }
 
 void APalPlayerState::CallOrRegisterOnCompleteLoadInitWorldPartition_InClient(APalPlayerState::FOnCompleteLoadWorldPartitionDelegate Delegate) {
 }
 
+void APalPlayerState::AddMealLog_Implementation(const TArray<FPalMealLogDisplayData>& DisplayDataArray) {
+}
+
 void APalPlayerState::AddItemGetLog_ToClient_Implementation(const FPalStaticItemIdAndNum& ItemAndNum) const {
+}
+
+void APalPlayerState::AddFullPalBoxLog_ToClient_Implementation() const {
 }
 
 void APalPlayerState::AddFullInventoryLog_ToClient_Implementation() const {
 }
 
+void APalPlayerState::AddBaseCampWorkerMovementLog_Implementation(const TArray<FPalBaseCampWorkerMovementLogDisplayData>& DisplayDataArray) {
+}
+
 void APalPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
-    DOREPLIFETIME(APalPlayerState, WinGDKUniqueId);
     DOREPLIFETIME(APalPlayerState, PlayerUId);
     DOREPLIFETIME(APalPlayerState, IndividualHandleId);
     DOREPLIFETIME(APalPlayerState, CachedPlayerLocation);
     DOREPLIFETIME(APalPlayerState, CachedPlayerRotation);
+    DOREPLIFETIME(APalPlayerState, CachedIsPlayerDead);
+    DOREPLIFETIME(APalPlayerState, CachedIsPlayerDying);
     DOREPLIFETIME(APalPlayerState, InventoryData);
     DOREPLIFETIME(APalPlayerState, PalStorage);
     DOREPLIFETIME(APalPlayerState, TechnologyData);
     DOREPLIFETIME(APalPlayerState, RecordData);
+    DOREPLIFETIME(APalPlayerState, PlayerSkinData);
     DOREPLIFETIME(APalPlayerState, bIsSelectedInitMapPoint);
     DOREPLIFETIME(APalPlayerState, GuildBelongTo);
     DOREPLIFETIME(APalPlayerState, ChatCounter);
+    DOREPLIFETIME(APalPlayerState, DisableGuildJoin);
 }
 
-APalPlayerState::APalPlayerState() {
-    this->OtomoData = NULL;
-    this->CharacterMakeData = NULL;
-    this->InventoryData = NULL;
-    this->PalStorage = NULL;
-    this->TechnologyData = NULL;
-    this->RecordData = NULL;
-    this->bIsSelectedInitMapPoint = false;
-    this->bDetectedInValidPlayer = false;
-    this->LocalRecordData = NULL;
-    this->WorldMapData = NULL;
-    this->QuestManager = NULL;
-    this->GuildBelongTo = NULL;
-    this->NetworkComp = CreateDefaultSubobject<UPalNetworkPlayerStateComponent>(TEXT("NetworkComp"));
-    this->SyncTeleportComp = CreateDefaultSubobject<UPalSyncTeleportComponent>(TEXT("SyncTeleportComp"));
-    this->bIsNewCharacter = false;
-    this->TryCreateIndividualHandleTemporarily = NULL;
-    this->bIsCompleteSyncPlayerFromServer_InClient = false;
-    this->RequestJoinGuildDialogParameter = NULL;
-    this->ChatCounter = 0;
-}
 

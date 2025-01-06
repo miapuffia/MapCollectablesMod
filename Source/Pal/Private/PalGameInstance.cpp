@@ -28,77 +28,18 @@
 #include "PalPlayerDataStorage.h"
 #include "PalPlayerManager.h"
 #include "PalSaveGameManager.h"
+#include "PalShopManager.h"
+#include "PalSkinManager.h"
+#include "PalSupplyManager.h"
 #include "PalTutorialManager.h"
 #include "PalVisualEffectDataBase.h"
 #include "PalWazaDatabase.h"
 #include "PalWorkProgressManager.h"
 #include "PalWorldSecuritySystem.h"
 
-void UPalGameInstance::ShowUIMultiplayRestriction(bool bOverrideChecking) {
-}
-
-
-
-void UPalGameInstance::SetNewWorldName(const FString& WorldName) {
-}
-
-void UPalGameInstance::SetIsNewGame() {
-}
-
-bool UPalGameInstance::SelectWorldSaveDirectoryName(const FString& WorldSaveDirectoryName) {
-    return false;
-}
-
-bool UPalGameInstance::SelectWorld(const FString& WorldName) {
-    return false;
-}
-
-void UPalGameInstance::OnInitializeCompleteSystem() {
-}
-
-void UPalGameInstance::OnCompletedJoinSession(bool IsSuccess, JoinSessionResultType Type) {
-}
-
-void UPalGameInstance::OnCompletedFindSessions(bool bIsSuccess, const TArray<FBlueprintSessionResult>& Results, const FString& ErrorStr) {
-}
-
-
-bool UPalGameInstance::IsPlayFromTitle() {
-    return false;
-}
-
-bool UPalGameInstance::IsNewGame() const {
-    return false;
-}
-
-void UPalGameInstance::GoToDefaultMap() {
-}
-
-FString UPalGameInstance::GetSelectedWorldSaveDirectoryName() const {
-    return TEXT("");
-}
-
-FString UPalGameInstance::GetSelectedWorldName() const {
-    return TEXT("");
-}
-
-void UPalGameInstance::CompleteInitCharacterMakeData() {
-}
-
-void UPalGameInstance::ClearNetworkError() {
-}
-
-void UPalGameInstance::CheckInvite() {
-}
-
-void UPalGameInstance::ApplicationHasReactivated() {
-}
-
-void UPalGameInstance::ApplicationHasEnteredForeground() {
-}
-
 UPalGameInstance::UPalGameInstance() {
     this->bNetworkError = false;
+    this->bSaveError = false;
     this->GameSettingClass = UPalGameSetting::StaticClass();
     this->GameSetting = NULL;
     this->MasterDataTablesClass = UPalMasterDataTables::StaticClass();
@@ -119,6 +60,8 @@ UPalGameInstance::UPalGameInstance() {
     this->WazaDatabase = NULL;
     this->BattleManagerClass = NULL;
     this->BossBattleManagerClass = NULL;
+    this->RaidBossManagerClass = NULL;
+    this->OilrigManagerClass = NULL;
     this->PlayerDataStorageClass = UPalPlayerDataStorage::StaticClass();
     this->PlayerDataStorage = NULL;
     this->HUDServiceClass = UPalHUDService::StaticClass();
@@ -160,9 +103,83 @@ UPalGameInstance::UPalGameInstance() {
     this->ObjectCollectorClass = UPalObjectCollector::StaticClass();
     this->ActionDummyTargetManager = UPalActionDummyTargetManager::StaticClass();
     this->LogManagerClass = UPalLogManager::StaticClass();
-    this->revisionNum = 47084;
+    this->SkinManagerClass = UPalSkinManager::StaticClass();
+    this->SkinManager = NULL;
+    this->SupplyManagerClass = UPalSupplyManager::StaticClass();
+    this->ShopManagerSubsystemClass = UPalShopManager::StaticClass();
+    this->revisionNum = 59545;
+    this->bUseAsyncMovement = true;
+    this->DisplaySafeAreaDebugger = NULL;
     this->TitleBGMPlayerClass = UPalPersistentSoundPlayer::StaticClass();
     this->TitleBGMPlayer = NULL;
     this->bIsNewGame = false;
 }
+
+void UPalGameInstance::ShowUIMultiplayRestriction(bool bOverrideChecking) {
+}
+
+
+
+void UPalGameInstance::SetNewWorldName(const FString& WorldName) {
+}
+
+void UPalGameInstance::SetIsNewGame() {
+}
+
+bool UPalGameInstance::SelectWorldSaveDirectoryName(const FString& WorldSaveDirectoryName) {
+    return false;
+}
+
+bool UPalGameInstance::SelectWorld(const FString& WorldName) {
+    return false;
+}
+
+
+void UPalGameInstance::OnInitializeCompleteSystem() {
+}
+
+void UPalGameInstance::OnCompletedJoinSession(bool IsSuccess, JoinSessionResultType Type) {
+}
+
+void UPalGameInstance::OnCompletedFindSessions(bool bIsSuccess, const TArray<FBlueprintSessionResult>& Results, const FString& ErrorStr) {
+}
+
+
+bool UPalGameInstance::IsPlayFromTitle() {
+    return false;
+}
+
+bool UPalGameInstance::IsNewGame() const {
+    return false;
+}
+
+void UPalGameInstance::GoToDefaultMap() {
+}
+
+FString UPalGameInstance::GetSelectedWorldSaveDirectoryName() const {
+    return TEXT("");
+}
+
+FString UPalGameInstance::GetSelectedWorldName() const {
+    return TEXT("");
+}
+
+void UPalGameInstance::CompleteInitCharacterMakeData() {
+}
+
+void UPalGameInstance::ClearSaveError() {
+}
+
+void UPalGameInstance::ClearNetworkError() {
+}
+
+void UPalGameInstance::CheckInvite() {
+}
+
+void UPalGameInstance::ApplicationHasReactivated() {
+}
+
+void UPalGameInstance::ApplicationHasEnteredForeground() {
+}
+
 

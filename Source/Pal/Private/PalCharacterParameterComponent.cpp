@@ -1,6 +1,56 @@
 #include "PalCharacterParameterComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalCharacterParameterComponent::UPalCharacterParameterComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->bIsCooping = false;
+    this->bIsEnableSendReticleTarget = false;
+    this->bIsEnableMuteki = false;
+    this->IsSPOverheat = false;
+    this->bIsHyperArmor = false;
+    this->bIsDebugMuteki = false;
+    this->ElementType1 = EPalElementType::None;
+    this->ElementType2 = EPalElementType::None;
+    this->IsOverrideTarget = false;
+    this->Trainer = NULL;
+    this->OtomoPal = NULL;
+    this->IndividualHandle = NULL;
+    this->IndividualParameter = NULL;
+    this->IsStun = false;
+    this->IsEnableSpeedCollision = true;
+    this->IsCanSneakAttacked = false;
+    this->IsFriendBulletIgnore = false;
+    this->BiologicalGrade = 0;
+    this->IsPredator = false;
+    this->IsEdible = true;
+    this->HiddenCollisionOverlapCount = 0;
+    this->BurnCollisionOverlapCount = 0;
+    this->LavaCollisionOverlapCount = 0;
+    this->DamageUpElement_ByElementStatus = EPalElementType::None;
+    this->DamageDownElement_ByElementStatus = EPalElementType::None;
+    this->IsDarknessRandomAttack = false;
+    this->AttackUp = 0;
+    this->DefenseUp = 0;
+    this->IsSleepAction = false;
+    this->IsDisableOtomoReturnEffect = false;
+    this->MaxHPRate_ForTowerBoss = 1.00f;
+    this->MaxSPBuffRate = 1.00f;
+    this->bIsUseGroundRayCast = true;
+    this->BaseCampWorkerOrderType = EPalMapBaseCampWorkerOrderType::Work;
+    this->bBaseCampWorkerAttackableFriend = false;
+    this->WorkType = EPalWorkType::None;
+    this->bAppliedBaseCampWorkerInitialized = false;
+    this->WorkingState = EPalWorkWorkerWorkingState::Wait;
+    this->bBeingRescued = false;
+    this->DyingHP = 0.00f;
+    this->DyingMaxHP = 100.00f;
+    this->ItemContainer = NULL;
+    this->IsCapturedProcessing = false;
+    this->CanDropItem = false;
+    this->IsImmortality = false;
+    this->IsMimicryMode = false;
+    this->OtomoAttackStopJudge = NULL;
+}
+
 void UPalCharacterParameterComponent::ZeroDyingHP_ToServer_Implementation() {
 }
 
@@ -28,7 +78,7 @@ void UPalCharacterParameterComponent::SetOverrideTargetLocation_ToServer_Impleme
 void UPalCharacterParameterComponent::SetOverrideTargetLocation(FVector TargetLocation) {
 }
 
-void UPalCharacterParameterComponent::SetMuteki(FName flagName, bool isEnable) {
+void UPalCharacterParameterComponent::SetMuteki(FName flagName, bool IsEnable) {
 }
 
 void UPalCharacterParameterComponent::SetMP(FFixedPoint64 NewMP) {
@@ -40,7 +90,10 @@ void UPalCharacterParameterComponent::SetMaxSP(FFixedPoint64 NewMaxSP) {
 void UPalCharacterParameterComponent::SetMaxMP(FFixedPoint64 NewMaxMP) {
 }
 
-void UPalCharacterParameterComponent::SetMaxHP(FFixedPoint64 NewMaxHP) {
+void UPalCharacterParameterComponent::SetIsOverrideTarget_ToServer_Implementation(int32 ID, bool IsOverride) {
+}
+
+void UPalCharacterParameterComponent::SetIsOverrideTarget_ToALL_Implementation(int32 ID, bool IsOverride) {
 }
 
 void UPalCharacterParameterComponent::SetIsOverrideTarget_Innner(bool IsOverride) {
@@ -55,7 +108,7 @@ void UPalCharacterParameterComponent::SetIsCapturedProcessing(bool IsCaptureProc
 void UPalCharacterParameterComponent::SetHP(FFixedPoint64 NewHP) {
 }
 
-void UPalCharacterParameterComponent::SetEnableSendReticleTarget(FName flagName, bool isEnable) {
+void UPalCharacterParameterComponent::SetEnableSendReticleTarget(FName flagName, bool IsEnable) {
 }
 
 void UPalCharacterParameterComponent::SetElementTypeFromDatabase(APalCharacter* InCharacter) {
@@ -67,7 +120,7 @@ void UPalCharacterParameterComponent::SetDisableNaturalHealing_Component(FName K
 void UPalCharacterParameterComponent::SetDisableCreateUNKO(FName flagName, bool isDisable) {
 }
 
-void UPalCharacterParameterComponent::SetCoopingFlag(bool isEnable) {
+void UPalCharacterParameterComponent::SetCoopingFlag(bool IsEnable) {
 }
 
 void UPalCharacterParameterComponent::ReviveFromDying() {
@@ -193,6 +246,10 @@ float UPalCharacterParameterComponent::GetSanity() {
     return 0.0f;
 }
 
+AActor* UPalCharacterParameterComponent::GetReticleTargetActor() {
+    return NULL;
+}
+
 float UPalCharacterParameterComponent::GetRadius() const {
     return 0.0f;
 }
@@ -256,6 +313,10 @@ UPalIndividualCharacterParameter* UPalCharacterParameterComponent::GetIndividual
     return NULL;
 }
 
+float UPalCharacterParameterComponent::GetHPRate() {
+    return 0.0f;
+}
+
 FFixedPoint64 UPalCharacterParameterComponent::GetHP() const {
     return FFixedPoint64{};
 }
@@ -312,57 +373,17 @@ void UPalCharacterParameterComponent::GetLifetimeReplicatedProps(TArray<FLifetim
     DOREPLIFETIME(UPalCharacterParameterComponent, IndividualParameter);
     DOREPLIFETIME(UPalCharacterParameterComponent, IsCanSneakAttacked);
     DOREPLIFETIME(UPalCharacterParameterComponent, IsFriendBulletIgnore);
+    DOREPLIFETIME(UPalCharacterParameterComponent, MaxHPRate_ForTowerBoss);
     DOREPLIFETIME(UPalCharacterParameterComponent, WorkAssignId);
     DOREPLIFETIME(UPalCharacterParameterComponent, WorkType);
+    DOREPLIFETIME(UPalCharacterParameterComponent, WorkingState);
     DOREPLIFETIME(UPalCharacterParameterComponent, PossessStaticItemId);
     DOREPLIFETIME(UPalCharacterParameterComponent, bBeingRescued);
     DOREPLIFETIME(UPalCharacterParameterComponent, DyingHP);
     DOREPLIFETIME(UPalCharacterParameterComponent, DyingMaxHP);
     DOREPLIFETIME(UPalCharacterParameterComponent, ItemContainer);
+    DOREPLIFETIME(UPalCharacterParameterComponent, IsImmortality);
     DOREPLIFETIME(UPalCharacterParameterComponent, UnreachableMapObjectRepInfoArray);
 }
 
-UPalCharacterParameterComponent::UPalCharacterParameterComponent() {
-    this->bIsCooping = false;
-    this->bIsEnableSendReticleTarget = false;
-    this->bIsEnableMuteki = false;
-    this->IsSPOverheat = false;
-    this->bIsHyperArmor = false;
-    this->bIsDebugMuteki = false;
-    this->ElementType1 = EPalElementType::None;
-    this->ElementType2 = EPalElementType::None;
-    this->IsOverrideTarget = false;
-    this->Trainer = NULL;
-    this->OtomoPal = NULL;
-    this->IndividualHandle = NULL;
-    this->IndividualParameter = NULL;
-    this->IsStun = false;
-    this->IsEnableSpeedCollision = true;
-    this->IsCanSneakAttacked = false;
-    this->IsFriendBulletIgnore = false;
-    this->BiologicalGrade = 0;
-    this->IsPredator = false;
-    this->IsEdible = true;
-    this->HiddenCollisionOverlapCount = 0;
-    this->BurnCollisionOverlapCount = 0;
-    this->LavaCollisionOverlapCount = 0;
-    this->DamageUpElement_ByElementStatus = EPalElementType::None;
-    this->DamageDownElement_ByElementStatus = EPalElementType::None;
-    this->IsDarknessRandomAttack = false;
-    this->AttackUp = 0;
-    this->DefenseUp = 0;
-    this->IsSleepAction = false;
-    this->IsDisableOtomoReturnEffect = false;
-    this->bIsUseGroundRayCast = true;
-    this->BaseCampWorkerOrderType = EPalMapBaseCampWorkerOrderType::Work;
-    this->bBaseCampWorkerAttackableFriend = false;
-    this->WorkType = EPalWorkType::None;
-    this->bBeingRescued = false;
-    this->DyingHP = 0.00f;
-    this->DyingMaxHP = 100.00f;
-    this->ItemContainer = NULL;
-    this->IsCapturedProcessing = false;
-    this->CanDropItem = false;
-    this->OtomoAttackStopJudge = NULL;
-}
 

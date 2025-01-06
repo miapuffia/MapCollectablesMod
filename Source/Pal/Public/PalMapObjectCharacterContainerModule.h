@@ -5,6 +5,7 @@
 #include "PalMapObjectCharacterContainerModule.generated.h"
 
 class UPalIndividualCharacterContainer;
+class UPalIndividualCharacterSlot;
 
 UCLASS(Blueprintable)
 class UPalMapObjectCharacterContainerModule : public UPalMapObjectConcreteModelModuleBase {
@@ -16,7 +17,11 @@ private:
     
 public:
     UPalMapObjectCharacterContainerModule();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+    UFUNCTION(BlueprintCallable)
+    void TryMoveCharacterToContainerFrom(UPalIndividualCharacterSlot* fromSlot);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool TryGetContainer(UPalIndividualCharacterContainer*& OutContainer) const;

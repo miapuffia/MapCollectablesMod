@@ -1,5 +1,12 @@
 #include "PalUIRepairItemBase.h"
 
+UPalUIRepairItemBase::UPalUIRepairItemBase() {
+    this->RepairItemModel = NULL;
+}
+
+void UPalUIRepairItemBase::SetMaxDurabilityForce(const TArray<UPalItemSlot*>& TargetItemSlotArray) {
+}
+
 void UPalUIRepairItemBase::RequestRepair(const TArray<UPalItemSlot*>& TargetItemSlotArray) {
 }
 
@@ -10,7 +17,4 @@ void UPalUIRepairItemBase::CollectRepairInfo(const TArray<UPalItemSlot*>& Target
 void UPalUIRepairItemBase::CollectRepairableSlot(TArray<UPalItemSlot*>& OutRepairableSlots) {
 }
 
-UPalUIRepairItemBase::UPalUIRepairItemBase() {
-    this->RepairItemModel = NULL;
-}
 

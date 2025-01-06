@@ -23,10 +23,14 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, ReplicatedUsing=OnRep_Slots, meta=(AllowPrivateAccess=true))
     TArray<UPalIndividualCharacterSlot*> SlotArray;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    bool bCanSetFavorite;
+    
 public:
     UPalIndividualCharacterContainer();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
     UFUNCTION(BlueprintCallable)
     void OnRep_Slots();

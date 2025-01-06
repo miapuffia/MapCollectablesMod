@@ -1,5 +1,10 @@
 #include "PalActiveSkillSlot.h"
 
+UPalActiveSkillSlot::UPalActiveSkillSlot() {
+    this->SelfActor = NULL;
+    this->IsEndInit = false;
+}
+
 void UPalActiveSkillSlot::UpdateCoolTime(float DeltaTime) {
 }
 
@@ -13,6 +18,9 @@ void UPalActiveSkillSlot::SetSkill(int32 SlotID, EPalWazaID WazaType) {
 }
 
 void UPalActiveSkillSlot::SetCoolTimeRate(FName Key, float Rate) {
+}
+
+void UPalActiveSkillSlot::RestartCoolTime_ByWazaID(EPalWazaID WazaID) {
 }
 
 void UPalActiveSkillSlot::RestartCoolTime(int32 SlotID) {
@@ -29,6 +37,10 @@ bool UPalActiveSkillSlot::IsValidSkill(int32 SlotID) const {
 }
 
 bool UPalActiveSkillSlot::IsTransient(int32 SlotID) const {
+    return false;
+}
+
+bool UPalActiveSkillSlot::IsNearMaxRange_AndRayCheck(int32 SlotID, AActor* TargetActor) const {
     return false;
 }
 
@@ -67,7 +79,15 @@ float UPalActiveSkillSlot::GetCoolTime(int32 SlotID) const {
     return 0.0f;
 }
 
+int32 UPalActiveSkillSlot::FindSlotIndexByWazaID(EPalWazaID WazaID) {
+    return 0;
+}
+
 int32 UPalActiveSkillSlot::FindMostEffectiveSlotID(AActor* TargetActor) const {
+    return 0;
+}
+
+int32 UPalActiveSkillSlot::FindFarthestSlotID_IgnoreSlotID(int32 IgnoreID) {
     return 0;
 }
 
@@ -79,8 +99,4 @@ bool UPalActiveSkillSlot::CanUse(int32 SlotID, AActor* TargetActor) const {
     return false;
 }
 
-UPalActiveSkillSlot::UPalActiveSkillSlot() {
-    this->SelfActor = NULL;
-    this->IsEndInit = false;
-}
 

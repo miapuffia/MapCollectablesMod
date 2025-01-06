@@ -1,5 +1,23 @@
 #include "PalSaveGameManager.h"
 
+UPalSaveGameManager::UPalSaveGameManager() {
+    this->bIsLoadedWorldSaveData = false;
+    this->LoadedWorldSaveData = NULL;
+    this->bIsLoadedLocalWorldSaveData = false;
+    this->LoadedLocalWorldSaveData = NULL;
+    this->bIsLoadedWorldOptionSaveData = false;
+    this->LoadedWorldOptionSaveData = NULL;
+    this->IsAppliedPlayerSaveData = false;
+    this->bIsForceDisableAutoSave = false;
+    this->bIsUseBackupSaveData = true;
+    this->NearSaveBackupNum = 5;
+    this->MinutesSaveBackupNum = 6;
+    this->HourSaveBackupNum = 12;
+    this->DaySaveBackupNum = 7;
+    this->GDKMaxBackupSlotNum = 3;
+    this->GDKBackupFrequency = 3;
+}
+
 void UPalSaveGameManager::StartWorldDataAutoSave() {
 }
 
@@ -37,6 +55,10 @@ bool UPalSaveGameManager::IsLoadedLocalWorldData() const {
     return false;
 }
 
+bool UPalSaveGameManager::IsExistSocialId(FSocialId ID) {
+    return false;
+}
+
 bool UPalSaveGameManager::IsAppliedPlayerData() {
     return false;
 }
@@ -65,16 +87,4 @@ UPalLocalWorldSaveGame* UPalSaveGameManager::GetLoadedLocalWorldSaveData() const
     return NULL;
 }
 
-UPalSaveGameManager::UPalSaveGameManager() {
-    this->LoadedWorldSaveData = NULL;
-    this->LoadedLocalWorldSaveData = NULL;
-    this->LoadedWorldOptionSaveData = NULL;
-    this->IsAppliedPlayerSaveData = false;
-    this->bIsForceDisableAutoSave = false;
-    this->bIsUseBackupSaveData = true;
-    this->NearSaveBackupNum = 5;
-    this->MinutesSaveBackupNum = 6;
-    this->HourSaveBackupNum = 12;
-    this->DaySaveBackupNum = 7;
-}
 

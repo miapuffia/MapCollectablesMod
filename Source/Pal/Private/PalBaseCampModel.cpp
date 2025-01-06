@@ -1,6 +1,17 @@
 #include "PalBaseCampModel.h"
 #include "Net/UnrealNetwork.h"
 
+UPalBaseCampModel::UPalBaseCampModel() {
+    this->CurrentState = EPalBaseCampState::NotAvailable;
+    this->AreaRange = 0.00f;
+    this->WorkerDirector = NULL;
+    this->MapObjectCollection = NULL;
+    this->WorkCollection = NULL;
+    this->EnemyObserver = NULL;
+    this->Level_InGuildProperty = 1;
+    this->ProgressTimeSinceLastTick = 0.00f;
+}
+
 void UPalBaseCampModel::UpdateLevel_ServerInternal(int32 PlayerId, int32 NewLevel) {
 }
 
@@ -24,6 +35,10 @@ void UPalBaseCampModel::OnDamageInCampActor(FPalDamageResult DamageResult) {
 }
 
 void UPalBaseCampModel::OnAddNewWorker(UPalIndividualCharacterHandle* AddCharacterHandle) {
+}
+
+bool UPalBaseCampModel::IsAvailable() const {
+    return false;
 }
 
 UPalBaseCampWorkCollection* UPalBaseCampModel::GetWorkCollection() const {
@@ -86,20 +101,11 @@ void UPalBaseCampModel::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
     DOREPLIFETIME(UPalBaseCampModel, FastTravelLocalTransform);
     DOREPLIFETIME(UPalBaseCampModel, WorkerDirector);
     DOREPLIFETIME(UPalBaseCampModel, MapObjectCollection);
+    DOREPLIFETIME(UPalBaseCampModel, WorkCollection);
     DOREPLIFETIME(UPalBaseCampModel, ModuleArray);
     DOREPLIFETIME(UPalBaseCampModel, PlayerUIdsExistsInsideInServer);
     DOREPLIFETIME(UPalBaseCampModel, OwnerMapObjectInstanceId);
     DOREPLIFETIME(UPalBaseCampModel, Level_InGuildProperty);
 }
 
-UPalBaseCampModel::UPalBaseCampModel() {
-    this->CurrentState = EPalBaseCampState::NotAvailable;
-    this->AreaRange = 0.00f;
-    this->WorkerDirector = NULL;
-    this->MapObjectCollection = NULL;
-    this->WorkCollection = NULL;
-    this->EnemyObserver = NULL;
-    this->Level_InGuildProperty = 1;
-    this->ProgressTimeSinceLastTick = 0.00f;
-}
 

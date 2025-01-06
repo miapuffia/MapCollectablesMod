@@ -1,6 +1,12 @@
 #include "PalWorkAssign.h"
 #include "Net/UnrealNetwork.h"
 
+UPalWorkAssign::UPalWorkAssign() {
+    this->State = EPalWorkWorkerState::None;
+    this->bFixed = false;
+    this->WorkingState = EPalWorkWorkerWorkingState::Wait;
+}
+
 bool UPalWorkAssign::IsWorking() const {
     return false;
 }
@@ -57,6 +63,10 @@ UPalIndividualCharacterHandle* UPalWorkAssign::GetAssignedIndividualHandle() con
     return NULL;
 }
 
+UPalCharacterParameterComponent* UPalWorkAssign::GetAssignedCharacterParameterComponent() const {
+    return NULL;
+}
+
 void UPalWorkAssign::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
@@ -67,9 +77,4 @@ void UPalWorkAssign::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
     DOREPLIFETIME(UPalWorkAssign, WorkingState);
 }
 
-UPalWorkAssign::UPalWorkAssign() {
-    this->State = EPalWorkWorkerState::None;
-    this->bFixed = false;
-    this->WorkingState = EPalWorkWorkerWorkingState::Wait;
-}
 

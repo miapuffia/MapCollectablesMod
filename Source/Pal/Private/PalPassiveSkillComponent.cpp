@@ -1,7 +1,13 @@
 #include "PalPassiveSkillComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalPassiveSkillComponent::UPalPassiveSkillComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+}
+
 void UPalPassiveSkillComponent::SetupSkillFromSelf(UObject* OwnerObject, const TArray<FName>& skillList) {
+}
+
+void UPalPassiveSkillComponent::SetDisablePassiveSkill(FName flagName, bool isDisable) {
 }
 
 void UPalPassiveSkillComponent::OverrideDamageInfoBySkill(FPalDamageInfo& inoutDamageInfo) {
@@ -19,7 +25,11 @@ void UPalPassiveSkillComponent::OnEndSkillEffect(EPalPassiveSkillEffectType Effe
 void UPalPassiveSkillComponent::OnChangeSkillEffectValue(EPalPassiveSkillEffectType EffectType, float Value) {
 }
 
-float UPalPassiveSkillComponent::GetParameterWithPassiveSkillEffect(float originalValue, EPalPassiveSkillEffectType EffectType) {
+bool UPalPassiveSkillComponent::IsDisablePassiveSkill() const {
+    return false;
+}
+
+float UPalPassiveSkillComponent::GetParameterWithPassiveSkillEffect(float originalValue, EPalPassiveSkillEffectType EffectType, bool containEquip) {
     return 0.0f;
 }
 
@@ -32,6 +42,4 @@ void UPalPassiveSkillComponent::GetLifetimeReplicatedProps(TArray<FLifetimePrope
     DOREPLIFETIME(UPalPassiveSkillComponent, SkillInfos);
 }
 
-UPalPassiveSkillComponent::UPalPassiveSkillComponent() {
-}
 

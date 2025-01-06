@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
+#include "EPalPartnerSkillTriggerType.h"
 #include "PalPartnerSkillDatabaseRow.generated.h"
 
 USTRUCT(BlueprintType)
@@ -11,7 +12,7 @@ public:
     FName DevName;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    float effectTime;
+    float EffectTime;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float CoolDownTime;
@@ -30,6 +31,9 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool IsToggleKey;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    EPalPartnerSkillTriggerType TriggerType;
     
     PAL_API FPalPartnerSkillDatabaseRow();
 };

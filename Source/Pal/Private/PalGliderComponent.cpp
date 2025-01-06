@@ -1,6 +1,12 @@
 #include "PalGliderComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalGliderComponent::UPalGliderComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->CurrentGlider = NULL;
+    this->CurrentGliderClass = NULL;
+    this->bIsGliding = false;
+}
+
 UPalIndividualCharacterHandle* UPalGliderComponent::TryGetGliderIndividualHandleFromOtomoHolder() const {
     return NULL;
 }
@@ -15,6 +21,12 @@ void UPalGliderComponent::StartGliding() {
 }
 
 void UPalGliderComponent::SetCurrentGliderSoftClass_ToServer_Implementation(const TSoftClassPtr<APalGliderObject>& gliderSoftClass) {
+}
+
+void UPalGliderComponent::SetCurrentGliderPalID_ToServer_Implementation(const FName& PalID) {
+}
+
+void UPalGliderComponent::RequestCheckAndUpdateCurrentGlider_ToAll_Implementation() {
 }
 
 void UPalGliderComponent::PlayGliderSound(const FPalDataTableRowName_SoundID& ID, const FPalSoundOptions& Option) {
@@ -36,10 +48,16 @@ void UPalGliderComponent::OnUpdateEquipmentSlot(UPalItemSlot* itemSlot, EPalPlay
 }
 
 
+void UPalGliderComponent::OnRevivedIndividual(UPalIndividualCharacterParameter* InParameter) {
+}
+
 void UPalGliderComponent::OnRep_IsGliding() {
 }
 
 void UPalGliderComponent::OnRep_CurrentGliderSoftClass() {
+}
+
+void UPalGliderComponent::OnRep_CurrentGliderPalID() {
 }
 
 
@@ -90,13 +108,9 @@ void UPalGliderComponent::CancelGliding() {
 void UPalGliderComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
+    DOREPLIFETIME(UPalGliderComponent, CurrentGliderPalID);
     DOREPLIFETIME(UPalGliderComponent, CurrentGliderSoftClass);
     DOREPLIFETIME(UPalGliderComponent, bIsGliding);
 }
 
-UPalGliderComponent::UPalGliderComponent() {
-    this->CurrentGlider = NULL;
-    this->CurrentGliderClass = NULL;
-    this->bIsGliding = false;
-}
 

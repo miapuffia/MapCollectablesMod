@@ -8,7 +8,7 @@
 #include "PalRandomIncidentSpawnerBase.generated.h"
 
 class ACharacter;
-class APalCharacter;
+class APalPlayerCharacter;
 class UPalIncidentBase;
 class UPalIncidentDynamicParameterRandom;
 class UPalRandomIncidentLotteryBase;
@@ -50,7 +50,8 @@ private:
     UPalRandomIncidentLotteryBase* Lottery;
     
 public:
-    APalRandomIncidentSpawnerBase();
+    APalRandomIncidentSpawnerBase(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable)
     void UpdateStatusWaitPlayerOutside(float DeltaTime);
@@ -89,7 +90,7 @@ public:
     
 private:
     UFUNCTION(BlueprintCallable)
-    APalCharacter* FindPlayerInsideArea(EPalRandomIncidentSpawnerAreaType AreaType);
+    APalPlayerCharacter* FindPlayerInsideArea(EPalRandomIncidentSpawnerAreaType AreaType);
     
     UFUNCTION(BlueprintCallable)
     void EndIncident();

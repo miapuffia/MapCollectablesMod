@@ -1,10 +1,12 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "PalMapObjectConcreteModelBase.h"
+#include "PalNetArchive.h"
 #include "PalWorkProgressWorkableCheckInterface.h"
 #include "PalMapObjectProductItemModel.generated.h"
 
 class UPalItemContainer;
+class UPalMapObjectEnergyModule;
 class UPalMapObjectProductItemModel;
 class UPalWorkBase;
 
@@ -29,9 +31,19 @@ private:
     
 public:
     UPalMapObjectProductItemModel();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
+    UFUNCTION(BlueprintCallable)
+    void ReceivePickupItemResult_Client(const FPalNetArchive& Archive);
+    
+    UFUNCTION(BlueprintCallable)
+    void PickupItem_ServerInternal(const int32 PlayerId);
+    
+    UFUNCTION(BlueprintCallable)
+    void OnUpdateEnergyModuleState(UPalMapObjectEnergyModule* EnergyModule);
+    
     UFUNCTION(BlueprintCallable)
     void OnUpdateContainerContent(UPalItemContainer* Container);
     
@@ -49,7 +61,7 @@ protected:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float CalcRequiredAmount(const float BaseRequiredAmount) const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

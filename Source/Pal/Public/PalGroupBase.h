@@ -2,9 +2,10 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "UObject/Object.h"
-#include "PalInstanceID.h"
+#include "FastPalIndividualCharacterHandleIdArray.h"
 #include "PalGroupBase.generated.h"
 
+class UPalGroupIndividualCharacterHandleIdArray;
 class UPalIndividualCharacterHandle;
 
 UCLASS(Abstract, Blueprintable)
@@ -31,12 +32,13 @@ protected:
     FString GroupName;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
-    TArray<FPalInstanceID> IndividualCharacterHandleIds;
+    UPalGroupIndividualCharacterHandleIdArray* IndividualIdArray;
     
 public:
     UPalGroupBase();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 protected:
     UFUNCTION(BlueprintCallable)
     void OnUpdateIndividualActor(UPalIndividualCharacterHandle* CharacterHandle);

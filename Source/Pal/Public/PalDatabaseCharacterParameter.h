@@ -15,6 +15,7 @@
 #include "PalDropItemDatabaseRow.h"
 #include "PalIndividualCharacterSaveParameter.h"
 #include "PalSizeParameterDataRow.h"
+#include "PalTalentUpItemDataRow.h"
 #include "PalWorkSuitabilityInfo.h"
 #include "Templates/SubclassOf.h"
 #include "PalDatabaseCharacterParameter.generated.h"
@@ -24,6 +25,7 @@ class UDataTable;
 class UPalAIResponsePreset;
 class UPalAISightResponsePreset;
 class UPalCombiMonsterParameter;
+class UPalIndividualCharacterHandle;
 class UPalIndividualCharacterParameter;
 class UPalPettingPresset;
 class UTexture2D;
@@ -64,6 +66,9 @@ protected:
     UDataTable* CharacterIconDataTable;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UDataTable* CharacterSkinIconDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UDataTable* BPClassDataTable;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -79,7 +84,16 @@ protected:
     UDataTable* PalStatusEffectFoodDataTable;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UDataTable* PalGainStatusPointsItemDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     UDataTable* PalCombiUniqueDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UDataTable* PalTalentUpItemDataTable;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    UDataTable* NPCOtomoWazaDataTable;
     
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -93,6 +107,7 @@ private:
     
 public:
     UPalDatabaseCharacterParameter();
+
     UFUNCTION(BlueprintCallable)
     void UpdateApplyDatabaseToIndividualParameter(UPalIndividualCharacterParameter* IndividualParameter);
     
@@ -122,6 +137,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     int32 GetViewingAngle_Degree(FName RowName);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetUseBossHPGauge(FName RowName);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalTribeID GetTribe(FName RowName);
@@ -178,16 +196,19 @@ public:
     bool GetIsTowerBoss(FName RowName);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool GetIsRaidBoss(FName RowName);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     bool GetIsPal(FName RowName);
     
     UFUNCTION(BlueprintCallable)
     bool GetIsBoss(FName RowName);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    int32 GetHPBySaveParameter(const FPalIndividualCharacterSaveParameter& SaveParameter);
+    int32 GetHPBySaveParameter(const FPalIndividualCharacterSaveParameter& SaveParameter) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    int32 GetHP(UPalIndividualCharacterParameter* IndividualParameter);
+    int32 GetHP(const UPalIndividualCharacterParameter* IndividualParameter) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetHearingRate(FName RowName);
@@ -226,7 +247,10 @@ public:
     FSoftObjectPath GetCharacterIconTexturePath(const FName CharacterID) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    TSoftObjectPtr<UTexture2D> GetCharacterIconTextureByTribeID(const EPalTribeID TribeID) const;
+    TSoftObjectPtr<UTexture2D> GetCharacterIconTextureBySkinName(const FName& SkinName) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    TSoftObjectPtr<UTexture2D> GetCharacterIconTextureByIndividualHandle(const UPalIndividualCharacterHandle* IndividualHandle) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     TSoftObjectPtr<UTexture2D> GetCharacterIconTexture(const FName CharacterID) const;
@@ -242,6 +266,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalBattleBGMType GetBattleBGM(FName RowName);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool FindTalentUpItem(FName ItemName, FPalTalentUpItemDataRow& OutData) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool FindPalSizeParameter(EPalSizeType CharacterSize, FPalSizeParameterDataRow& RowData) const;

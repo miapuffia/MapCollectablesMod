@@ -1,5 +1,13 @@
 #include "PalPartnerSkillPassiveSkill.h"
 
+UPalPartnerSkillPassiveSkill::UPalPartnerSkillPassiveSkill() {
+    this->isReserving = true;
+    this->bIsRestricted = false;
+    this->bRequireWorkerWorkingPassiveSkill = false;
+    this->bIsWorking = false;
+    this->CurrentRank = 0;
+}
+
 void UPalPartnerSkillPassiveSkill::OnWorkerAssignChanged(UPalCharacterParameterComponent* Parameter) {
 }
 
@@ -7,6 +15,12 @@ void UPalPartnerSkillPassiveSkill::OnUpdateOtomoHolder(APalCharacter* Character)
 }
 
 void UPalPartnerSkillPassiveSkill::OnUpdateInventoryContainer() {
+}
+
+void UPalPartnerSkillPassiveSkill::OnUpdateCurrentGround(TEnumAsByte<EPhysicalSurface> GroundType) {
+}
+
+void UPalPartnerSkillPassiveSkill::OnUpdateBaseCampId(const FGuid& BaseCampId) {
 }
 
 void UPalPartnerSkillPassiveSkill::OnRideInactivated() {
@@ -21,6 +35,9 @@ void UPalPartnerSkillPassiveSkill::OnReserveInactivated() {
 void UPalPartnerSkillPassiveSkill::OnReserveActivated() {
 }
 
+void UPalPartnerSkillPassiveSkill::OnRemoveWorker(UPalIndividualCharacterHandle* RemoveCharacterHandle) {
+}
+
 void UPalPartnerSkillPassiveSkill::OnInactivatedAsWorker() {
 }
 
@@ -28,6 +45,12 @@ void UPalPartnerSkillPassiveSkill::OnInactivatedAsOtomoHolder() {
 }
 
 void UPalPartnerSkillPassiveSkill::OnInactivatedAsOtomo() {
+}
+
+void UPalPartnerSkillPassiveSkill::OnChangeDisablePassiveSkill(bool isDisable, bool IsAllReset) {
+}
+
+void UPalPartnerSkillPassiveSkill::OnAddNewWorker(UPalIndividualCharacterHandle* AddCharacterHandle) {
 }
 
 void UPalPartnerSkillPassiveSkill::OnActivatedAsWorker() {
@@ -56,7 +79,7 @@ APalPlayerController* UPalPartnerSkillPassiveSkill::GetTrainerController() const
     return NULL;
 }
 
-APalCharacter* UPalPartnerSkillPassiveSkill::GetTrainerActor() const {
+APalPlayerCharacter* UPalPartnerSkillPassiveSkill::GetTrainerActor() const {
     return NULL;
 }
 
@@ -76,11 +99,4 @@ int32 UPalPartnerSkillPassiveSkill::GetOtomoRank() const {
     return 0;
 }
 
-UPalPartnerSkillPassiveSkill::UPalPartnerSkillPassiveSkill() {
-    this->isReserving = true;
-    this->bIsRestricted = false;
-    this->bRequireWorkerWorkingPassiveSkill = false;
-    this->bIsWorking = false;
-    this->CurrentRank = 0;
-}
 

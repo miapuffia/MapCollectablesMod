@@ -18,12 +18,13 @@ private:
     FVector BattleAimTargetLocation;
     
 public:
-    APalMonsterEquipWeaponBase();
+    APalMonsterEquipWeaponBase(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     APalBullet* ShootOneBulletDefault();
     
     UFUNCTION(BlueprintCallable)
-    APalBullet* ShootOneBullet(TSubclassOf<APalBullet> bulletClass, UNiagaraSystem* MuzzleEffect, FVector MuzzleLocation, FRotator MuzzleRotate, float BulrAngle);
+    APalBullet* ShootOneBullet(TSubclassOf<APalBullet> BulletClass, UNiagaraSystem* MuzzleEffect, FVector MuzzleLocation, FRotator MuzzleRotate, float BulrAngle);
     
 protected:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, BlueprintPure)

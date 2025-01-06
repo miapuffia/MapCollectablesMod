@@ -1,5 +1,11 @@
 #include "PalNPCMultiTalkHandle.h"
 
+UPalNPCMultiTalkHandle::UPalNPCMultiTalkHandle() {
+}
+
+void UPalNPCMultiTalkHandle::SetIsTransientTalkCount(bool IsTransient) {
+}
+
 
 void UPalNPCMultiTalkHandle::IncrementTalkCountRecord() {
 }
@@ -24,6 +30,4 @@ int32 UPalNPCMultiTalkHandle::GetCurrentTalkCount() const {
     return 0;
 }
 
-UPalNPCMultiTalkHandle::UPalNPCMultiTalkHandle() {
-}
 

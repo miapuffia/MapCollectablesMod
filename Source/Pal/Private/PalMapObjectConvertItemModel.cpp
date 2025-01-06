@@ -1,16 +1,24 @@
 #include "PalMapObjectConvertItemModel.h"
 #include "Net/UnrealNetwork.h"
 
-void UPalMapObjectConvertItemModel::RequestUpdateRecipe(const FName RecipeID, const int32 ProductNum) {
+UPalMapObjectConvertItemModel::UPalMapObjectConvertItemModel() {
+    this->RequestedProductNum = 0;
+    this->RemainProductNum = 0;
+    this->bIsWorkable = false;
+    this->WorkSpeedAdditionalRate = 1.00f;
+    this->CurrentRecipeRequestPlayerId = 0;
+    this->TargetRankMax = 0;
+    this->IsPickUpInteractable = true;
+    this->bCanTransportOutProduct = false;
 }
 
-void UPalMapObjectConvertItemModel::RequestChangeRecipe_ServerInternal(const int32 RequestPlayerId, const FPalNetArchive& Archive) {
-}
-
-void UPalMapObjectConvertItemModel::RequestCancel() {
+void UPalMapObjectConvertItemModel::ReceivePickupProductResult_Client(const FPalNetArchive& Archive) {
 }
 
 void UPalMapObjectConvertItemModel::ReceivedPickProductResult(UPalItemSlot* Slot) {
+}
+
+void UPalMapObjectConvertItemModel::PickupProduct_ServerInternal(const int32 RequestPlayerId) {
 }
 
 void UPalMapObjectConvertItemModel::OnUpdateEnergyModuleState(UPalMapObjectEnergyModule* EnergyModule) {
@@ -80,6 +88,12 @@ FPalItemRecipe UPalMapObjectConvertItemModel::GetCurrentRecipe() const {
     return FPalItemRecipe{};
 }
 
+void UPalMapObjectConvertItemModel::ChangeRecipe_ServerInternal(const int32 RequestPlayerId, const FPalNetArchive& Archive) {
+}
+
+void UPalMapObjectConvertItemModel::Cancel_ServerInternal(const int32 RequestPlayerId) {
+}
+
 float UPalMapObjectConvertItemModel::CalcRequiredAmount(const float BaseRequiredAmount) const {
     return 0.0f;
 }
@@ -97,15 +111,9 @@ void UPalMapObjectConvertItemModel::GetLifetimeReplicatedProps(TArray<FLifetimeP
     DOREPLIFETIME(UPalMapObjectConvertItemModel, TargetTypesA);
     DOREPLIFETIME(UPalMapObjectConvertItemModel, TargetTypesB);
     DOREPLIFETIME(UPalMapObjectConvertItemModel, TargetRankMax);
+    DOREPLIFETIME(UPalMapObjectConvertItemModel, MaterialTypesA);
+    DOREPLIFETIME(UPalMapObjectConvertItemModel, MaterialTypesB);
+    DOREPLIFETIME(UPalMapObjectConvertItemModel, bCanTransportOutProduct);
 }
 
-UPalMapObjectConvertItemModel::UPalMapObjectConvertItemModel() {
-    this->RequestedProductNum = 0;
-    this->RemainProductNum = 0;
-    this->bIsWorkable = false;
-    this->WorkSpeedAdditionalRate = 1.00f;
-    this->CurrentRecipeRequestPlayerId = 0;
-    this->TargetRankMax = 0;
-    this->IsPickUpInteractable = true;
-}
 

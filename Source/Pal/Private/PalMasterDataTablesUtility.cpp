@@ -1,5 +1,8 @@
 #include "PalMasterDataTablesUtility.h"
 
+UPalMasterDataTablesUtility::UPalMasterDataTablesUtility() {
+}
+
 UPalMasterDataTableAccess_WildSpawnerData* UPalMasterDataTablesUtility::GetWildSpawnerDataTableAccess(const UObject* WorldContextObject) {
     return NULL;
 }
@@ -13,6 +16,14 @@ UPalMasterDataTableAccess_UIInputActionData* UPalMasterDataTablesUtility::GetUII
 }
 
 UDataTable* UPalMasterDataTablesUtility::GetUIInputActionDataTable(const UObject* WorldContextObject) {
+    return NULL;
+}
+
+UPalMasterDataTableAccess_SpawnerPlacementData* UPalMasterDataTablesUtility::GetSpawnerPlacementDataTableAccess(const UObject* WorldContextObject) {
+    return NULL;
+}
+
+UDataTable* UPalMasterDataTablesUtility::GetSpawnerPlacementDataTable(const UObject* WorldContextObject) {
     return NULL;
 }
 
@@ -32,6 +43,14 @@ UDataTable* UPalMasterDataTablesUtility::GetPalShopDataTable(const UObject* Worl
     return NULL;
 }
 
+UPalMasterDataTableAccess_PalRandomizerData* UPalMasterDataTablesUtility::GetPalRandomizerDataTableAccess(const UObject* WorldContextObject) {
+    return NULL;
+}
+
+UDataTable* UPalMasterDataTablesUtility::GetPalRandomizerDataTable(const UObject* WorldContextObject) {
+    return NULL;
+}
+
 UPalNoteDataAsset* UPalMasterDataTablesUtility::GetNoteDataAsset(const UObject* WorldContextObject) {
     return NULL;
 }
@@ -44,7 +63,7 @@ UDataTable* UPalMasterDataTablesUtility::GetMapObjectDataTable(const UObject* Wo
     return NULL;
 }
 
-FText UPalMasterDataTablesUtility::GetLocalizedText(const UObject* WorldContextObject, EPalLocalizeTextCategory TextCategory, FName TextId) {
+FText UPalMasterDataTablesUtility::GetLocalizedText(const UObject* WorldContextObject, EPalLocalizeTextCategory TextCategory, FName textID) {
     return FText::GetEmpty();
 }
 
@@ -164,6 +183,4 @@ UDataTable* UPalMasterDataTablesUtility::GetBaseCampLevelDataTable(const UObject
     return NULL;
 }
 
-UPalMasterDataTablesUtility::UPalMasterDataTablesUtility() {
-}
 

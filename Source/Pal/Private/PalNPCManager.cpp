@@ -1,6 +1,15 @@
 #include "PalNPCManager.h"
 #include "Templates/SubclassOf.h"
 
+UPalNPCManager::UPalNPCManager() {
+    this->AIOnNavMeshFilterClass = NULL;
+    this->DrinkWaterSpotProvider = NULL;
+    this->NPCAIControllerBaseClass = NULL;
+    this->UniqueNPCDataTable = NULL;
+    this->NPCOneTalkDataTable = NULL;
+    this->NPCMultiTalkDataTable = NULL;
+}
+
 void UPalNPCManager::SpawNPCCallback(FPalInstanceID ID) {
 }
 
@@ -12,6 +21,10 @@ void UPalNPCManager::SetEnemyCampStatus(FName KeyName, FPalEnemyCampStatus Enemy
 }
 
 void UPalNPCManager::RemoveGroupWhenDestoryActor(AActor* DestoryActor) {
+}
+
+bool UPalNPCManager::IsTransientTalkCount(APalCharacter* Character) {
+    return false;
 }
 
 bool UPalNPCManager::IsTalkable(APalCharacter* Character) {
@@ -61,12 +74,4 @@ FName UPalNPCManager::GetCharacterIDFromCharacterIDAndUniqueNPCID(FName Characte
 void UPalNPCManager::AllResetBossRespawnFlag() {
 }
 
-UPalNPCManager::UPalNPCManager() {
-    this->AIOnNavMeshFilterClass = NULL;
-    this->DrinkWaterSpotProvider = NULL;
-    this->NPCAIControllerBaseClass = NULL;
-    this->UniqueNPCDataTable = NULL;
-    this->NPCOneTalkDataTable = NULL;
-    this->NPCMultiTalkDataTable = NULL;
-}
 

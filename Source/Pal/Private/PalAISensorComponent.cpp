@@ -1,19 +1,35 @@
 #include "PalAISensorComponent.h"
 #include "Templates/SubclassOf.h"
 
+UPalAISensorComponent::UPalAISensorComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->SelfPawn = NULL;
+    this->SightAngleThreshold = 0.00f;
+    this->SightDistance = -1.00f;
+    this->HearingRate = 0.00f;
+    this->HumanAndNoneWeapon = false;
+    this->IsIgnoreSoundReaction = false;
+    this->RecentMaxSoundLevel = 0.00f;
+    this->ResponsedMaxBiologicalGrade = -99999;
+    this->AIResponsePreset = NULL;
+    this->AISightResponse = NULL;
+}
+
 void UPalAISensorComponent::SightCheckAllPlayer(TArray<APalCharacter*>& InSightPlayers, float RangeRate) {
 }
 
 void UPalAISensorComponent::SightCheckAllEdibleDeadNPC(TArray<APalCharacter*>& InSightCharacters) {
 }
 
-void UPalAISensorComponent::SightCheckAllAliveNPC(TArray<APalCharacter*>& InSightCharacters) {
+void UPalAISensorComponent::SightCheckAllAliveNPC(TArray<APalCharacter*>& InSightCharacters, bool ignoreOtomo) {
 }
 
 void UPalAISensorComponent::Setup() {
 }
 
 void UPalAISensorComponent::SetDisableSightFlag(FName flagName, bool isDisable) {
+}
+
+void UPalAISensorComponent::SetDisableEscape() {
 }
 
 void UPalAISensorComponent::SetDebugAIResponse(TSubclassOf<UPalAIResponsePreset> PresetClass) {
@@ -32,10 +48,6 @@ void UPalAISensorComponent::ReceiveSound(int32 SoundRadius, FVector EmitLocation
 void UPalAISensorComponent::OnResponseSpecialLookat() {
 }
 
-APalCharacter* UPalAISensorComponent::MaximumStrengthEnemy(const TArray<APalCharacter*>& FindCharacters, EPalBiologicalGradeComparedResult& Result) {
-    return NULL;
-}
-
 bool UPalAISensorComponent::IsInSightKillerAndDeadBody(AActor* Killer, AActor* DeadBody) {
     return false;
 }
@@ -49,16 +61,4 @@ void UPalAISensorComponent::DisableHearing() {
 void UPalAISensorComponent::DeadAutoRemoveDelegate(FPalDeadInfo DeadInfo) {
 }
 
-UPalAISensorComponent::UPalAISensorComponent() {
-    this->SelfPawn = NULL;
-    this->SightAngleThreshold = 0.00f;
-    this->SightDistance = -1.00f;
-    this->HearingRate = 0.00f;
-    this->HumanAndNoneWeapon = false;
-    this->IsIgnoreSoundReaction = false;
-    this->RecentMaxSoundLevel = 0.00f;
-    this->ResponsedMaxBiologicalGrade = -99999;
-    this->AIResponsePreset = NULL;
-    this->AISightResponse = NULL;
-}
 

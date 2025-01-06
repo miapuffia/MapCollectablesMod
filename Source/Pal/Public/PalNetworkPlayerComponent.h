@@ -2,24 +2,35 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
 #include "EPalBossType.h"
 #include "EPalPlayerInventoryType.h"
 #include "EPalStageRequestResult.h"
+#include "PalBuildRequestDebugParameter.h"
 #include "PalItemSlotId.h"
+#include "PalNetArchive.h"
+#include "PalPlayerSettingsForServer.h"
 #include "PalStageInstanceId.h"
+#include "Templates/SubclassOf.h"
 #include "PalNetworkPlayerComponent.generated.h"
 
+class APalLevelObjectObtainable;
 class UPalIndividualCharacterHandle;
 class UPalItemContainer;
 class UPalItemSlot;
 class UPalLoadoutSelectorComponent;
+class UPalQuestData;
 
 UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UPalNetworkPlayerComponent : public UActorComponent {
     GENERATED_BODY()
 public:
-    UPalNetworkPlayerComponent();
+    UPalNetworkPlayerComponent(const FObjectInitializer& ObjectInitializer);
+
+    UFUNCTION(BlueprintCallable, Client, Reliable)
+    void ShowUnlockHardModeUI_ToClient();
+    
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void ShowBossDefeatRewardUI_ToClient(int32 TechPoint, bool AfterTeleport, int32 DelayTime);
     
@@ -27,13 +38,16 @@ public:
     void SetCurrentSelectPalSphereIndex_ToServer(int32 NextIndex, UPalLoadoutSelectorComponent* LoadoutSelector);
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
+    void RequestUpdatePlayerSettingsForServer_ToServer(const FPalPlayerSettingsForServer& NewSettings);
+    
+    UFUNCTION(BlueprintCallable, Reliable, Server)
     void RequestUnlockTechnology_ToServer(const FName& UnlockTechnologyName);
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestTrashItemFromInventoryDropSlot_ToServer();
+    void RequestSortInventory_ToServer();
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestSortInventory_ToServer();
+    void RequestObtainLevelObject_ToServer(APalLevelObjectObtainable* TargetObject);
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void RequestMoveItemToInventoryFromSlot(UPalItemSlot* fromSlot, bool IsTryEquip);
@@ -51,22 +65,24 @@ public:
     void RequestDropOtomoPal_ToServer(const int32 OtomoIndex);
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestDropItemFromInventoryDropSlot_ToServer();
-    
-    UFUNCTION(BlueprintCallable, Reliable, Server)
     void RequestChangeVoiceID_ToServer(int32 NewVoiceID);
-    
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestAddTechnolgyPointByItem_ToServer(const FPalItemSlotId& ConsumeItemSlotID);
-    
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestAddTechnolgyPoint_ToServer(const int32 AddPoint);
     
 private:
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestAddItem_ToServer(const FName StaticItemId, const int32 Count, bool isAssignPassive);
+    void RequestBuild_ToServer(const FName BuildObjectId, const FVector& Location, const FQuat& Rotation, const TArray<FPalNetArchive>& ExtraParameterArchives, FPalBuildRequestDebugParameter DebugParameter);
     
 public:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void RequestAddTechnolgyPointByItem_ToServer(const FPalItemSlotId& ConsumeItemSlotID);
+    
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void RequestAddItem_ToServer(const FName StaticItemId, const int32 Count, bool IsAssignPassive);
+    
+public:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void RequestAddBossTechnolgyPointByItem_ToServer(const FPalItemSlotId& ConsumeItemSlotID);
+    
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void RegisterRespawnLocation_ToServer(const FGuid& PlayerUId, const FVector& Location);
     
@@ -79,6 +95,9 @@ private:
     
 public:
     UFUNCTION(BlueprintCallable, Client, Reliable)
+    void NotifyUnlockAchievement_ToClient(const FString& AchievementId);
+    
+    UFUNCTION(BlueprintCallable, Client, Reliable)
     void NotifyStartCrime_ToClient(FGuid CrimeInstanceId);
     
     UFUNCTION(BlueprintCallable, Client, Reliable)
@@ -87,8 +106,14 @@ public:
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void NotifyReleaseWanted_ToClient(UPalIndividualCharacterHandle* CriminalHandle);
     
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void NotifyQuestCompleted(TSubclassOf<UPalQuestData> CompletedQuestDataClass);
+    
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void NotifyEndCrime_ToClient(FGuid CrimeInstanceId);
+    
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void NotifyClientInitializedEssential_ToServer();
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void LoadoutSelectorRemoveEquipItem(UPalLoadoutSelectorComponent* LoadoutSelector);

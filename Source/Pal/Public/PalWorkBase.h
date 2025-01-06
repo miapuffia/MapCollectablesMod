@@ -18,6 +18,7 @@
 class UPalCharacterParameterComponent;
 class UPalIndividualCharacterHandle;
 class UPalIndividualCharacterSlot;
+class UPalWorkAssign;
 class UPalWorkBase;
 class UPalWorkProgressTransformBase;
 
@@ -25,7 +26,8 @@ UCLASS(Abstract, Blueprintable)
 class UPalWorkBase : public UObject, public IPalBaseCampAssignableObjectInterface {
     GENERATED_BODY()
 public:
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorkAssignUpdateDelegate, UPalWorkBase*, Work, const FPalInstanceID&, IndividualId);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorkAssignUpdateDelegateWithWorkAssign, UPalWorkBase*, Work, UPalWorkAssign*, WorkAssign);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorkAssignUpdateDelegateWithIndividualId, UPalWorkBase*, Work, const FPalInstanceID&, IndividualId);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWorkAssignRequirementDelegate, UPalWorkBase*, Work, const FPalWorkAssignRequirementParameter&, RequirementParameter);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FNotifyWorkDelegate, UPalWorkBase*, Work);
     
@@ -48,16 +50,16 @@ public:
     FWorkAssignRequirementDelegate OnRequiredAssignWorkDelegate;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FWorkAssignUpdateDelegate OnAssignWorkDelegate;
+    FWorkAssignUpdateDelegateWithWorkAssign OnAssignWorkDelegate;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FWorkAssignUpdateDelegate OnUnassignWorkDelegate;
+    FWorkAssignUpdateDelegateWithIndividualId OnUnassignWorkDelegate;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FWorkAssignUpdateDelegate OnStartWorkDelegate;
+    FWorkAssignUpdateDelegateWithIndividualId OnStartWorkDelegate;
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FWorkAssignUpdateDelegate OnEndWorkDelegate;
+    FWorkAssignUpdateDelegateWithIndividualId OnEndWorkDelegate;
     
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -69,7 +71,7 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     EPalWorkType OverrideWorkType;
     
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     TArray<FPalWorkAssignLocalLocation> AssignLocations;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
@@ -114,8 +116,9 @@ private:
     
 public:
     UPalWorkBase();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 protected:
     UFUNCTION(BlueprintCallable)
     void OnRep_CurrentState();
@@ -157,7 +160,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalWorkAssignableFixedType GetAssignableFixedType() const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

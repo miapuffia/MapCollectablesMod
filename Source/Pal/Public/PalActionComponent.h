@@ -45,7 +45,8 @@ private:
     TArray<UPalActionBase*> TerminateWaitActionList;
     
 public:
-    UPalActionComponent();
+    UPalActionComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     UPalActionBase* PlayActionParameter(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass);
     
@@ -62,9 +63,6 @@ public:
     UPalActionBase* PlayActionByType(AActor* ActionTarget, EPalActionType Type);
     
 private:
-    UFUNCTION(BlueprintCallable, Reliable, Server)
-    void PlayAction_ToServer(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass, int32 issuerID);
-    
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void PlayAction_ToALL(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass, int32 issuerID);
     
@@ -95,6 +93,12 @@ public:
     UPalActionBase* GetCurrentAction() const;
     
 private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void CancelAllAction_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void CancelAllAction_ToALL(int32 ID);
+    
     UFUNCTION(BlueprintCallable)
     void CancelAllAction_Internal();
     
@@ -106,6 +110,12 @@ public:
     void CancelActionByType(EPalActionType Type);
     
 private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void CancelAction_ToServer(int32 ID, FGuid ActionID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void CancelAction_ToALL(int32 ID, FGuid ActionID);
+    
     UFUNCTION(BlueprintCallable)
     void CancelAction_Internal(FGuid ActionID);
     

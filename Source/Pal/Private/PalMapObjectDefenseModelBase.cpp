@@ -1,7 +1,6 @@
 #include "PalMapObjectDefenseModelBase.h"
 
-bool UPalMapObjectDefenseModelBase::TryGetLauncherControlMapObject(APalMapObject*& OutMapObject) const {
-    return false;
+UPalMapObjectDefenseModelBase::UPalMapObjectDefenseModelBase() {
 }
 
 FVector UPalMapObjectDefenseModelBase::GetLocation() const {
@@ -12,6 +11,4 @@ EPalMapObjectDefenseType UPalMapObjectDefenseModelBase::GetDefenseType() const {
     return EPalMapObjectDefenseType::Wait;
 }
 
-UPalMapObjectDefenseModelBase::UPalMapObjectDefenseModelBase() {
-}
 

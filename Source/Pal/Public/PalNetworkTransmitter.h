@@ -7,17 +7,18 @@
 #include "PalNetworkTransmitterDelaySpawnInfo.h"
 #include "PalNetworkTransmitter.generated.h"
 
+class UPalNetworkArenaComponent;
 class UPalNetworkBaseCampComponent;
 class UPalNetworkBossBattleComponent;
 class UPalNetworkCharacterComponent;
 class UPalNetworkCharacterContainerComponent;
 class UPalNetworkCharacterStatusOperationComponent;
-class UPalNetworkGroupComponent;
 class UPalNetworkIndividualComponent;
 class UPalNetworkInvaderComponent;
 class UPalNetworkItemComponent;
 class UPalNetworkMapObjectComponent;
 class UPalNetworkPlayerComponent;
+class UPalNetworkRaidBossComponent;
 class UPalNetworkShopComponent;
 class UPalNetworkTimeComponent;
 class UPalNetworkWorkProgressComponent;
@@ -39,9 +40,6 @@ private:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
     UPalNetworkCharacterContainerComponent* CharacterContainer;
-    
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
-    UPalNetworkGroupComponent* Group;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
     UPalNetworkPlayerComponent* Player;
@@ -70,6 +68,12 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
     UPalNetworkCharacterStatusOperationComponent* CharacterStatusOperation;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UPalNetworkRaidBossComponent* RaidBoss;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, meta=(AllowPrivateAccess=true))
+    UPalNetworkArenaComponent* Arena;
+    
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
     UPalNetworkIndividualComponent* NetworkIndividualComponent;
     
@@ -77,7 +81,8 @@ private:
     TArray<FPalNetworkTransmitterDelaySpawnInfo> DelayDelegateCallQueue;
     
 public:
-    APalNetworkTransmitter();
+    APalNetworkTransmitter(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     FGuid SpawnReliableActorBroadcast(UClass* actorClass, FNetworkActorSpawnParameters SpawnParameter, FNetworkSpawnActorDelegate SpawnDelegate);
     
@@ -131,9 +136,6 @@ public:
     UPalNetworkInvaderComponent* GetInvader() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    UPalNetworkGroupComponent* GetGroup() const;
-    
-    UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalNetworkCharacterStatusOperationComponent* GetCharacterStatusOperation() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -148,6 +150,9 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalNetworkBaseCampComponent* GetBaseCamp() const;
     
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UPalNetworkArenaComponent* GetArena() const;
+    
 private:
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void DummyReliableFunction();
@@ -157,6 +162,12 @@ private:
     
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void Debug_ReceiveLogTreasureBoxLocalPlayerAround_ToRequestPlayer(const FString& Message);
+    
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void Debug_LogServerThreadNum_ToServer();
+    
+    UFUNCTION(BlueprintCallable, Client, Reliable)
+    void Debug_LogServerThreadNum_ToRequestPlayer(const FString& Message);
     
 };
 

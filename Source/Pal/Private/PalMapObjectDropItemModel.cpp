@@ -1,10 +1,11 @@
 #include "PalMapObjectDropItemModel.h"
 #include "Net/UnrealNetwork.h"
 
-void UPalMapObjectDropItemModel::OnUpdateItemContainerContentInServer(UPalItemContainer* Container) {
+UPalMapObjectDropItemModel::UPalMapObjectDropItemModel() {
+    this->bEnableInteract = false;
 }
 
-void UPalMapObjectDropItemModel::OnInteracting(float DeltaTime) {
+void UPalMapObjectDropItemModel::OnUpdateItemContainerContentInServer(UPalItemContainer* Container) {
 }
 
 void UPalMapObjectDropItemModel::OnInteractEnd(AActor* Other, TScriptInterface<IPalInteractiveObjectComponentInterface> Component) {
@@ -23,7 +24,4 @@ void UPalMapObjectDropItemModel::GetLifetimeReplicatedProps(TArray<FLifetimeProp
     DOREPLIFETIME(UPalMapObjectDropItemModel, bEnableInteract);
 }
 
-UPalMapObjectDropItemModel::UPalMapObjectDropItemModel() {
-    this->bEnableInteract = false;
-}
 

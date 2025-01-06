@@ -1,7 +1,22 @@
 #include "PalRiderComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalRiderComponent::UPalRiderComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->FullRidePalController = NULL;
+    this->RideShakingMontage = NULL;
+    this->DefaultJumpZVelocity = 0.00f;
+}
+
 void UPalRiderComponent::StopShakingMontage() {
+}
+
+void UPalRiderComponent::SetRideMarker_ToServer_Implementation(int32 ID, UPalRideMarkerComponent* Marker) {
+}
+
+void UPalRiderComponent::SetRideMarker_ToALL_Implementation(int32 ID, UPalRideMarkerComponent* Marker) {
+}
+
+void UPalRiderComponent::SetRideMarker_Internal(UPalRideMarkerComponent* Marker) {
 }
 
 void UPalRiderComponent::SetRideMarker(UPalRideMarkerComponent* Marker) {
@@ -17,9 +32,6 @@ void UPalRiderComponent::SetDisableGetOff(FName flagName, bool bIsDisable) {
 }
 
 void UPalRiderComponent::SetDisableAdjustRotation(FName flagName, bool bIsDisable) {
-}
-
-void UPalRiderComponent::SetDefaultMeshLocation(FVector Location) {
 }
 
 void UPalRiderComponent::RideClientRep(UPalRideMarkerComponent* Marker) {
@@ -107,15 +119,23 @@ bool UPalRiderComponent::GetOff(bool bIsSkipAnimation, bool bNoAnimCancel) {
     return false;
 }
 
-FVector UPalRiderComponent::GetDefaultMeshLocation() const {
-    return FVector{};
-}
-
 EPalRidePositionType UPalRiderComponent::GetCurrentRidePositionType() const {
     return EPalRidePositionType::None;
 }
 
+void UPalRiderComponent::DettachRiderNoAnimation_ToServer_Implementation(int32 ID) {
+}
+
+void UPalRiderComponent::DettachRiderNoAnimation_ToALL_Implementation(int32 ID) {
+}
+
 void UPalRiderComponent::DettachRiderNoAnimation() {
+}
+
+void UPalRiderComponent::DettachRider_ToServer_Implementation(int32 ID) {
+}
+
+void UPalRiderComponent::DettachRider_ToALL_Implementation(int32 ID) {
 }
 
 void UPalRiderComponent::DettachRider() {
@@ -123,6 +143,12 @@ void UPalRiderComponent::DettachRider() {
 
 bool UPalRiderComponent::CanUniqueRideIK() {
     return false;
+}
+
+void UPalRiderComponent::AttachRiderNoAnimation_ToServer_Implementation(int32 ID) {
+}
+
+void UPalRiderComponent::AttachRiderNoAnimation_ToALL_Implementation(int32 ID) {
 }
 
 void UPalRiderComponent::AttachRiderNoAnimation() {
@@ -136,11 +162,7 @@ void UPalRiderComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
     DOREPLIFETIME(UPalRiderComponent, RidingMarker);
+    DOREPLIFETIME(UPalRiderComponent, InitialMeshLocation);
 }
 
-UPalRiderComponent::UPalRiderComponent() {
-    this->FullRidePalController = NULL;
-    this->RideShakingMontage = NULL;
-    this->DefaultJumpZVelocity = 0.00f;
-}
 

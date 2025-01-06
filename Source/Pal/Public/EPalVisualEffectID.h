@@ -32,6 +32,15 @@ enum class EPalVisualEffectID : uint8 {
     FunnelEndEmissive,
     SelfDestructEmissive,
     Mosaic,
+    ChangeElement_Ice,
+    ChangeElement_Normal,
+    ChangeElement_Fire,
+    ChangeElement_Water,
+    ChangeElement_Leaf,
+    ChangeElement_Electricity,
+    ChangeElement_Earth,
+    ChangeElement_Dark,
+    ChangeElement_Dragon,
     DebugRefresh,
 };
 

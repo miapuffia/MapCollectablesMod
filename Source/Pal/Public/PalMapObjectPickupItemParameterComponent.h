@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "EPalActionType.h"
 #include "PalMapObjectPickupItemData.h"
 #include "PalMapObjectPickupItemParameterComponentBase.h"
 #include "PalMapObjectPickupItemParameterComponent.generated.h"
@@ -11,6 +12,16 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FPalMapObjectPickupItemData> DropItems;
     
-    UPalMapObjectPickupItemParameterComponent();
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float LongHoldInteractDuration;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    EPalActionType InteractPlayerActionType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bForceIgnoreSaveItemContainer;
+    
+    UPalMapObjectPickupItemParameterComponent(const FObjectInitializer& ObjectInitializer);
+
 };
 

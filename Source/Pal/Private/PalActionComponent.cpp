@@ -1,6 +1,10 @@
 #include "PalActionComponent.h"
 #include "Templates/SubclassOf.h"
 
+UPalActionComponent::UPalActionComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->CurrentAction = NULL;
+}
+
 UPalActionBase* UPalActionComponent::PlayActionParameter(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass) {
     return NULL;
 }
@@ -19,9 +23,6 @@ UPalActionBase* UPalActionComponent::PlayActionByTypeParameter(FActionDynamicPar
 
 UPalActionBase* UPalActionComponent::PlayActionByType(AActor* ActionTarget, EPalActionType Type) {
     return NULL;
-}
-
-void UPalActionComponent::PlayAction_ToServer_Implementation(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass, int32 issuerID) {
 }
 
 void UPalActionComponent::PlayAction_ToALL_Implementation(FActionDynamicParameter Param, TSubclassOf<UPalActionBase> actionClass, int32 issuerID) {
@@ -53,6 +54,12 @@ UPalActionBase* UPalActionComponent::GetCurrentAction() const {
     return NULL;
 }
 
+void UPalActionComponent::CancelAllAction_ToServer_Implementation(int32 ID) {
+}
+
+void UPalActionComponent::CancelAllAction_ToALL_Implementation(int32 ID) {
+}
+
 void UPalActionComponent::CancelAllAction_Internal() {
 }
 
@@ -60,6 +67,12 @@ void UPalActionComponent::CancelAllAction() {
 }
 
 void UPalActionComponent::CancelActionByType(EPalActionType Type) {
+}
+
+void UPalActionComponent::CancelAction_ToServer_Implementation(int32 ID, FGuid ActionID) {
+}
+
+void UPalActionComponent::CancelAction_ToALL_Implementation(int32 ID, FGuid ActionID) {
 }
 
 void UPalActionComponent::CancelAction_Internal(FGuid ActionID) {
@@ -75,7 +88,4 @@ bool UPalActionComponent::ActionIsEmpty() {
     return false;
 }
 
-UPalActionComponent::UPalActionComponent() {
-    this->CurrentAction = NULL;
-}
 

@@ -1,7 +1,17 @@
 #include "PalAIActionWorkerWait.h"
 
+UPalAIActionWorkerWait::UPalAIActionWorkerWait() {
+}
+
+void UPalAIActionWorkerWait::TickForWalkAround(float DeltaTime) {
+}
+
 
 void UPalAIActionWorkerWait::OnTickForWait_Implementation(float DeltaTime) {
+}
+
+TEnumAsByte<EPathFollowingRequestResult::Type> UPalAIActionWorkerWait::MoveToLocationInBaseCamp(const FVector& ToLocation, float DeltaTime) {
+    return EPathFollowingRequestResult::Failed;
 }
 
 TEnumAsByte<EPathFollowingRequestResult::Type> UPalAIActionWorkerWait::MoveToLocation(const FVector& ToLocation) {
@@ -12,6 +22,4 @@ bool UPalAIActionWorkerWait::CalcWalkAroundDestination(const float Radius, FVect
     return false;
 }
 
-UPalAIActionWorkerWait::UPalAIActionWorkerWait() {
-}
 

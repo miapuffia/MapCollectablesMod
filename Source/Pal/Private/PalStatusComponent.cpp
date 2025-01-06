@@ -1,13 +1,22 @@
 #include "PalStatusComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalStatusComponent::UPalStatusComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+}
+
 void UPalStatusComponent::SomeStatus_ToAll_Implementation(EPalStatusID StatusId, FStatusDynamicParameter Param) {
+}
+
+void UPalStatusComponent::SetDisableAddStatusIDs(TArray<EPalStatusID> StatusIDs) {
 }
 
 void UPalStatusComponent::RemoveStatus_ToServer_Implementation(EPalStatusID StatusId, int32 issuerID) {
 }
 
 void UPalStatusComponent::RemoveStatus(EPalStatusID StatusId) {
+}
+
+void UPalStatusComponent::RemoveAll() {
 }
 
 void UPalStatusComponent::OnRep_ExecutionStatusList() {
@@ -39,6 +48,4 @@ void UPalStatusComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
     DOREPLIFETIME(UPalStatusComponent, ExecutionStatusList);
 }
 
-UPalStatusComponent::UPalStatusComponent() {
-}
 

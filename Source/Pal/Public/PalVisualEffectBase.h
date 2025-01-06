@@ -38,7 +38,14 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FPalVisualEffectDynamicParameter DynamicParameter;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsCallEndOnComponentEndPlay;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bIsEnableForDedicatedServer;
+    
     UPalVisualEffectBase();
+
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void TickVisualEffect(float DeltaTime);
     
@@ -61,6 +68,9 @@ public:
     bool IsEndVisualEffect();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    USkeletalMeshComponent* GetPlayerHeadMesh() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     AActor* GetOwner() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -68,6 +78,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     USkeletalMeshComponent* GetMainMesh() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    TArray<UMaterialInstanceDynamic*> GetMainAndHeadMeshMaterials() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetFloatParameter(FName Name, float DefaultValue);

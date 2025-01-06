@@ -1,6 +1,7 @@
 #include "PalWorldSettings.h"
 
-APalWorldSettings::APalWorldSettings() {
+APalWorldSettings::APalWorldSettings(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->NetDormancy = DORM_DormantAll;
     this->DungeonWorldSubsystemClass = NULL;
     this->FieldEnvironmentDataLayerAsset = NULL;
     this->AudioWorldSubsystemClass = NULL;
@@ -10,6 +11,9 @@ APalWorldSettings::APalWorldSettings() {
     this->InvaderManagerClass = NULL;
     this->IncidentSystemClass = NULL;
     this->FunnelCharacterManagerClass = NULL;
+    this->ArenaWorldSubsystemClass = NULL;
+    this->StaticMeshImposterSubsystemClass = NULL;
     this->bRequestCharacterMake = false;
 }
+
 

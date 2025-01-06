@@ -5,6 +5,7 @@
 #include "EPalCharacterStatusOperationResult.h"
 #include "PalCharacterStatusOperationResultDelegateDelegate.h"
 #include "PalInstanceID.h"
+#include "PalStatusAndRank.h"
 #include "PalNetworkCharacterStatusOperationComponent.generated.h"
 
 class APalCharacter;
@@ -19,7 +20,8 @@ public:
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FPalCharacterStatusOperationResultDelegate OnReceiveRequestResultDelegate;
     
-    UPalNetworkCharacterStatusOperationComponent();
+    UPalNetworkCharacterStatusOperationComponent(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void RequestReviveCharacterFromDying_ToServer(APalCharacter* Character);
@@ -30,7 +32,7 @@ public:
     
 private:
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestPlayerStatusUp_ToServer(const int32 ToRank);
+    void RequestPlayerStatusUp_ToServer(int32 ToRank);
     
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void RequestPlayerStatusClear_ToServer();
@@ -60,11 +62,11 @@ public:
     
 private:
     UFUNCTION(BlueprintCallable, Reliable, Server)
-    void RequestOtomoStatusPointAdd_ToServer(const FPalInstanceID& IndividualId, const EPalCharacterStatusOperationName StatusName, const int32 ToRank);
+    void RequestOtomoStatusPointAdd_ToServer(const FPalInstanceID& IndividualId, const TArray<FPalStatusAndRank>& ToStatusRank);
     
 public:
     UFUNCTION(BlueprintCallable)
-    void RequestOtomoStatusPointAdd(const UPalIndividualCharacterHandle* IndividualHandle, const EPalCharacterStatusOperationName StatusName, const int32 ToRank);
+    void RequestOtomoStatusPointAdd(const UPalIndividualCharacterHandle* IndividualHandle, const TMap<EPalCharacterStatusOperationName, int32> ToStatusRank);
     
 private:
     UFUNCTION(BlueprintCallable, Client, Reliable)

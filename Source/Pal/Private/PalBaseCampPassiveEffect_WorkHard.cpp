@@ -1,11 +1,15 @@
 #include "PalBaseCampPassiveEffect_WorkHard.h"
 #include "Net/UnrealNetwork.h"
 
+UPalBaseCampPassiveEffect_WorkHard::UPalBaseCampPassiveEffect_WorkHard() {
+    this->WorkHardType = EPalBaseCampPassiveEffectWorkHardType::Normal;
+}
+
 void UPalBaseCampPassiveEffect_WorkHard::OnRep_WorkHardType() {
 }
 
 EPalBaseCampPassiveEffectWorkHardType UPalBaseCampPassiveEffect_WorkHard::GetWorkHardType() const {
-    return EPalBaseCampPassiveEffectWorkHardType::Normal;
+    return EPalBaseCampPassiveEffectWorkHardType::Easy;
 }
 
 void UPalBaseCampPassiveEffect_WorkHard::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -14,7 +18,4 @@ void UPalBaseCampPassiveEffect_WorkHard::GetLifetimeReplicatedProps(TArray<FLife
     DOREPLIFETIME(UPalBaseCampPassiveEffect_WorkHard, WorkHardType);
 }
 
-UPalBaseCampPassiveEffect_WorkHard::UPalBaseCampPassiveEffect_WorkHard() {
-    this->WorkHardType = EPalBaseCampPassiveEffectWorkHardType::Normal;
-}
 

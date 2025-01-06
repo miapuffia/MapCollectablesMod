@@ -38,5 +38,9 @@ enum class EPalGeneralMontageType : uint8 {
     Grappling,
     EatUpper,
     Defense_Wait,
+    Ragdoll,
+    LargeDown_Start,
+    LargeDown_Loop,
+    LargeDown_End,
 };
 

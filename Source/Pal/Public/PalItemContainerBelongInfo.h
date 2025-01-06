@@ -9,7 +9,10 @@ struct FPalItemContainerBelongInfo : public FPalContainerBelongInfo {
     GENERATED_BODY()
 public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FGuid GroupID;
+    FGuid GroupId;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bControllableOthers;
     
     PAL_API FPalItemContainerBelongInfo();
 };

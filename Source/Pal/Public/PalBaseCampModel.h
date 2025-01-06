@@ -17,7 +17,6 @@ class UPalBaseCampMapObjectCollection;
 class UPalBaseCampModel;
 class UPalBaseCampWorkCollection;
 class UPalBaseCampWorkerDirector;
-class UPalGuildPalStorage;
 class UPalIndividualCharacterHandle;
 class UPalWorkBase;
 
@@ -26,7 +25,6 @@ class UPalBaseCampModel : public UObject {
     GENERATED_BODY()
 public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSimpleDelegate, UPalBaseCampModel*, Model);
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FBaseCampGuildPalStorageUpdateDelegate, UPalBaseCampModel*, Model, UPalGuildPalStorage*, GuildPalStorage);
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FSimpleDelegate OnUpdateStatusDelegate;
@@ -62,7 +60,7 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     UPalBaseCampMapObjectCollection* MapObjectCollection;
     
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     UPalBaseCampWorkCollection* WorkCollection;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -92,8 +90,9 @@ private:
     
 public:
     UPalBaseCampModel();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
     UFUNCTION(BlueprintCallable)
     void UpdateLevel_ServerInternal(int32 PlayerId, int32 NewLevel);
@@ -122,6 +121,9 @@ private:
     void OnAddNewWorker(UPalIndividualCharacterHandle* AddCharacterHandle);
     
 public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsAvailable() const;
+    
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalBaseCampWorkCollection* GetWorkCollection() const;
     

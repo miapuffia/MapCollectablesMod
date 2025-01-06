@@ -4,6 +4,7 @@
 #include "UObject/Object.h"
 #include "UObject/NoExportTypes.h"
 #include "EPalPlayerAccountState.h"
+#include "PalInstanceID.h"
 #include "PalPlayerAccount.generated.h"
 
 class UPalIndividualCharacterHandle;
@@ -12,6 +13,7 @@ class UPalPlayerDataPalStorage;
 class UPalPlayerInventoryData;
 class UPalPlayerOtomoData;
 class UPalPlayerRecordData;
+class UPalPlayerSkinData;
 class UPalTechnologyData;
 
 UCLASS(Blueprintable)
@@ -21,6 +23,9 @@ public:
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     FGuid PlayerUId;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FPalInstanceID InstanceId;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     EPalPlayerAccountState State;
@@ -50,9 +55,16 @@ private:
     UPalPlayerRecordData* RecordData;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPalPlayerSkinData* PlayerSkinData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool bIsSelectedInitMapPoint;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool bShouldSaveOnNextTime;
     
 public:
     UPalPlayerAccount();
+
 };
 

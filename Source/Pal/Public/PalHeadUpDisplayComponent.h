@@ -16,7 +16,8 @@ protected:
     float HeadUpOffset;
     
 public:
-    UPalHeadUpDisplayComponent();
+    UPalHeadUpDisplayComponent(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable)
     void UpdateInvaderHUD();
@@ -30,7 +31,7 @@ private:
     void OnUpdatePossessItem(UPalCharacterParameterComponent* Parameter);
     
     UFUNCTION(BlueprintCallable)
-    void OnUpdateOwnerCharacterGroupId(const FGuid& GroupID);
+    void OnUpdateOwnerCharacterGroupId(const FGuid& GroupId);
     
     UFUNCTION(BlueprintCallable)
     void OnInitializedCharacter(APalCharacter* OwnerCharacter);

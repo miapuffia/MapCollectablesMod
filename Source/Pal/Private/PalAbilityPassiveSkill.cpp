@@ -1,5 +1,13 @@
 #include "PalAbilityPassiveSkill.h"
 
+UPalAbilityPassiveSkill::UPalAbilityPassiveSkill() {
+    this->isReserving = true;
+    this->bIsRestricted = false;
+    this->bRequireWorkerWorkingPassiveSkill = false;
+    this->bIsWorking = false;
+    this->CurrentRank = 0;
+}
+
 void UPalAbilityPassiveSkill::OnWorkerAssignChanged(UPalCharacterParameterComponent* Parameter) {
 }
 
@@ -7,6 +15,9 @@ void UPalAbilityPassiveSkill::OnUpdateOtomoHolder(APalCharacter* Character) {
 }
 
 void UPalAbilityPassiveSkill::OnUpdateInventoryContainer(UPalItemContainer* Container) {
+}
+
+void UPalAbilityPassiveSkill::OnUpdateBaseCampId(const FGuid& BaseCampId) {
 }
 
 void UPalAbilityPassiveSkill::OnRideInactivated() {
@@ -21,6 +32,9 @@ void UPalAbilityPassiveSkill::OnReserveInactivated() {
 void UPalAbilityPassiveSkill::OnReserveActivated() {
 }
 
+void UPalAbilityPassiveSkill::OnRemoveWorker(UPalIndividualCharacterHandle* RemoveCharacterHandle) {
+}
+
 void UPalAbilityPassiveSkill::OnInactivatedAsWorker() {
 }
 
@@ -28,6 +42,12 @@ void UPalAbilityPassiveSkill::OnInactivatedAsOtomoHolder() {
 }
 
 void UPalAbilityPassiveSkill::OnInactivatedAsOtomo() {
+}
+
+void UPalAbilityPassiveSkill::OnChangeDisablePassiveSkill(bool isDisable, bool IsAllReset) {
+}
+
+void UPalAbilityPassiveSkill::OnAddNewWorker(UPalIndividualCharacterHandle* AddCharacterHandle) {
 }
 
 void UPalAbilityPassiveSkill::OnActivatedAsWorker() {
@@ -56,7 +76,7 @@ APalPlayerController* UPalAbilityPassiveSkill::GetTrainerController() const {
     return NULL;
 }
 
-APalCharacter* UPalAbilityPassiveSkill::GetTrainerActor() const {
+APalPlayerCharacter* UPalAbilityPassiveSkill::GetTrainerActor() const {
     return NULL;
 }
 
@@ -76,11 +96,4 @@ int32 UPalAbilityPassiveSkill::GetOtomoRank() const {
     return 0;
 }
 
-UPalAbilityPassiveSkill::UPalAbilityPassiveSkill() {
-    this->isReserving = true;
-    this->bIsRestricted = false;
-    this->bRequireWorkerWorkingPassiveSkill = false;
-    this->bIsWorking = false;
-    this->CurrentRank = 0;
-}
 

@@ -1,6 +1,11 @@
 #include "PalNPCAIWeaponHandle.h"
 #include "Templates/SubclassOf.h"
 
+UPalNPCAIWeaponHandle::UPalNPCAIWeaponHandle() {
+    this->ShooterHuman = NULL;
+    this->FireStateClass = NULL;
+}
+
 void UPalNPCAIWeaponHandle::UnequipWeapon() {
 }
 
@@ -41,6 +46,10 @@ void UPalNPCAIWeaponHandle::InitializeNPCWeapon(APalWeaponBase* WeaponActor) {
 
 bool UPalNPCAIWeaponHandle::GetUseSideDashMovement() {
     return false;
+}
+
+float UPalNPCAIWeaponHandle::GetSphereCastRadius() {
+    return 0.0f;
 }
 
 float UPalNPCAIWeaponHandle::GetShootInterval() {
@@ -87,7 +96,4 @@ void UPalNPCAIWeaponHandle::DecreaseBullet() {
 void UPalNPCAIWeaponHandle::AimToTarget(AActor* TargetActor, bool Aim, float DeltaTime) {
 }
 
-UPalNPCAIWeaponHandle::UPalNPCAIWeaponHandle() {
-    this->ShooterHuman = NULL;
-}
 

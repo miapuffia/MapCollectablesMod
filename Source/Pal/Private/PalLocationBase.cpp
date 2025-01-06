@@ -1,6 +1,12 @@
 #include "PalLocationBase.h"
 #include "Net/UnrealNetwork.h"
 
+UPalLocationBase::UPalLocationBase() {
+    this->bShouldDisplay = true;
+    this->bShowInMap = false;
+    this->bShowInCompass = false;
+}
+
 bool UPalLocationBase::ShouldDisplay() const {
     return false;
 }
@@ -25,6 +31,10 @@ EPalLocationType UPalLocationBase::GetType() const {
     return EPalLocationType::Undefined;
 }
 
+FGuid UPalLocationBase::GetLocationId() const {
+    return FGuid{};
+}
+
 void UPalLocationBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
@@ -35,9 +45,4 @@ void UPalLocationBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
     DOREPLIFETIME(UPalLocationBase, bShowInCompass);
 }
 
-UPalLocationBase::UPalLocationBase() {
-    this->bShouldDisplay = true;
-    this->bShowInMap = false;
-    this->bShowInCompass = false;
-}
 

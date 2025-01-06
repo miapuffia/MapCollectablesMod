@@ -16,7 +16,8 @@ UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UPalNetworkShopComponent : public UActorComponent {
     GENERATED_BODY()
 public:
-    UPalNetworkShopComponent();
+    UPalNetworkShopComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable, Reliable, Server)
     void SetupShopDataForActor_ToServer(AActor* VenderActor);
     
@@ -39,7 +40,7 @@ public:
     void RemoveShopData_ToServer(const FGuid& RemoveShopID);
     
     UFUNCTION(BlueprintCallable, Client, Reliable)
-    void RecieveBuyResult_ToClient(EPalShopBuyResultType ResultType);
+    void RecieveBuyResult_ToClient(EPalShopBuyResultType resultType);
     
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void ReceiveDroppedPalProductData_ToClient(const TArray<FPalDroppedPalProductDataForShop>& CollectedData);

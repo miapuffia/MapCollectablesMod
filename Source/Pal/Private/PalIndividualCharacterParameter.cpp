@@ -1,6 +1,12 @@
 #include "PalIndividualCharacterParameter.h"
 #include "Net/UnrealNetwork.h"
 
+UPalIndividualCharacterParameter::UPalIndividualCharacterParameter() {
+    this->IndividualActor = NULL;
+    this->IsWaitResponseWordFiltering = false;
+    this->EquipItemContainer = NULL;
+}
+
 void UPalIndividualCharacterParameter::UseItemInSlot(const FPalItemSlotIdAndNum SlotIdAndNum) {
 }
 
@@ -18,6 +24,15 @@ void UPalIndividualCharacterParameter::StartRecuperatingInMedicalBed() {
 }
 
 void UPalIndividualCharacterParameter::SetStatusPoint(FName StatusName, int32 Point) {
+}
+
+void UPalIndividualCharacterParameter::SetSkinName(FName InSkinName) {
+}
+
+void UPalIndividualCharacterParameter::SetSkinAppliedCharacterId(FGuid InCharacterId) {
+}
+
+void UPalIndividualCharacterParameter::SetSkinApplied(bool bIsApplied) {
 }
 
 void UPalIndividualCharacterParameter::SetShieldMaxHP(FFixedPoint64 NextSheildMaxHP) {
@@ -38,6 +53,12 @@ void UPalIndividualCharacterParameter::SetLastJumpedLocation(FVector Location) {
 void UPalIndividualCharacterParameter::SetInvaderData(EPalInvaderType InvaderType, const FGuid InBaseCampId) {
 }
 
+void UPalIndividualCharacterParameter::SetInArena(bool InArena) {
+}
+
+void UPalIndividualCharacterParameter::SetExStatusPoint(FName StatusName, int32 Point) {
+}
+
 void UPalIndividualCharacterParameter::SetDisableNaturalHealing(FName Key, bool Disable) {
 }
 
@@ -45,6 +66,9 @@ void UPalIndividualCharacterParameter::SetDecreaseFullStomachRates(const FName N
 }
 
 void UPalIndividualCharacterParameter::ResetLastJumpedLocation() {
+}
+
+void UPalIndividualCharacterParameter::RemoveEquipWaza(EPalWazaID WazaID) {
 }
 
 void UPalIndividualCharacterParameter::RemoveDecreaseFullStomachRates(const FName Name) {
@@ -59,17 +83,35 @@ void UPalIndividualCharacterParameter::OnRep_SaveParameter() {
 void UPalIndividualCharacterParameter::OnRep_PhantomActorReplicateArray() {
 }
 
+void UPalIndividualCharacterParameter::OnRep_IndividualId() {
+}
+
 void UPalIndividualCharacterParameter::OnRep_IndividualActor() {
 }
 
+void UPalIndividualCharacterParameter::OnReceivedWordFilteringResult(const FString& ResponseBody, bool bResponseOK, int32 ResponseCode) {
+}
+
 void UPalIndividualCharacterParameter::NaturalUpdateSaveParameter(const EPalCharacterNaturalUpdateType Type) {
+}
+
+bool UPalIndividualCharacterParameter::IsStatusPointAllMax() {
+    return false;
+}
+
+bool UPalIndividualCharacterParameter::IsStatusPointAddable(FName StatusName, int32& AddablePoint) {
+    return false;
 }
 
 bool UPalIndividualCharacterParameter::IsSleeping() const {
     return false;
 }
 
-bool UPalIndividualCharacterParameter::IsRarePal() {
+bool UPalIndividualCharacterParameter::IsSkinApplied() const {
+    return false;
+}
+
+bool UPalIndividualCharacterParameter::IsRarePal() const {
     return false;
 }
 
@@ -85,7 +127,19 @@ bool UPalIndividualCharacterParameter::IsLevelMax() const {
     return false;
 }
 
+bool UPalIndividualCharacterParameter::IsInArena() const {
+    return false;
+}
+
 bool UPalIndividualCharacterParameter::IsHPFullRecovered() {
+    return false;
+}
+
+bool UPalIndividualCharacterParameter::IsFavoritePal() const {
+    return false;
+}
+
+bool UPalIndividualCharacterParameter::IsDead() const {
     return false;
 }
 
@@ -137,11 +191,23 @@ EPalTribeID UPalIndividualCharacterParameter::GetTribeID() const {
     return EPalTribeID::None;
 }
 
+int32 UPalIndividualCharacterParameter::GetTotalStatusPoint(FName StatusName) const {
+    return 0;
+}
+
 void UPalIndividualCharacterParameter::GetStatusPointList(TArray<FPalGotStatusPoint>& OutPointList) const {
 }
 
 int32 UPalIndividualCharacterParameter::GetStatusPoint(FName StatusName) const {
     return 0;
+}
+
+FName UPalIndividualCharacterParameter::GetSkinName() const {
+    return NAME_None;
+}
+
+FGuid UPalIndividualCharacterParameter::GetSkinAppliedCharacterId() const {
+    return FGuid{};
 }
 
 int32 UPalIndividualCharacterParameter::GetShotAttack_withBuff() const {
@@ -172,12 +238,20 @@ float UPalIndividualCharacterParameter::GetSanityRate() const {
     return 0.0f;
 }
 
+FPalFoodRegeneInfo UPalIndividualCharacterParameter::GetRegeneItemName() const {
+    return FPalFoodRegeneInfo{};
+}
+
 float UPalIndividualCharacterParameter::GetRatePassiveSkill(EPalPassiveSkillEffectType EffectType) const {
     return 0.0f;
 }
 
 float UPalIndividualCharacterParameter::GetRatePartnerSkill(EPalPassiveSkillEffectType EffectType) const {
     return 0.0f;
+}
+
+int32 UPalIndividualCharacterParameter::GetRankUpExp() const {
+    return 0;
 }
 
 int32 UPalIndividualCharacterParameter::GetRank() const {
@@ -190,6 +264,14 @@ EPalStatusPhysicalHealthType UPalIndividualCharacterParameter::GetPhysicalHealth
 
 TArray<FName> UPalIndividualCharacterParameter::GetPassiveSkillList() {
     return TArray<FName>();
+}
+
+float UPalIndividualCharacterParameter::GetPassiveRateBySkillEffect(EPalPassiveSkillEffectType EffectType) const {
+    return 0.0f;
+}
+
+float UPalIndividualCharacterParameter::GetPassiveRateByEquipment(EPalPassiveSkillEffectType EffectType) const {
+    return 0.0f;
 }
 
 int32 UPalIndividualCharacterParameter::GetPalSoulRank() const {
@@ -235,6 +317,10 @@ FVector UPalIndividualCharacterParameter::GetLastJumpedLocation() const {
     return FVector{};
 }
 
+APalCharacter* UPalIndividualCharacterParameter::GetIndividualActor() const {
+    return NULL;
+}
+
 EPalStatusHungerType UPalIndividualCharacterParameter::GetHungerType() const {
     return EPalStatusHungerType::Default;
 }
@@ -271,7 +357,11 @@ float UPalIndividualCharacterParameter::GetFoodStatusRate(EPalFoodStatusEffectTy
     return 0.0f;
 }
 
-int32 UPalIndividualCharacterParameter::GetExp() const {
+int32 UPalIndividualCharacterParameter::GetExStatusPoint(FName StatusName) const {
+    return 0;
+}
+
+int64 UPalIndividualCharacterParameter::GetExp() const {
     return 0;
 }
 
@@ -285,6 +375,10 @@ FPalContainerId UPalIndividualCharacterParameter::GetEquipItemContainerId() cons
 
 FPalIndividualCharacterEquipItemContainerHandler UPalIndividualCharacterParameter::GetEquipItemContainerHandler() const {
     return FPalIndividualCharacterEquipItemContainerHandler{};
+}
+
+TArray<EPalWazaID> UPalIndividualCharacterParameter::GetEquipableWaza() const {
+    return TArray<EPalWazaID>();
 }
 
 float UPalIndividualCharacterParameter::GetEffectFoodTimeRate() const {
@@ -374,6 +468,10 @@ void UPalIndividualCharacterParameter::DecreaseShieldHPByDamage(int32 Damage) {
 void UPalIndividualCharacterParameter::ClearEquipWaza() {
 }
 
+bool UPalIndividualCharacterParameter::CanAddTalentByItem(FName ItemName) const {
+    return false;
+}
+
 void UPalIndividualCharacterParameter::AddPassiveSkill(FName AddSkill, FName OverrideSkill) {
 }
 
@@ -395,8 +493,4 @@ void UPalIndividualCharacterParameter::GetLifetimeReplicatedProps(TArray<FLifeti
     DOREPLIFETIME(UPalIndividualCharacterParameter, Debug_CurrentAIActionName);
 }
 
-UPalIndividualCharacterParameter::UPalIndividualCharacterParameter() {
-    this->IndividualActor = NULL;
-    this->EquipItemContainer = NULL;
-}
 

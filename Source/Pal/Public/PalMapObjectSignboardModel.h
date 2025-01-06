@@ -28,8 +28,9 @@ private:
     
 public:
     UPalMapObjectSignboardModel();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
 private:
     UFUNCTION(BlueprintCallable)
     void RequestUpdateText(const int32 RequestPlayerId, const FPalNetArchive& Archive);
@@ -45,6 +46,9 @@ protected:
     void OnRep_Text();
     
 private:
+    UFUNCTION(BlueprintCallable)
+    void OnReceivedWordFilteringResult(const FString& ResponseBody, bool bResponseOK, int32 ResponseCode);
+    
     UFUNCTION(BlueprintCallable)
     void OnOpenEdit();
     

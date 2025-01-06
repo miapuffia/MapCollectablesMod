@@ -1,5 +1,9 @@
 #include "PalTimeManager.h"
 
+UPalTimeManager::UPalTimeManager() {
+    this->SleepingPlayerNum = 0;
+}
+
 
 void UPalTimeManager::SetGameTime_FixDay(const int32 NextHour) {
 }
@@ -9,6 +13,10 @@ void UPalTimeManager::RemoveSleepPlayer(APalPlayerCharacter* Player) {
 
 FString UPalTimeManager::PalTimeSecondsToString(float InSeconds) {
     return TEXT("");
+}
+
+int32 UPalTimeManager::GetSleepingPlayerCount() const {
+    return 0;
 }
 
 FString UPalTimeManager::GetDebugTimeString() const {
@@ -57,6 +65,4 @@ FPalTimerHandle UPalTimeManager::AddTimerEventBySpan(const UPalTimeManager::FTim
 void UPalTimeManager::AddSleepPlayer(APalPlayerCharacter* Player) {
 }
 
-UPalTimeManager::UPalTimeManager() {
-}
 

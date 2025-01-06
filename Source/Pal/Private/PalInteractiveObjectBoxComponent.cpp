@@ -1,5 +1,15 @@
 #include "PalInteractiveObjectBoxComponent.h"
 
+UPalInteractiveObjectBoxComponent::UPalInteractiveObjectBoxComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->bCanEverAffectNavigation = false;
+    this->InteractDelegates = NULL;
+    this->bIsEnableTriggerInteract = false;
+    this->bIsImplementedTriggerInteract = false;
+    this->bIsEnableInteractingTick = false;
+    this->bIsEnableInteractingTickInClientOnly = false;
+    this->bIsAdjustIndicatorLocationZForPlayer = false;
+}
+
 void UPalInteractiveObjectBoxComponent::SetIndicatorInterface(TScriptInterface<IPalInteractiveObjectIndicatorInterface> InIndicatorInterface) {
 }
 
@@ -12,7 +22,7 @@ void UPalInteractiveObjectBoxComponent::OnOverlapEnd(UPrimitiveComponent* Overla
 void UPalInteractiveObjectBoxComponent::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 }
 
-FVector UPalInteractiveObjectBoxComponent::GetIndicatorLocation() {
+FVector UPalInteractiveObjectBoxComponent::GetIndicatorLocation(bool bNoShapeOffset) {
     return FVector{};
 }
 
@@ -26,12 +36,4 @@ UPalInteractDelegates* UPalInteractiveObjectBoxComponent::Delegates() const {
 void UPalInteractiveObjectBoxComponent::CallOrRegisterOnCreateInteractDelegates(UPalInteractiveObjectBoxComponent::FOnCreateInteractsDelegates Delegate) {
 }
 
-UPalInteractiveObjectBoxComponent::UPalInteractiveObjectBoxComponent() {
-    this->InteractDelegates = NULL;
-    this->bIsEnableTriggerInteract = false;
-    this->bIsImplementedTriggerInteract = false;
-    this->bIsEnableInteractingTick = false;
-    this->bIsEnableInteractingTickInClientOnly = false;
-    this->bIsAdjustIndicatorLocationZForPlayer = false;
-}
 

@@ -1,6 +1,24 @@
 #include "PalPartnerSkillParameterComponent.h"
 #include "Templates/SubclassOf.h"
 
+UPalPartnerSkillParameterComponent::UPalPartnerSkillParameterComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->SkillName = TEXT("Unknown");
+    this->WazaID = EPalWazaID::None;
+    this->bCanThrowPal = true;
+    this->bCanChangeWeapon = true;
+    this->bIsToggleKey = false;
+    this->bIdlelCostDecreaseEveryFrame = false;
+    this->bIsExecSkillContinuation = false;
+    this->bIsRunning = false;
+    this->bIsOverheat = false;
+    this->bIsExecuting = false;
+    this->SkillModule = NULL;
+    this->FunnelCharacterClass = NULL;
+    this->FunnelControllerClass = NULL;
+    this->FunnelAttackWazaID = EPalWazaID::None;
+    this->PassiveSkill = NULL;
+}
+
 void UPalPartnerSkillParameterComponent::Stop() {
 }
 
@@ -8,6 +26,12 @@ void UPalPartnerSkillParameterComponent::Start() {
 }
 
 void UPalPartnerSkillParameterComponent::SetName(FName Name) {
+}
+
+void UPalPartnerSkillParameterComponent::SetDisableGlider_ToAll_Implementation(FName flagName, bool isDisable) {
+}
+
+void UPalPartnerSkillParameterComponent::SetDisableFunnel(FName flagName, bool isDisable) {
 }
 
 void UPalPartnerSkillParameterComponent::SetDisableFlagsBySetting_Implementation(bool isDisable) {
@@ -70,11 +94,23 @@ bool UPalPartnerSkillParameterComponent::IsRestrictedByItems(AActor* Trainer) co
     return false;
 }
 
+bool UPalPartnerSkillParameterComponent::IsPlayerTrigger() const {
+    return false;
+}
+
 bool UPalPartnerSkillParameterComponent::IsOverheat() const {
     return false;
 }
 
 bool UPalPartnerSkillParameterComponent::IsExistActiveSkill() const {
+    return false;
+}
+
+bool UPalPartnerSkillParameterComponent::IsDisableGlider() const {
+    return false;
+}
+
+bool UPalPartnerSkillParameterComponent::IsDisableFunnel() const {
     return false;
 }
 
@@ -143,6 +179,10 @@ UPalCoopSkillModuleBase* UPalPartnerSkillParameterComponent::CreateSkillModule(T
     return NULL;
 }
 
+bool UPalPartnerSkillParameterComponent::CanOpenTreasure(EPalMapObjectTreasureGradeType TreasureGrade) const {
+    return false;
+}
+
 bool UPalPartnerSkillParameterComponent::CanExec() const {
     return false;
 }
@@ -175,21 +215,4 @@ void UPalPartnerSkillParameterComponent::CallOnCoolDownTimeChanged_ToAll_Impleme
 void UPalPartnerSkillParameterComponent::CallOnCoolDownCompleted_ToAll_Implementation() {
 }
 
-UPalPartnerSkillParameterComponent::UPalPartnerSkillParameterComponent() {
-    this->SkillName = TEXT("Unknown");
-    this->WazaID = EPalWazaID::None;
-    this->bCanThrowPal = true;
-    this->bCanChangeWeapon = true;
-    this->bIsToggleKey = false;
-    this->bIdlelCostDecreaseEveryFrame = false;
-    this->bIsExecSkillContinuation = false;
-    this->bIsRunning = false;
-    this->bIsOverheat = false;
-    this->bIsExecuting = false;
-    this->SkillModule = NULL;
-    this->FunnelCharacterClass = NULL;
-    this->FunnelControllerClass = NULL;
-    this->FunnelAttackWazaID = EPalWazaID::None;
-    this->PassiveSkill = NULL;
-}
 

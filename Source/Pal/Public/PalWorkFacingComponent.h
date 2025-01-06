@@ -7,6 +7,10 @@ UCLASS(Blueprintable, EditInlineNew, ClassGroup=Custom, meta=(BlueprintSpawnable
 class UPalWorkFacingComponent : public UArrowComponent {
     GENERATED_BODY()
 public:
-    UPalWorkFacingComponent();
+    UPalWorkFacingComponent(const FObjectInitializer& ObjectInitializer);
+
+public:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bReverseDirection;
 };
 

@@ -7,13 +7,16 @@
 #include "PalGroupCreateParameter.h"
 #include "PalGroupOperationDynamicDelegateDelegate.h"
 #include "PalGroupOperationWithGroupIdDynamicDelegateDelegate.h"
+#include "PalGuildEnterRequestLogInfo.h"
 #include "PalInstanceID.h"
 #include "PalWorldSubsystem.h"
 #include "PalGroupManager.generated.h"
 
+class AActor;
 class UObject;
 class UPalGroupBase;
 class UPalGroupGuildBase;
+class UPalGuildRequestFlowBase;
 
 UCLASS(Blueprintable)
 class UPalGroupManager : public UPalWorldSubsystem, public IPalGameWorldDataSaveInterface {
@@ -32,13 +35,28 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TMap<EPalOrganizationType, FGuid> StaticOrganizationGroupIdMap;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TMap<FGuid, UPalGuildRequestFlowBase*> GuildRequestFlowMap;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TMap<FGuid, FPalGuildEnterRequestLogInfo> GuildEnterRequestLogInfoMap;
+    
 public:
     UPalGroupManager();
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    bool TryGetGuildName(const FGuid& GroupID, FString& OutGuildName) const;
+    bool TryGetGuildName(const FGuid& GroupId, FString& OutGuildName) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    bool TryGetGroupName(const FGuid& GroupID, FString& OutGroupName) const;
+    bool TryGetGroupName(const FGuid& GroupId, FString& OutGroupName) const;
+    
+private:
+    UFUNCTION(BlueprintCallable)
+    void OnFinishedGuildRequest_ServerInternal(UPalGuildRequestFlowBase* Flow);
+    
+public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsInGuild(const AActor* TargetActor);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsExistGroup(const FString& GroupName) const;
@@ -53,15 +71,15 @@ public:
     void Debug_RequestExitGroup(const FPalInstanceID& IndividualId, FPalGroupOperationDynamicDelegate Callback);
     
     UFUNCTION(BlueprintCallable)
-    void Debug_RequestEnterGroup(const FPalInstanceID& IndividualId, const FGuid& GroupID, FPalGroupOperationDynamicDelegate Callback);
+    void Debug_RequestEnterGroup(const FPalInstanceID& IndividualId, const FGuid& GroupId, FPalGroupOperationDynamicDelegate Callback);
     
     UFUNCTION(BlueprintCallable)
-    void Debug_RequestDisposeGroup(const FGuid& GroupID, FPalGroupOperationDynamicDelegate Callback);
+    void Debug_RequestDisposeGroup(const FGuid& GroupId, FPalGroupOperationDynamicDelegate Callback);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalGroupBase* Debug_GetFirstGroupByType(const EPalGroupType Type) const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

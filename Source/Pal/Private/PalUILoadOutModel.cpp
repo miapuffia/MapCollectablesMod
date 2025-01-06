@@ -1,6 +1,10 @@
 #include "PalUILoadOutModel.h"
 
-bool UPalUILoadOutModel::TryGetContainer(EPalPlayerInventoryType targetType, UPalItemContainer*& Container) const {
+UPalUILoadOutModel::UPalUILoadOutModel() {
+    this->draggedTargetContainerType = EPalPlayerInventoryType::None;
+}
+
+bool UPalUILoadOutModel::TryGetContainer(EPalPlayerInventoryType TargetType, UPalItemContainer*& Container) const {
     return false;
 }
 
@@ -11,7 +15,4 @@ bool UPalUILoadOutModel::CanSetItem(const FPalItemData& ItemData) const {
     return false;
 }
 
-UPalUILoadOutModel::UPalUILoadOutModel() {
-    this->draggedTargetContainerType = EPalPlayerInventoryType::None;
-}
 

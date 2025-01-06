@@ -18,6 +18,7 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNightStartDelegate);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNightSkipDelegate);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNightEndDelegate);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeSleepingPlayerNumDelegate, int32, Num);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChangeMinutesDelegate);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnChangeHoursDelegate);
     
@@ -39,6 +40,13 @@ public:
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnChangeMinutesDelegate OnChangeMinutesDelegate;
     
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnChangeSleepingPlayerNumDelegate OnChangeSleepingPlayerNumDelegate;
+    
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    int32 SleepingPlayerNum;
+    
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TArray<APalPlayerCharacter*> SleepingPlayers;
@@ -48,6 +56,7 @@ private:
     
 public:
     UPalTimeManager();
+
 protected:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void Tick_BP(float DeltaTime);
@@ -61,6 +70,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     static FString PalTimeSecondsToString(float InSeconds);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetSleepingPlayerCount() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FString GetDebugTimeString() const;
@@ -98,7 +110,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void AddSleepPlayer(APalPlayerCharacter* Player);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

@@ -25,6 +25,7 @@ class UPalBuildProcess;
 class UPalMapObjectConcreteModelBase;
 class UPalMapObjectModelConnectorBase;
 class UPalMapObjectModelEffect;
+class UPalWorkAssign;
 class UPalWorkBase;
 
 UCLASS(Blueprintable)
@@ -93,7 +94,7 @@ private:
     EPalMapObjectDamagableType DamagableType;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
-    FPalMapObjectStatusValue HP;
+    FPalMapObjectStatusValue Hp;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     FTransform InitialTransformCache;
@@ -126,6 +127,9 @@ private:
     FGameDateTime CreatedAt;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    float SignificanceValue;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     float DeteriorationDamage;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -145,8 +149,9 @@ private:
     
 public:
     UPalMapObjectModel();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     void RequestRepairByPlayer_ToServer_ServerInternal(const FGuid& RequestPlayerUId);
     
@@ -179,7 +184,7 @@ private:
     void OnEndTriggerInteract(AActor* Other, EPalInteractiveObjectIndicatorType IndicatorType);
     
     UFUNCTION(BlueprintCallable)
-    void OnAssignWorkRepairBuildObject(UPalWorkBase* Work, const FPalInstanceID& IndividualId);
+    void OnAssignWorkRepairBuildObject(UPalWorkBase* Work, UPalWorkAssign* WorkAssign);
     
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -188,7 +193,7 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FPalMapObjectStatusValue GetHP() const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
     UFUNCTION(BlueprintCallable)
     FGuid GetModelId() const override PURE_VIRTUAL(GetModelId, return FGuid{};);

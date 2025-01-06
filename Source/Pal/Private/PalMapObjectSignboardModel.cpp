@@ -1,6 +1,11 @@
 #include "PalMapObjectSignboardModel.h"
 #include "Net/UnrealNetwork.h"
 
+UPalMapObjectSignboardModel::UPalMapObjectSignboardModel() {
+    this->MenuUIWidgetClass = NULL;
+    this->bIsEditing = false;
+}
+
 void UPalMapObjectSignboardModel::RequestUpdateText(const int32 RequestPlayerId, const FPalNetArchive& Archive) {
 }
 
@@ -11,6 +16,9 @@ void UPalMapObjectSignboardModel::OnUpdateText(const FString& Text) {
 }
 
 void UPalMapObjectSignboardModel::OnRep_Text() {
+}
+
+void UPalMapObjectSignboardModel::OnReceivedWordFilteringResult(const FString& ResponseBody, bool bResponseOK, int32 ResponseCode) {
 }
 
 void UPalMapObjectSignboardModel::OnOpenEdit() {
@@ -28,8 +36,4 @@ void UPalMapObjectSignboardModel::GetLifetimeReplicatedProps(TArray<FLifetimePro
     DOREPLIFETIME(UPalMapObjectSignboardModel, bIsEditing);
 }
 
-UPalMapObjectSignboardModel::UPalMapObjectSignboardModel() {
-    this->MenuUIWidgetClass = NULL;
-    this->bIsEditing = false;
-}
 

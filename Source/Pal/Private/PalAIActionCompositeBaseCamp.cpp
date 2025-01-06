@@ -1,5 +1,9 @@
 #include "PalAIActionCompositeBaseCamp.h"
 
+UPalAIActionCompositeBaseCamp::UPalAIActionCompositeBaseCamp() {
+    this->WalkSpeedDefault = 0.25f;
+}
+
 void UPalAIActionCompositeBaseCamp::NotifyOrderCommand(const EPalMapBaseCampWorkerOrderType OrderType) {
 }
 
@@ -12,10 +16,4 @@ void UPalAIActionCompositeBaseCamp::InterruptActionToRecoverHungry(const FPalMon
 void UPalAIActionCompositeBaseCamp::ChangeActionToWorker() {
 }
 
-void UPalAIActionCompositeBaseCamp::ChangeActionToFighter() {
-}
-
-UPalAIActionCompositeBaseCamp::UPalAIActionCompositeBaseCamp() {
-    this->WalkSpeedDefault = 0.25f;
-}
 

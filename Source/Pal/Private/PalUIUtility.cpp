@@ -1,18 +1,28 @@
 #include "PalUIUtility.h"
 
+UPalUIUtility::UPalUIUtility() {
+}
+
 void UPalUIUtility::SetVisibilityHUD(const UObject* WorldContextObject, bool IsVisible) {
 }
 
 void UPalUIUtility::SetNumberToSeparatedTextBlock(const UObject* WorldContextObject, const TArray<int32>& numberArray, TArray<UPalTextBlockBase*>& textBlockArray, float topZeroTextOpacity) {
 }
 
-void UPalUIUtility::SetEnableCommonUIInput(const UObject* WorldContextObject, bool isEnable) {
+void UPalUIUtility::SetEnableCommonUIInput(const UObject* WorldContextObject, const FName flagName, bool IsEnable) {
 }
 
 void UPalUIUtility::SetCustomSlateNavigation(const UObject* WorldContextObject, const FPalSlateNavigationSetting& NavigationSetting) {
 }
 
 void UPalUIUtility::ResetSlateNavigation(const UObject* WorldContextObject) {
+}
+
+void UPalUIUtility::ResetEnableCommonUIInput(const UObject* WorldContextObject) {
+}
+
+bool UPalUIUtility::IsToggleInteract(const UObject* WorldContextObject) {
+    return false;
 }
 
 bool UPalUIUtility::IsShiftDown_ForUI() {
@@ -153,7 +163,7 @@ FSlateBrush UPalUIUtility::GetKeyIconByKey(const UObject* WorldContextObject, co
     return FSlateBrush{};
 }
 
-void UPalUIUtility::GetItemTypeAName(const UObject* WorldContextObject, const EPalItemTypeA itemTypeA, FText& outName) {
+void UPalUIUtility::GetItemTypeAName(const UObject* WorldContextObject, const EPalItemTypeA ItemTypeA, FText& outName) {
 }
 
 void UPalUIUtility::GetItemName(const UObject* WorldContextObject, const FName& StaticItemId, FText& outName) {
@@ -183,6 +193,9 @@ void UPalUIUtility::GetBaseCampEventName(const UObject* WorldContextObject, cons
 void UPalUIUtility::GetAllTagFromText(const UObject* WorldContextObject, const FText& targetText, TArray<FString>& outTagArray) {
 }
 
+void UPalUIUtility::GetAdditionalEffectName(const UObject* WorldContextObject, EPalAdditionalEffectType EffectType, FText& outName) {
+}
+
 UPalUserWidget* UPalUIUtility::FindOwningActivatableWidget(const UObject* WorldContextObject, const UWidget* Widget) {
     return NULL;
 }
@@ -191,6 +204,4 @@ float UPalUIUtility::ConvertReviveTimerToUIDisplayRemainReviveTime(const UObject
     return 0.0f;
 }
 
-UPalUIUtility::UPalUIUtility() {
-}
 

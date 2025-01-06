@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "PalCharacter.h"
+#include "PalDeadInfo.h"
 #include "PalNPC.generated.h"
 
 class UPalNPCWeaponGenerator;
@@ -20,10 +21,20 @@ protected:
     int32 DefaultVoiceID;
     
 public:
-    APalNPC();
+    APalNPC(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable)
+    void RemoveEnemyFromBattleManager(FPalDeadInfo DeadInfo);
+    
+    UFUNCTION(BlueprintCallable)
     void OnCompletedInitParam(APalCharacter* InCharacter);
+    
+    UFUNCTION(BlueprintCallable)
+    void MasterWazaUpdateWhenLevelUp(int32 addLevel, int32 nowLevel);
+    
+    UFUNCTION(BlueprintCallable)
+    void MasterWazaSetup(APalCharacter* InCharacter);
     
 };
 

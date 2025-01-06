@@ -5,6 +5,7 @@
 #include "PalInvaderBaseCampObserver.generated.h"
 
 class UPalBaseCampModel;
+class UPalIndividualCharacterHandle;
 
 UCLASS(Blueprintable)
 class PAL_API UPalInvaderBaseCampObserver : public UObject {
@@ -15,7 +16,7 @@ private:
     UPalBaseCampModel* TargetBaseCamp;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FGuid TargetBaseCampId;
+    FGuid TargetBaseCampID;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bIsInvading;
@@ -32,7 +33,11 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float PlayerInBaseCampTimer;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UPalIndividualCharacterHandle*> PlayerHandlesCache;
+    
 public:
     UPalInvaderBaseCampObserver();
+
 };
 

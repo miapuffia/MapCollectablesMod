@@ -1,6 +1,14 @@
 #include "PalOtomoHolderComponentBase.h"
 #include "Net/UnrealNetwork.h"
 
+UPalOtomoHolderComponentBase::UPalOtomoHolderComponentBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->CollisionChecker = NULL;
+    this->OtomoOrder = EPalOtomoPalOrderType::Default;
+    this->CharacterContainer = NULL;
+    this->bIsDisableDespawnCharacter = false;
+    this->bDisableDeadReturnOtomo = false;
+}
+
 UPalIndividualCharacterHandle* UPalOtomoHolderComponentBase::TryGetSpawnedOtomoHandle() const {
     return NULL;
 }
@@ -34,6 +42,12 @@ void UPalOtomoHolderComponentBase::Tmp_EmptySlot(const FPalCharacterSlotId& Slot
 }
 
 
+void UPalOtomoHolderComponentBase::SetSelectOtomoID_ToServer_Implementation(int32 ID, int32 Index) {
+}
+
+void UPalOtomoHolderComponentBase::SetSelectOtomoID_ToALL_Implementation(int32 ID, int32 Index) {
+}
+
 
 void UPalOtomoHolderComponentBase::SetSelectOtomoID(int32 Index) {
 }
@@ -42,6 +56,9 @@ void UPalOtomoHolderComponentBase::SetOtomoOrder_ToServer_Implementation(EPalOto
 }
 
 void UPalOtomoHolderComponentBase::SetInteractComponent_Implementation(AActor* SpawnPal) {
+}
+
+void UPalOtomoHolderComponentBase::SetDisableDeadReturnOtomo(bool bDisable) {
 }
 
 void UPalOtomoHolderComponentBase::OnUpdateSlot(UPalIndividualCharacterSlot* Slot, UPalIndividualCharacterHandle* LastHandle) {
@@ -108,12 +125,19 @@ void UPalOtomoHolderComponentBase::Initialize_ServerInternal() {
 void UPalOtomoHolderComponentBase::Initialize() {
 }
 
+void UPalOtomoHolderComponentBase::IncrementSelectOtomoID_ToServer_Implementation(int32 ID) {
+}
+
+void UPalOtomoHolderComponentBase::IncrementSelectOtomoID_ToALL_Implementation(int32 ID) {
+}
+
 
 void UPalOtomoHolderComponentBase::IncrementSelectOtomoID() {
 }
 
 void UPalOtomoHolderComponentBase::InactiveOtomoByHandle_PreProcess(UPalIndividualCharacterHandle* Handle) {
 }
+
 
 
 FTransform UPalOtomoHolderComponentBase::GetTransform_SpawnPalNearTrainer() {
@@ -163,10 +187,19 @@ UPalIndividualCharacterSlot* UPalOtomoHolderComponentBase::GetEmptySlot() const 
 void UPalOtomoHolderComponentBase::GetAllIndividualHandle(TArray<UPalIndividualCharacterHandle*>& OutArray) const {
 }
 
+void UPalOtomoHolderComponentBase::DecrementSelectOtomoID_ToServer_Implementation(int32 ID) {
+}
+
+void UPalOtomoHolderComponentBase::DecrementSelectOtomoID_ToALL_Implementation(int32 ID) {
+}
+
 
 void UPalOtomoHolderComponentBase::DecrementSelectOtomoID() {
 }
 
+
+void UPalOtomoHolderComponentBase::CompleteInactiveCurrentOtomo() {
+}
 
 
 bool UPalOtomoHolderComponentBase::AddOtomoHandleToFreeSlot(UPalIndividualCharacterHandle* Handle) {
@@ -179,6 +212,9 @@ void UPalOtomoHolderComponentBase::AddLogOtomoPartnerSkill_Waza_ToClient_Impleme
 void UPalOtomoHolderComponentBase::AddLogOtomoPartnerSkill_ToClient_Implementation(AActor* Otomo, EPalLogType PalLogType, int32 Value, bool AddSkillName) {
 }
 
+void UPalOtomoHolderComponentBase::AddLogOtomoPartnerSkill_Text_ToClient_Implementation(AActor* Otomo, FName textID) {
+}
+
 
 
 void UPalOtomoHolderComponentBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
@@ -188,9 +224,4 @@ void UPalOtomoHolderComponentBase::GetLifetimeReplicatedProps(TArray<FLifetimePr
     DOREPLIFETIME(UPalOtomoHolderComponentBase, CharacterContainer);
 }
 
-UPalOtomoHolderComponentBase::UPalOtomoHolderComponentBase() {
-    this->CollisionChecker = NULL;
-    this->OtomoOrder = EPalOtomoPalOrderType::Default;
-    this->CharacterContainer = NULL;
-}
 

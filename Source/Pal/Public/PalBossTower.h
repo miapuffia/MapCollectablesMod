@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "GameFramework/Actor.h"
 #include "Engine/EngineTypes.h"
+#include "EPalBossBattleDifficulty.h"
 #include "EPalBossBattleState.h"
 #include "EPalBossType.h"
 #include "PalInteractiveObjectIndicatorInterface.h"
@@ -49,20 +50,24 @@ private:
     FTimerHandle TimerHandle;
     
 public:
-    APalBossTower();
+    APalBossTower(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     bool WriteBossDefeatRecord_ServerInternal(APalPlayerCharacter* TargetPlayer);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void UpdateEntry_Multicast(EPalBossBattleDifficulty NewDifficulty, const TArray<APalPlayerCharacter*>& NewEntryPlayers, EPalBossBattleState InBossBattleState);
     
     UFUNCTION(BlueprintCallable)
     void ShowWaitInfo(const FVector TargetLocation, const FVector DisplayOffset, bool isWaiting);
     
     UFUNCTION(BlueprintCallable)
-    void RequestBossBattleStart(APalPlayerCharacter* Player);
+    void RequestBossBattleStart();
     
     UFUNCTION(BlueprintCallable)
-    void RequestBossBattleEntry(APalPlayerCharacter* Player);
+    void RequestBossBattleEntry(EPalBossBattleDifficulty Difficulty);
     
 protected:
     UFUNCTION(BlueprintCallable)
@@ -87,6 +92,9 @@ private:
     void OnChangeBossBattleState(EPalBossBattleState NewBossBattleState);
     
 public:
+    UFUNCTION(BlueprintCallable)
+    void NotifyEntryUpdateAll();
+    
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsEntered(APalPlayerCharacter* Player) const;
     
@@ -119,7 +127,7 @@ protected:
     UFUNCTION(BlueprintCallable)
     void AddInDoorPlayer(APalPlayerCharacter* Player);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

@@ -6,12 +6,14 @@
 #include "PalWorldSettings.generated.h"
 
 class UDataLayerAsset;
+class UPalArenaWorldSubsystem;
 class UPalAudioWorldSubsystem;
 class UPalDungeonWorldSubsystem;
 class UPalFunnelCharacterManager;
 class UPalIncidentSystem;
 class UPalInvaderManager;
 class UPalOptionSubsystem;
+class UPalStaticMeshImposterSubsystem;
 class UPalTimeManager;
 
 UCLASS(Blueprintable)
@@ -49,8 +51,15 @@ public:
     TSubclassOf<UPalFunnelCharacterManager> FunnelCharacterManagerClass;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalArenaWorldSubsystem> ArenaWorldSubsystemClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TSubclassOf<UPalStaticMeshImposterSubsystem> StaticMeshImposterSubsystemClass;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bRequestCharacterMake;
     
-    APalWorldSettings();
+    APalWorldSettings(const FObjectInitializer& ObjectInitializer);
+
 };
 

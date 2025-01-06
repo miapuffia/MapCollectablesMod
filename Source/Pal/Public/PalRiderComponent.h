@@ -33,7 +33,7 @@ public:
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnGetOff OnGetOff;
     
-    UPROPERTY(EditAnywhere, Export, Replicated, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Export, Replicated, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<UPalRideMarkerComponent> RidingMarker;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -64,6 +64,9 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     float DefaultJumpZVelocity;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, meta=(AllowPrivateAccess=true))
+    FVector InitialMeshLocation;
+    
 protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TMap<EPalWeaponType, FVector2D> BackRideLimit;
@@ -76,13 +79,23 @@ private:
     TMap<FName, UPalUniqueRideAnimeAssetBase*> UniqueRideAnimeAssetMap;
     
 public:
-    UPalRiderComponent();
+    UPalRiderComponent(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     void StopShakingMontage();
     
 private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void SetRideMarker_ToServer(int32 ID, UPalRideMarkerComponent* Marker);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void SetRideMarker_ToALL(int32 ID, UPalRideMarkerComponent* Marker);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetRideMarker_Internal(UPalRideMarkerComponent* Marker);
+    
     UFUNCTION(BlueprintCallable)
     void SetRideMarker(UPalRideMarkerComponent* Marker);
     
@@ -98,9 +111,6 @@ public:
     
     UFUNCTION(BlueprintCallable)
     void SetDisableAdjustRotation(FName flagName, bool bIsDisable);
-    
-    UFUNCTION(BlueprintCallable)
-    void SetDefaultMeshLocation(FVector Location);
     
     UFUNCTION(BlueprintCallable)
     void RideClientRep(UPalRideMarkerComponent* Marker);
@@ -182,20 +192,41 @@ public:
     bool GetOff(bool bIsSkipAnimation, bool bNoAnimCancel);
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    FVector GetDefaultMeshLocation() const;
-    
-    UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalRidePositionType GetCurrentRidePositionType() const;
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void DettachRiderNoAnimation_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void DettachRiderNoAnimation_ToALL(int32 ID);
+    
+public:
     UFUNCTION(BlueprintCallable)
     void DettachRiderNoAnimation();
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void DettachRider_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void DettachRider_ToALL(int32 ID);
+    
+public:
     UFUNCTION(BlueprintCallable)
     void DettachRider();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool CanUniqueRideIK();
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void AttachRiderNoAnimation_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void AttachRiderNoAnimation_ToALL(int32 ID);
+    
+public:
     UFUNCTION(BlueprintCallable)
     void AttachRiderNoAnimation();
     

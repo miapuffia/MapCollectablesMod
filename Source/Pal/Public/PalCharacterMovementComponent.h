@@ -4,6 +4,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Engine/EngineTypes.h"
 #include "Engine/HitResult.h"
+#include "Chaos/ChaosEngineInterface.h"
 #include "EEnterWaterFlag.h"
 #include "EPalCharacterMovementCustomMode.h"
 #include "EPalMovementSpeedType.h"
@@ -29,6 +30,7 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeSwimming, bool, IsInSwimming);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeSprint, UPalCharacterMovementComponent*, Component, bool, IsInSprint);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeSliding, UPalCharacterMovementComponent*, Component, bool, IsInSliding);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeGroundType, TEnumAsByte<EPhysicalSurface>, CurrentGroundType);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnChangeCrouch, UPalCharacterMovementComponent*, Component, bool, IsInCrouch);
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -63,6 +65,9 @@ public:
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnJumpDisable OnJumpDisableDelegate;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnChangeGroundType OnChangeGroundTypeDelegate;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float DyingMaxSpeed;
@@ -111,6 +116,9 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float RollingMaxSpeed;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float GrapplingMaxSpeed;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 LastLandedTransformCacheNum;
@@ -186,6 +194,9 @@ private:
     FFlagContainer StepDisableFlag;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FFlagContainer NavWalkDisableFlag;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TMap<EPalWalkableFloorAnglePriority, float> WalkableFloorAngleOverridesMap;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -208,9 +219,6 @@ private:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool IsFlyDashMode;
-    
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
-    bool bIsGrapplingMoving;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     float DefaultMaxStepHeight;
@@ -245,8 +253,12 @@ private:
     bool bIsDashSwim;
     
 public:
-    UPalCharacterMovementComponent();
+    UPalCharacterMovementComponent(const FObjectInitializer& ObjectInitializer);
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+    UFUNCTION(BlueprintCallable)
+    void StartGrappling(const FVector& HitLocation, const FVector& HitNormal);
     
     UFUNCTION(BlueprintCallable)
     void SetYawRotatorMultiplier(FName flagName, float Rate);
@@ -279,7 +291,10 @@ public:
     void SetSlideAlphaMultiplier(FName flagName, float Rate);
     
     UFUNCTION(BlueprintCallable)
-    void SetPysicsAccelerationFlag(FName flagName, bool isEnable);
+    void SetPysicsAccelerationFlag(FName flagName, bool IsEnable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetNavWalkDisableFlag(FName flagName, bool isDisable);
     
     UFUNCTION(BlueprintCallable)
     void SetMoveDisableFlag(FName flagName, bool isDisable);
@@ -297,9 +312,6 @@ public:
     void SetGravityZMultiplier(FName flagName, float Rate);
     
     UFUNCTION(BlueprintCallable)
-    void SetGrapplingMoving(bool IsMoving);
-    
-    UFUNCTION(BlueprintCallable)
     void SetGliderDisbleFlag(FName flagName, bool Disable);
     
     UFUNCTION(BlueprintCallable)
@@ -309,7 +321,7 @@ public:
     void SetFlyDashMode_ToServer(bool IsDash);
     
     UFUNCTION(BlueprintCallable)
-    void SetDriveMoveFlag(FName flagName, bool isEnable);
+    void SetDriveMoveFlag(FName flagName, bool IsEnable);
     
 private:
     UFUNCTION(BlueprintCallable)
@@ -358,6 +370,9 @@ private:
     UFUNCTION(BlueprintCallable)
     void OnChangeCrouch(UPalCharacterMovementComponent* Component, bool IsInCrouch);
     
+    UFUNCTION(BlueprintCallable)
+    void OnChangeActiveCharacter(bool bInIsActive);
+    
 public:
     UFUNCTION(BlueprintCallable)
     void MergeLastLandingLocationCache(const UPalCharacterMovementComponent* MovementComponent);
@@ -381,6 +396,9 @@ public:
     bool IsPysicsAcceleration() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsNavWalkDisabled() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsMoveDisabled() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
@@ -390,7 +408,7 @@ public:
     bool IsInputDisabled() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    bool IsGrapplingMoving() const;
+    bool IsGrappling() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsGliding() const;
@@ -448,6 +466,15 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetGravityZMultiplier() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector GetGrapplingMoveHitLocation() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector GetGrapplingMoveEndLocation() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FVector GetGrapplingHitNormal() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float GetDefaultRunSpeed();

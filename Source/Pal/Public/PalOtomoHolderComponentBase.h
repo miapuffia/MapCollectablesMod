@@ -57,10 +57,17 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<UPalIndividualCharacterHandle*> CreatingHandleCache;
     
-public:
-    UPalOtomoHolderComponentBase();
-    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bIsDisableDespawnCharacter;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bDisableDeadReturnOtomo;
+    
+public:
+    UPalOtomoHolderComponentBase(const FObjectInitializer& ObjectInitializer);
+
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalIndividualCharacterHandle* TryGetSpawnedOtomoHandle() const;
     
@@ -99,6 +106,13 @@ protected:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void SpawnOtomoByLoad(int32 SlotIndex);
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void SetSelectOtomoID_ToServer(int32 ID, int32 Index);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void SetSelectOtomoID_ToALL(int32 ID, int32 Index);
+    
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void SetSelectOtomoID_Internal(int32 Index);
@@ -112,6 +126,10 @@ public:
 protected:
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void SetInteractComponent(AActor* SpawnPal);
+    
+public:
+    UFUNCTION(BlueprintCallable)
+    void SetDisableDeadReturnOtomo(bool bDisable);
     
 private:
     UFUNCTION(BlueprintCallable)
@@ -185,6 +203,14 @@ public:
     UFUNCTION(BlueprintCallable)
     void Initialize();
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void IncrementSelectOtomoID_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void IncrementSelectOtomoID_ToALL(int32 ID);
+    
+public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void IncrementSelectOtomoID_Internal();
     
@@ -198,6 +224,9 @@ protected:
 public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void InactivateCurrentOtomo();
+    
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void InactivateAllOtomo();
     
 protected:
     UFUNCTION(BlueprintCallable)
@@ -253,6 +282,14 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     void GetAllIndividualHandle(TArray<UPalIndividualCharacterHandle*>& OutArray) const;
     
+private:
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void DecrementSelectOtomoID_ToServer(int32 ID);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void DecrementSelectOtomoID_ToALL(int32 ID);
+    
+public:
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void DecrementSelectOtomoID_Internal();
     
@@ -261,6 +298,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void CoopCallCommand();
+    
+    UFUNCTION(BlueprintCallable)
+    void CompleteInactiveCurrentOtomo();
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void CallCancelCommand();
@@ -273,6 +313,9 @@ public:
     
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void AddLogOtomoPartnerSkill_ToClient(AActor* Otomo, EPalLogType PalLogType, int32 Value, bool AddSkillName);
+    
+    UFUNCTION(BlueprintCallable, Client, Reliable)
+    void AddLogOtomoPartnerSkill_Text_ToClient(AActor* Otomo, FName textID);
     
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     bool ActivateCurrentOtomoNearThePlayer();

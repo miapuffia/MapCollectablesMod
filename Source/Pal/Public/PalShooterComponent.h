@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
 #include "Engine/HitResult.h"
@@ -14,7 +15,6 @@
 #include "LayeredFlagContainer.h"
 #include "PalDeadInfo.h"
 #include "RidingAnimationInfo.h"
-#include "WeaponAnimationInfo.h"
 #include "WeaponNotifyAnimationInfo.h"
 #include "PalShooterComponent.generated.h"
 
@@ -24,6 +24,7 @@ class UInputComponent;
 class UPalActionBase;
 class UPalCharacterMovementComponent;
 class UPalShooterAnimeAssetBase;
+class UWeaponAnimationInfoWrap;
 
 UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UPalShooterComponent : public UActorComponent {
@@ -37,7 +38,7 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReloadStart);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReloadBullet);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEndShootingAnimation, UAnimMontage*, Montage);
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeWeapon, APalWeaponBase*, weapon);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeWeapon, APalWeaponBase*, Weapon);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEndAimDelegate);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeTargetDirectionDelegate, FVector, Direction);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FChangeStateDelegate, bool, IsAim, bool, IsShoot);
@@ -144,7 +145,7 @@ private:
     APalWeaponBase* CacheNextWeapon;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
-    FWeaponAnimationInfo PrevWeaponAnimationInfo;
+    UWeaponAnimationInfoWrap* PrevWeaponAnimationInfo;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bIsDisableShootingTemporarily;
@@ -185,6 +186,15 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bIsShootingHold;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bIsAttachRequest;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bChangeIsShootingPulling;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool bChangeIsShootingRelaseRequest;
+    
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     APalWeaponBase* NPCWeapon;
     
@@ -197,10 +207,17 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     FRandomStream RandomStream;
     
-public:
-    UPalShooterComponent();
-    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool CurrentWeaponUseLeftHandIK;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FTransform CurrentWeaponTransformLeftHandIK;
+    
+public:
+    UPalShooterComponent(const FObjectInitializer& ObjectInitializer);
+
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 private:
     UFUNCTION(BlueprintCallable)
     void StopWeaponChangeAnimation();
@@ -208,7 +225,13 @@ private:
     UFUNCTION(BlueprintCallable)
     void StopReloadInternal();
     
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void StopReload_ToServer(int32 ID);
+    
 public:
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void StopReload_ToALL(int32 ID);
+    
     UFUNCTION(BlueprintCallable)
     void StopReload();
     
@@ -232,6 +255,9 @@ private:
     void SetTargetDirection_ToServer(FVector NewTargetDirection);
     
 public:
+    UFUNCTION(BlueprintCallable)
+    void SetTargetDirection_ByServer(FVector NewTargetDirection);
+    
     UFUNCTION(BlueprintCallable)
     void SetTargetDirection(const FVector& Direction);
     
@@ -284,7 +310,13 @@ private:
     UFUNCTION(BlueprintCallable)
     void ReloadWeaponInternal();
     
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void ReloadWeapon_ToServer(int32 ID);
+    
 public:
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void ReloadWeapon_ToALL(int32 ID);
+    
     UFUNCTION(BlueprintCallable)
     void ReloadWeapon();
     
@@ -354,13 +386,16 @@ public:
     FVector GetTargetDirection() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    FWeaponAnimationInfo GetPrevWeaponAnimationInfo() const;
+    UWeaponAnimationInfoWrap* GetPrevWeaponAnimationInfo() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     APalWeaponBase* GetHasWeapon() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    FWeaponAnimationInfo GetCurrentWeaponAnimationInfo() const;
+    FTransform GetCurrentWeaponTransformLeftHandIK() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    UWeaponAnimationInfoWrap* GetCurrentWeaponAnimationInfo() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FRidingAnimationInfo GetCurrentRidingAnimationInfo() const;
@@ -379,11 +414,27 @@ public:
     
 private:
     UFUNCTION(BlueprintCallable)
-    void ChangeWeapon(APalWeaponBase* weapon);
+    void ChangeWeapon(APalWeaponBase* Weapon);
     
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void ChangeIsShooting_ToServer(int32 ID, bool NewIsShooting);
+    
+public:
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void ChangeIsShooting_ToALL(int32 ID, bool NewIsShooting);
+    
+private:
     UFUNCTION(BlueprintCallable)
     void ChangeIsShooting(bool NewIsShooting);
     
+    UFUNCTION(BlueprintCallable, Reliable, Server)
+    void ChangeIsAiming_ToServer(int32 ID, bool NewIsAiming);
+    
+public:
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void ChangeIsAiming_ToALL(int32 ID, bool NewIsAiming);
+    
+private:
     UFUNCTION(BlueprintCallable)
     void ChangeIsAiming(bool NewIsAiming);
     
@@ -392,7 +443,7 @@ public:
     bool CanWeaponChangeAnime();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
-    bool CanUseWeapon(APalWeaponBase* weapon) const;
+    bool CanUseWeapon(APalWeaponBase* Weapon) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool CanUseRightHand() const;
@@ -425,13 +476,13 @@ public:
     void BowPullAnimeEnd();
     
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
-    void AttachWeapon_ForPartnerSkillPalWeapon_ToAll(APalWeaponBase* weapon);
+    void AttachWeapon_ForPartnerSkillPalWeapon_ToAll(APalWeaponBase* Weapon);
     
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void AttachWeapon_ForNPC_ToAll(bool IsNotNull);
     
     UFUNCTION(BlueprintCallable)
-    void AttachWeapon(APalWeaponBase* weapon);
+    void AttachWeapon(APalWeaponBase* Weapon);
     
 private:
     UFUNCTION(BlueprintCallable)

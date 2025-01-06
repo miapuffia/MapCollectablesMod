@@ -5,6 +5,7 @@ FPalIndividualCharacterSaveParameter::FPalIndividualCharacterSaveParameter() {
     this->CharacterClass = NULL;
     this->Level = 0;
     this->Rank = 0;
+    this->RankUpExp = 0;
     this->Rank_HP = 0;
     this->Rank_Attack = 0;
     this->Rank_Defence = 0;
@@ -34,5 +35,6 @@ FPalIndividualCharacterSaveParameter::FPalIndividualCharacterSaveParameter() {
     this->bAppliedDeathPenarty = false;
     this->PalReviveTimer = 0.00f;
     this->VoiceID = 0;
+    this->IsFavoritePal = false;
 }
 

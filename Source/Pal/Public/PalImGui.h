@@ -10,10 +10,11 @@ class PAL_API APalImGui : public AActor {
     GENERATED_BODY()
 public:
 private:
-    UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<APalCharacter> WeakCharacterForParameterDisplay;
     
 public:
-    APalImGui();
+    APalImGui(const FObjectInitializer& ObjectInitializer);
+
 };
 

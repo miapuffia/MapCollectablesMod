@@ -69,28 +69,36 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     int32 TargetRankMax;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
+    TArray<EPalItemTypeA> MaterialTypesA;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
+    TArray<EPalItemTypeB> MaterialTypesB;
+    
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool IsPickUpInteractable;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
+    bool bCanTransportOutProduct;
+    
 public:
     UPalMapObjectConvertItemModel();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
+protected:
     UFUNCTION(BlueprintCallable)
-    void RequestUpdateRecipe(const FName RecipeID, const int32 ProductNum);
-    
-private:
-    UFUNCTION(BlueprintCallable)
-    void RequestChangeRecipe_ServerInternal(const int32 RequestPlayerId, const FPalNetArchive& Archive);
-    
-public:
-    UFUNCTION(BlueprintCallable)
-    void RequestCancel();
+    void ReceivePickupProductResult_Client(const FPalNetArchive& Archive);
     
 private:
     UFUNCTION(BlueprintCallable)
     void ReceivedPickProductResult(UPalItemSlot* Slot);
     
+protected:
+    UFUNCTION(BlueprintCallable)
+    void PickupProduct_ServerInternal(const int32 RequestPlayerId);
+    
+private:
     UFUNCTION(BlueprintCallable)
     void OnUpdateEnergyModuleState(UPalMapObjectEnergyModule* EnergyModule);
     
@@ -151,6 +159,14 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FPalItemRecipe GetCurrentRecipe() const;
     
+private:
+    UFUNCTION(BlueprintCallable)
+    void ChangeRecipe_ServerInternal(const int32 RequestPlayerId, const FPalNetArchive& Archive);
+    
+    UFUNCTION(BlueprintCallable)
+    void Cancel_ServerInternal(const int32 RequestPlayerId);
+    
+public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     float CalcRequiredAmount(const float BaseRequiredAmount) const;
     
@@ -158,7 +174,7 @@ private:
     UFUNCTION(BlueprintCallable)
     void AddConvertItemResultLog(const FPalNetArchive& Archive);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

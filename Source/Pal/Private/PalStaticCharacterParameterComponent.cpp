@@ -1,5 +1,51 @@
 #include "PalStaticCharacterParameterComponent.h"
 
+UPalStaticCharacterParameterComponent::UPalStaticCharacterParameterComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->CallApproachWalkSpeedMultiplier = 1.00f;
+    this->CaptureSuccessRate = 1.00f;
+    this->IsPal = false;
+    this->SkillEffectScale = 1.00f;
+    this->FollowSideDistanceRate = 1.00f;
+    this->StepVelocityXY = 50.00f;
+    this->StepVelocityZ = 10.00f;
+    this->HeadBoneName = TEXT("Head");
+    this->PhysicsBodyRootName = TEXT("pelvis");
+    this->ToolAttachBoneName = TEXT("Socket_Weapon_R");
+    this->ExclamationMarkOffsetZ = 50.00f;
+    this->MovementType = EPalMonsterMovementType::GroundOnly;
+    this->Weight_KG = 10.00f;
+    this->Mass_Scale = 100;
+    this->IsGroundCrossRange = 50.00f;
+    this->IsUncapturable = false;
+    this->IsBackWalkForwardAnime = false;
+    this->IsRightLeft_WakeupFromRagdoll = false;
+    this->PettingSize = EPalPettingSizeType::Small;
+    this->PettingDistance = 100.00f;
+    this->PettingStartAddDistance = 20.00f;
+    this->PettingEndLeaveDistance = 0.00f;
+    this->PettingCameraCenterDistance_Override = -1.00f;
+    this->PettingCameraHeight_Override = -1.00f;
+    this->PettingCameraArmLength_Override = -1.00f;
+    this->Size = EPalSizeType::S;
+    this->Ragdoll_GravityRate = 3.00f;
+    this->IsLookatIKAble = true;
+    this->SmallDamageAnimationApplyRate = 0.20f;
+    this->SmallDamageAnimationPlayRate = 2.00f;
+    this->IsForcedTurnWhenDamageReaction = false;
+    this->DisableNPCDamageRolling = false;
+    this->DefenseBuildObjectAssignDistance = 0.00f;
+    this->DefenseBuildObjectAssignHeight = 0.00f;
+    this->IsHideDefenseLauncherFooting = false;
+    this->PalSoundSlotCache = NULL;
+    this->PalFootStepEffectAssetCache = NULL;
+    this->MissWazaAction = NULL;
+    this->IsBoss_Database = false;
+    this->IsTowerBoss_Database = false;
+    this->IsRaidBoss_Database = false;
+    this->SpawnedCharacterType = EPalSpawnedCharacterType::Common;
+    this->IsRaidBoss_BP = false;
+}
+
 void UPalStaticCharacterParameterComponent::SetSpawnedCharacterType(EPalSpawnedCharacterType SpawnedType) {
 }
 
@@ -15,6 +61,10 @@ bool UPalStaticCharacterParameterComponent::IsSwimPal() {
 }
 
 bool UPalStaticCharacterParameterComponent::IsRarePal() {
+    return false;
+}
+
+bool UPalStaticCharacterParameterComponent::IsRaidBossPal() {
     return false;
 }
 
@@ -42,6 +92,10 @@ EPalSpawnedCharacterType UPalStaticCharacterParameterComponent::GetSpawnedCharac
     return EPalSpawnedCharacterType::Common;
 }
 
+FPalRandomRestInfo UPalStaticCharacterParameterComponent::GetRandomRestInfoWithOption(const TArray<UAnimMontage*>& ExceptMontages) const {
+    return FPalRandomRestInfo{};
+}
+
 FPalRandomRestInfo UPalStaticCharacterParameterComponent::GetRandomRestInfo() const {
     return FPalRandomRestInfo{};
 }
@@ -54,45 +108,4 @@ UAnimMontage* UPalStaticCharacterParameterComponent::FindMontange(const EPalActi
     return NULL;
 }
 
-UPalStaticCharacterParameterComponent::UPalStaticCharacterParameterComponent() {
-    this->CallApproachWalkSpeedMultiplier = 1.00f;
-    this->CaptureSuccessRate = 1.00f;
-    this->IsPal = false;
-    this->SkillEffectScale = 1.00f;
-    this->FollowSideDistanceRate = 1.00f;
-    this->StepVelocityXY = 50.00f;
-    this->StepVelocityZ = 10.00f;
-    this->HeadBoneName = TEXT("head");
-    this->PhysicsBodyRootName = TEXT("pelvis");
-    this->ToolAttachBoneName = TEXT("Socket_Weapon_R");
-    this->ExclamationMarkOffsetZ = 50.00f;
-    this->MovementType = EPalMonsterMovementType::GroundOnly;
-    this->Weight_KG = 10.00f;
-    this->Mass_Scale = 100;
-    this->IsGroundCrossRange = 50.00f;
-    this->IsUncapturable = false;
-    this->IsBackWalkForwardAnime = false;
-    this->IsRightLeft_WakeupFromRagdoll = false;
-    this->PettingSize = EPalPettingSizeType::Small;
-    this->PettingDistance = 100.00f;
-    this->PettingStartAddDistance = 20.00f;
-    this->PettingEndLeaveDistance = 0.00f;
-    this->PettingCameraCenterDistance_Override = -1.00f;
-    this->PettingCameraHeight_Override = -1.00f;
-    this->PettingCameraArmLength_Override = -1.00f;
-    this->Size = EPalSizeType::S;
-    this->Ragdoll_GravityRate = 3.00f;
-    this->IsLookatIKAble = true;
-    this->SmallDamageAnimationApplyRate = 0.20f;
-    this->SmallDamageAnimationPlayRate = 2.00f;
-    this->IsForcedTurnWhenDamageReaction = false;
-    this->DisableNPCDamageRolling = false;
-    this->CapsuleHalfHeightDefault = 100.00f;
-    this->PalSoundSlotCache = NULL;
-    this->PalFootStepEffectAssetCache = NULL;
-    this->MissWazaAction = NULL;
-    this->IsBoss_Database = false;
-    this->IsTowerBoss_Database = false;
-    this->SpawnedCharacterType = EPalSpawnedCharacterType::Common;
-}
 

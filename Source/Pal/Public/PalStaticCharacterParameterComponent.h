@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "UObject/NoExportTypes.h"
+#include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
 #include "Chaos/ChaosEngineInterface.h"
 #include "EPalAIActionType.h"
@@ -43,9 +44,6 @@ public:
     float CallApproachWalkSpeedMultiplier;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    TArray<UAnimMontage*> RandomRestMontage;
-    
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FPalRandomRestInfo> RandomRestMontageInfos;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -71,6 +69,9 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TMap<EPalWazaID, TSubclassOf<UPalActionBase>> WazaActionInstancedMap;
+    
+    UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess=true))
+    TMap<EPalWazaID, FFloatInterval> OverrideWazaRangeMap;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     float CaptureSuccessRate;
@@ -193,9 +194,6 @@ public:
     bool DisableNPCDamageRolling;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    float CapsuleHalfHeightDefault;
-    
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TSoftClassPtr<UPalSoundSlot> PalSoundSlotClass;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -206,6 +204,15 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FPalStaticCharacterInfo_SpawnItem SpawnItem;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float DefenseBuildObjectAssignDistance;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float DefenseBuildObjectAssignHeight;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsHideDefenseLauncherFooting;
     
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
@@ -226,10 +233,18 @@ private:
     bool IsTowerBoss_Database;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool IsRaidBoss_Database;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     EPalSpawnedCharacterType SpawnedCharacterType;
     
+protected:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    bool IsRaidBoss_BP;
+    
 public:
-    UPalStaticCharacterParameterComponent();
+    UPalStaticCharacterParameterComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     void SetSpawnedCharacterType(EPalSpawnedCharacterType SpawnedType);
     
@@ -244,6 +259,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsRarePal();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsRaidBossPal();
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsFlyPal();
@@ -262,6 +280,9 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     EPalSpawnedCharacterType GetSpawnedCharacterType();
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    FPalRandomRestInfo GetRandomRestInfoWithOption(const TArray<UAnimMontage*>& ExceptMontages) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     FPalRandomRestInfo GetRandomRestInfo() const;

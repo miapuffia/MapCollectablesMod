@@ -7,7 +7,11 @@ UCLASS(Blueprintable, ClassGroup=Custom, meta=(BlueprintSpawnableComponent))
 class UPalNetworkTimeComponent : public UActorComponent {
     GENERATED_BODY()
 public:
-    UPalNetworkTimeComponent();
+    UPalNetworkTimeComponent(const FObjectInitializer& ObjectInitializer);
+
+    UFUNCTION(BlueprintCallable, Client, Reliable)
+    void UpdateSleepingPlayerNum_ToClient(int32 PlayerNum);
+    
     UFUNCTION(BlueprintCallable, Client, Reliable)
     void PreNightSkip_ToClient();
     

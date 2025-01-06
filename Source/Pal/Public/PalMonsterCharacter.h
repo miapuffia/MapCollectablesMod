@@ -8,9 +8,9 @@
 #include "PalMonsterCharacter.generated.h"
 
 class AActor;
-class APalCharacter;
 class IPalInteractiveObjectComponentInterface;
 class UPalInteractiveObjectComponentInterface;
+class UMaterialInterface;
 class UPalCharacterLiftupObjectComponent;
 class UPalHUDDispatchParameterBase;
 
@@ -24,28 +24,33 @@ public:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Transient, meta=(AllowPrivateAccess=true))
     UPalCharacterLiftupObjectComponent* LiftupObjectComponent;
     
-    APalMonsterCharacter();
+private:
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TArray<UMaterialInterface*> OriginalMaterials;
+    
+public:
+    APalMonsterCharacter(const FObjectInitializer& ObjectInitializer);
+
 private:
     UFUNCTION(BlueprintCallable)
     void SelectedFeedingItem(const FPalItemSlotId& itemSlotId, const int32 Num);
     
+public:
+    UFUNCTION(BlueprintCallable)
+    void RefreshSkin(bool bIsActive);
+    
+private:
     UFUNCTION(BlueprintCallable)
     void OnTriggerInteract(AActor* OtherActor, EPalInteractiveObjectIndicatorType IndicatorType);
     
     UFUNCTION(BlueprintCallable)
     void OnSelectedOrderWorkerRadialMenu(UPalHUDDispatchParameterBase* Parameter);
     
-    UFUNCTION(BlueprintCallable)
-    void MasterWazaUpdateWhenLevelUp(int32 addLevel, int32 nowLevel);
-    
-    UFUNCTION(BlueprintCallable)
-    void MasterWazaSetup(APalCharacter* InCharacter);
-    
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsLiftupObject() const;
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

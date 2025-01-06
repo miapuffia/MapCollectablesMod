@@ -1,6 +1,18 @@
 #include "PalWorkBase.h"
 #include "Net/UnrealNetwork.h"
 
+UPalWorkBase::UPalWorkBase() {
+    this->OverrideWorkType = EPalWorkType::None;
+    this->BehaviourType = EPalWorkBehaviourType::StackAmount;
+    this->AssignableFixedType = EPalWorkAssignableFixedType::Both;
+    this->bAssignableOtomo = true;
+    this->bCanTriggerWorkerEvent = true;
+    this->bCanStealAssign = true;
+    this->CurrentState = EPalWorkProgressState::Init;
+    this->Transform = NULL;
+    this->bGroupRaycastStartOffsetOrigin = false;
+}
+
 void UPalWorkBase::OnRep_CurrentState() {
 }
 
@@ -52,6 +64,7 @@ void UPalWorkBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
     
     DOREPLIFETIME(UPalWorkBase, AssignDefineDataId);
     DOREPLIFETIME(UPalWorkBase, OverrideWorkType);
+    DOREPLIFETIME(UPalWorkBase, AssignLocations);
     DOREPLIFETIME(UPalWorkBase, BaseCampIdBelongTo);
     DOREPLIFETIME(UPalWorkBase, OwnerMapObjectModelId);
     DOREPLIFETIME(UPalWorkBase, OwnerMapObjectConcreteModelId);
@@ -64,15 +77,4 @@ void UPalWorkBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
     DOREPLIFETIME(UPalWorkBase, AssignRepInfoArray);
 }
 
-UPalWorkBase::UPalWorkBase() {
-    this->OverrideWorkType = EPalWorkType::None;
-    this->BehaviourType = EPalWorkBehaviourType::StackAmount;
-    this->AssignableFixedType = EPalWorkAssignableFixedType::Both;
-    this->bAssignableOtomo = true;
-    this->bCanTriggerWorkerEvent = true;
-    this->bCanStealAssign = true;
-    this->CurrentState = EPalWorkProgressState::Init;
-    this->Transform = NULL;
-    this->bGroupRaycastStartOffsetOrigin = false;
-}
 

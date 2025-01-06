@@ -2,15 +2,26 @@
 #include "Net/UnrealNetwork.h"
 #include "PalMoneyData.h"
 
+UPalPlayerInventoryData::UPalPlayerInventoryData() {
+    this->NowItemWeight = 0.00f;
+    this->MaxInventoryWeight = 500.00f;
+    this->MaxInventoryWeight_Cached = 0.00f;
+    this->InventoryMultiHelper = NULL;
+    this->PassiveBuffedMaxWeight = 0.00f;
+    this->PassiveBuffedCurrentWeight = 0.00f;
+    this->MyMoneyData = CreateDefaultSubobject<UPalMoneyData>(TEXT("MoneyData"));
+    this->EquipmentBreakAudioEvent = NULL;
+}
+
 bool UPalPlayerInventoryData::TryRemoveEquipment(UPalItemSlot* EquipSlot) {
     return false;
 }
 
-bool UPalPlayerInventoryData::TryGetItemSlotFromEquipmentType(EPalPlayerEquipItemSlotType equipmentSlotType, UPalItemSlot*& outSlot) const {
+bool UPalPlayerInventoryData::TryGetItemSlotFromEquipmentType(EPalPlayerEquipItemSlotType EquipmentSlotType, UPalItemSlot*& OutSlot) const {
     return false;
 }
 
-bool UPalPlayerInventoryData::TryGetItemIdBySlot(EPalPlayerEquipItemSlotType equipmentSlotType, FPalItemId& outItemId) {
+bool UPalPlayerInventoryData::TryGetItemIdBySlot(EPalPlayerEquipItemSlotType EquipmentSlotType, FPalItemId& OutItemId) {
     return false;
 }
 
@@ -18,19 +29,19 @@ EPalPlayerEquipItemSlotType UPalPlayerInventoryData::TryGetEquipmentTypeFromStat
     return EPalPlayerEquipItemSlotType::Head;
 }
 
-bool UPalPlayerInventoryData::TryGetEquipmentContainerIDFromStaticItemID(const FName& StaticItemId, FPalContainerId& outContainerId) const {
+bool UPalPlayerInventoryData::TryGetEquipmentContainerIDFromStaticItemID(const FName& StaticItemId, FPalContainerId& OutContainerId) const {
     return false;
 }
 
-bool UPalPlayerInventoryData::TryGetEmptySlot(EPalPlayerInventoryType inventoryType, UPalItemSlot*& emptySlot) {
+bool UPalPlayerInventoryData::TryGetEmptySlot(EPalPlayerInventoryType inventoryType, UPalItemSlot*& EmptySlot) {
     return false;
 }
 
-bool UPalPlayerInventoryData::TryGetContainerIdFromItemType(EPalItemTypeA itemTypeA, FPalContainerId& outContainerId) const {
+bool UPalPlayerInventoryData::TryGetContainerIdFromItemType(EPalItemTypeA ItemTypeA, FPalContainerId& OutContainerId) const {
     return false;
 }
 
-bool UPalPlayerInventoryData::TryGetContainerIDFromInventoryType(const EPalPlayerInventoryType inventoryType, FPalContainerId& outContainerId) const {
+bool UPalPlayerInventoryData::TryGetContainerIDFromInventoryType(const EPalPlayerInventoryType inventoryType, FPalContainerId& OutContainerId) const {
     return false;
 }
 
@@ -46,12 +57,6 @@ bool UPalPlayerInventoryData::TryEquipSlot(UPalItemSlot* Slot) {
     return false;
 }
 
-void UPalPlayerInventoryData::RequestTrashItemFromDropSlot_ServerInternal() {
-}
-
-void UPalPlayerInventoryData::RequestTrashItemFromDropSlot() {
-}
-
 void UPalPlayerInventoryData::RequestSortInventory_ServerInternal() {
 }
 
@@ -64,13 +69,7 @@ void UPalPlayerInventoryData::RequestFillSlotToTargetContainerFromInventory_ToSe
 void UPalPlayerInventoryData::RequestFillSlotToInventoryFromTargetContainer_ToServer_Implementation(const FPalContainerId& FromContainerId) {
 }
 
-void UPalPlayerInventoryData::RequestDropItemFromDropSlot_ServerInternal() {
-}
-
-void UPalPlayerInventoryData::RequestDropItemFromDropSlot() {
-}
-
-void UPalPlayerInventoryData::RequestAddItem(const FName StaticItemId, const int32 Count, bool isAssignPassive) {
+void UPalPlayerInventoryData::RequestAddItem(const FName StaticItemId, const int32 Count, bool IsAssignPassive) {
 }
 
 void UPalPlayerInventoryData::OnUpdatePassiveSkill(EPalPassiveSkillEffectType EffectType, float Value) {
@@ -103,6 +102,9 @@ void UPalPlayerInventoryData::OnRep_InventoryInfo() {
 void UPalPlayerInventoryData::OnRep_BuffMaxWeight() {
 }
 
+void UPalPlayerInventoryData::OnRep_BuffCurrentWeight() {
+}
+
 void UPalPlayerInventoryData::OnOnUpdateStatusPoint(FName StatusName, int32 prevPoint, int32 newPoint) {
 }
 
@@ -117,7 +119,15 @@ bool UPalPlayerInventoryData::IsEquipSlot(UPalItemSlot* CheckSlot) {
     return false;
 }
 
-bool UPalPlayerInventoryData::IsEquip(EPalPlayerEquipItemSlotType equipmentSlotType, const FName& StaticItemId) const {
+bool UPalPlayerInventoryData::IsEquip(EPalPlayerEquipItemSlotType EquipmentSlotType, const FName& StaticItemId) const {
+    return false;
+}
+
+bool UPalPlayerInventoryData::IsAlreadyEquipedAccessory(const FName& AccessoryItemId) const {
+    return false;
+}
+
+bool UPalPlayerInventoryData::IsAccessorySlot(UPalItemSlot*& Slot) {
     return false;
 }
 
@@ -125,18 +135,30 @@ int32 UPalPlayerInventoryData::GetUnlockedFoodEquipSlotNum() const {
     return 0;
 }
 
+int32 UPalPlayerInventoryData::GetUnlockedAccessorySlotNum() const {
+    return 0;
+}
+
+float UPalPlayerInventoryData::GetPassiveBuffedItemWeight(const UPalStaticItemDataBase* Item) {
+    return 0.0f;
+}
+
 float UPalPlayerInventoryData::GetNowItemWeight() const {
     return 0.0f;
 }
 
-void UPalPlayerInventoryData::GetItemInfoByItemTypeA(TArray<EPalItemTypeA> itemTypeA, TArray<FPalItemAndNum>& OutItemInfos) {
+float UPalPlayerInventoryData::GetMaxItemWeight() const {
+    return 0.0f;
+}
+
+void UPalPlayerInventoryData::GetItemInfoByItemTypeA(TArray<EPalItemTypeA> ItemTypeA, TArray<FPalItemAndNum>& OutItemInfos) {
 }
 
 EPalPlayerInventoryType UPalPlayerInventoryData::GetInventoryTypeFromStaticItemID(const FName& StaticItemId) const {
     return EPalPlayerInventoryType::Common;
 }
 
-EPalPlayerInventoryType UPalPlayerInventoryData::GetInventoryTypeFromItemTypeA(const EPalItemTypeA itemTypeA) const {
+EPalPlayerInventoryType UPalPlayerInventoryData::GetInventoryTypeFromItemTypeA(const EPalItemTypeA ItemTypeA) const {
     return EPalPlayerInventoryType::Common;
 }
 
@@ -144,11 +166,15 @@ int32 UPalPlayerInventoryData::CountItemNum(const FName& StaticItemId) const {
     return 0;
 }
 
-bool UPalPlayerInventoryData::CanEquip(EPalPlayerEquipItemSlotType equipmentSlotType, const FName& StaticItemId) const {
+bool UPalPlayerInventoryData::CanEquip(EPalPlayerEquipItemSlotType EquipmentSlotType, const FName& StaticItemId) const {
     return false;
 }
 
-EPalItemOperationResult UPalPlayerInventoryData::AddItem_ServerInternal(const FName StaticItemId, const int32 Count, bool isAssignPassive) {
+bool UPalPlayerInventoryData::CanCheckPalTalentsByInventoryItem() {
+    return false;
+}
+
+EPalItemOperationResult UPalPlayerInventoryData::AddItem_ServerInternal(const FName StaticItemId, const int32 Count, bool IsAssignPassive) {
     return EPalItemOperationResult::Success;
 }
 
@@ -158,20 +184,12 @@ void UPalPlayerInventoryData::AddFullInventoryLog_Client() {
 void UPalPlayerInventoryData::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
-    DOREPLIFETIME(UPalPlayerInventoryData, inventoryInfo);
-    DOREPLIFETIME(UPalPlayerInventoryData, maxInventoryWeight);
+    DOREPLIFETIME(UPalPlayerInventoryData, MyInventoryInfo);
+    DOREPLIFETIME(UPalPlayerInventoryData, MaxInventoryWeight);
     DOREPLIFETIME(UPalPlayerInventoryData, InventoryMultiHelper);
     DOREPLIFETIME(UPalPlayerInventoryData, PassiveBuffedMaxWeight);
+    DOREPLIFETIME(UPalPlayerInventoryData, PassiveBuffedCurrentWeight);
     DOREPLIFETIME(UPalPlayerInventoryData, OwnerPlayerUId);
 }
 
-UPalPlayerInventoryData::UPalPlayerInventoryData() {
-    this->NowItemWeight = 0.00f;
-    this->maxInventoryWeight = 500.00f;
-    this->maxInventoryWeight_Cached = 0.00f;
-    this->InventoryMultiHelper = NULL;
-    this->PassiveBuffedMaxWeight = 0.00f;
-    this->moneyData = CreateDefaultSubobject<UPalMoneyData>(TEXT("moneyData"));
-    this->EquipmentBreakAudioEvent = NULL;
-}
 

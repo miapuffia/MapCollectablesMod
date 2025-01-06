@@ -1,5 +1,9 @@
 #include "PalQuestData.h"
 
+UPalQuestData::UPalQuestData() {
+    this->NowQuestBlock = NULL;
+}
+
 void UPalQuestData::ProgressInternal() {
 }
 
@@ -7,6 +11,9 @@ void UPalQuestData::OnUpdatedQuestBlock(UPalQuestBlock* UpdatedBlock) {
 }
 
 void UPalQuestData::OnCompletedQuestBlock(UPalQuestBlock* CompletedBlock) {
+}
+
+void UPalQuestData::InitializeWithoutLoadQuestBlock(int32 BlockIndex, const FName& InQuestName) {
 }
 
 void UPalQuestData::Initialize(int32 BlockIndex, const FName& InQuestName) {
@@ -32,7 +39,4 @@ bool UPalQuestData::CompleteNowBlock() {
     return false;
 }
 
-UPalQuestData::UPalQuestData() {
-    this->NowQuestBlock = NULL;
-}
 

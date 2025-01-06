@@ -16,5 +16,8 @@ enum class EPalMapObjectDestroyFXType : uint8 {
     Pickup_Berry,
     LowTree,
     Rock,
+    FoliageTree_CherryBlossom,
+    Mushroom,
+    Glass,
 };
 

@@ -16,11 +16,14 @@
 #include "PalGroupSaveData.h"
 #include "PalIndividualCharacterSaveParameterSaveData.h"
 #include "PalInstanceID.h"
+#include "PalInvaderSaveData.h"
 #include "PalItemContainerSaveData.h"
 #include "PalMapObjectSaveData.h"
 #include "PalMapObjectSpawnerInStageSaveData.h"
 #include "PalMapObjectSpawnerSaveData.h"
+#include "PalOilrigSaveData.h"
 #include "PalStageInstanceId.h"
+#include "PalSupplySaveData.h"
 #include "PalWorkSaveData.h"
 #include "PalWorldSaveData.generated.h"
 
@@ -81,6 +84,18 @@ public:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FPalDungeonSaveData> DungeonSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TMap<FGuid, FPalInvaderSaveData> InvaderSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FPalOilrigSaveData OilrigSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FPalSupplySaveData SupplySaveData;
+    
+    UPROPERTY(EditAnywhere, meta=(AllowPrivateAccess=true))
+    uint32 WorldMetaSaveVersionBitMask;
     
     PAL_API FPalWorldSaveData();
 };

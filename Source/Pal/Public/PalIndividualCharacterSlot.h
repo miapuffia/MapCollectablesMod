@@ -9,6 +9,7 @@
 #include "PalIndividualCharacterSlot.generated.h"
 
 class UPalIndividualCharacterHandle;
+class UPalIndividualCharacterParameter;
 class UPalIndividualCharacterSlot;
 
 UCLASS(Blueprintable)
@@ -31,6 +32,9 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_HandleID, meta=(AllowPrivateAccess=true))
     FPalInstanceID ReplicateHandleID;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_Parameter, meta=(AllowPrivateAccess=true))
+    UPalIndividualCharacterParameter* ReplicateIndividualParameter;
+    
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     FPalContainerId ContainerId;
     
@@ -48,12 +52,16 @@ protected:
     
 public:
     UPalIndividualCharacterSlot();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     void Setup(const int32 InSlotIndex, const FPalContainerId& InContainerId);
     
 private:
+    UFUNCTION(BlueprintCallable)
+    void OnRep_Parameter();
+    
     UFUNCTION(BlueprintCallable)
     void OnRep_LockPlayerUId();
     
@@ -78,9 +86,6 @@ public:
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     UPalIndividualCharacterHandle* GetHandle() const;
-    
-    UFUNCTION(BlueprintCallable, BlueprintPure)
-    bool CanSetHandle(UPalIndividualCharacterHandle* InHandle) const;
     
 };
 

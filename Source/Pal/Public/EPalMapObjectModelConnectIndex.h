@@ -10,7 +10,11 @@ enum class EPalMapObjectModelConnectIndex : uint8 {
     Right,
     Back,
     Front,
-    AnyPlace = 0xFE,
+    FrontLeft,
+    FrontRight,
+    BackLeft,
+    BackRight,
+    AnyPlace = 254,
     None,
 };
 

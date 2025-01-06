@@ -25,10 +25,14 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated, Transient, meta=(AllowPrivateAccess=true))
     TArray<FName> PassiveSkillList;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_ForceUpdateBulletsCounter, meta=(AllowPrivateAccess=true))
+    uint8 ForceUpdateBulletsCounter;
+    
 public:
     UPalDynamicWeaponItemDataBase();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     int32 UseBullets(int32 useNum);
     
@@ -42,6 +46,9 @@ public:
     void SetBulletsNum(int32 bulletsNum);
     
 protected:
+    UFUNCTION(BlueprintCallable)
+    void OnRep_ForceUpdateBulletsCounter();
+    
     UFUNCTION(BlueprintCallable)
     void OnRep_Durability();
     
@@ -70,7 +77,7 @@ public:
     UFUNCTION(BlueprintCallable)
     bool AddPassiveSkill(FName SkillName);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

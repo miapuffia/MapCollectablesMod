@@ -242,8 +242,6 @@
 		"Linux",
 		"Windows",
 		"XB1",
-		"XSX",
-		"WinGDK",
-		"HoloLens"
+		"XSX"
 	]
 }

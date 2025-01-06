@@ -2,8 +2,10 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Components/ActorComponent.h"
+#include "EPalMapObjectTreasureGradeType.h"
 #include "EPalWazaID.h"
 #include "FixedPoint.h"
+#include "FlagContainer.h"
 #include "PalCoopSkillSearchEffectParameter.h"
 #include "PalDataTableRowName_ItemData.h"
 #include "PalInstanceID.h"
@@ -29,9 +31,11 @@ public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStart);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSearchEffect);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOverheat);
-    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEffectTimeChanged, FFixedPoint, effectTime, FFixedPoint, effectTimeMax);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEffectTimeChanged, FFixedPoint, EffectTime, FFixedPoint, effectTimeMax);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCoolDownTimeChanged, FFixedPoint, CoolDownTime, FFixedPoint, coolDownTimeMax);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCoolDownCompleted);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeDisableGlider, bool, isDisable);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnChangeDisableFunnel, bool, isDisable);
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnOverheat OnOverheat;
@@ -57,6 +61,12 @@ public:
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FOnSearchEffect OnSearchEffectExecute;
     
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnChangeDisableFunnel OnChangeDisableFunnel;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FOnChangeDisableGlider OnChangeDisableGlider;
+    
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FPalDataTableRowName_ItemData> RestrictionItems;
     
@@ -67,7 +77,7 @@ public:
     EPalWazaID WazaID;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
-    FFixedPoint effectTime;
+    FFixedPoint EffectTime;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FFixedPoint effectTimeMax;
@@ -140,8 +150,18 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<float> ActiveSkill_MainValueByRank;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<float> ActiveSkill_OverWriteCoolTimeByRank;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FFlagContainer FunnelDisableFlag;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    FFlagContainer GliderDisableFlag;
+    
 public:
-    UPalPartnerSkillParameterComponent();
+    UPalPartnerSkillParameterComponent(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable)
     void Stop();
     
@@ -150,6 +170,12 @@ public:
     
     UFUNCTION(BlueprintCallable)
     void SetName(FName Name);
+    
+    UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
+    void SetDisableGlider_ToAll(FName flagName, bool isDisable);
+    
+    UFUNCTION(BlueprintCallable)
+    void SetDisableFunnel(FName flagName, bool isDisable);
     
     UFUNCTION(BlueprintCallable, NetMulticast, Reliable)
     void SetDisableFlagsBySetting(bool isDisable);
@@ -213,10 +239,19 @@ public:
     bool IsRestrictedByItems(AActor* Trainer) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsPlayerTrigger() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsOverheat() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsExistActiveSkill() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsDisableGlider() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsDisableFunnel() const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsCoolDown() const;
@@ -270,6 +305,9 @@ public:
     
     UFUNCTION(BlueprintCallable)
     UPalCoopSkillModuleBase* CreateSkillModule(TSubclassOf<UPalCoopSkillModuleBase> SkillModuleClass);
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool CanOpenTreasure(EPalMapObjectTreasureGradeType TreasureGrade) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool CanExec() const;

@@ -1,5 +1,9 @@
 #include "PalUIInventoryModel.h"
 
+UPalUIInventoryModel::UPalUIInventoryModel() {
+    this->InventoryContainers = NULL;
+}
+
 void UPalUIInventoryModel::TryMoveSlotToInventory(UPalItemSlot* fromSlot, bool tryAutoEquip) {
 }
 
@@ -17,9 +21,6 @@ void UPalUIInventoryModel::TryFillSlotToInventoryFromTargetContainer(const FPalC
 }
 
 void UPalUIInventoryModel::TrashLiftUpItem() {
-}
-
-void UPalUIInventoryModel::TrashItemFromDropSlot() {
 }
 
 void UPalUIInventoryModel::Setup() {
@@ -53,9 +54,6 @@ bool UPalUIInventoryModel::IsExistItems(TArray<FPalStaticItemIdAndNum> RequiredI
 void UPalUIInventoryModel::DropLiftUpItem() {
 }
 
-void UPalUIInventoryModel::DropItemFromDropSlot() {
-}
-
 void UPalUIInventoryModel::Dispose() {
 }
 
@@ -67,7 +65,4 @@ bool UPalUIInventoryModel::CheckLiftItemTypeA(EPalItemTypeA checkType) {
     return false;
 }
 
-UPalUIInventoryModel::UPalUIInventoryModel() {
-    this->InventoryContainers = NULL;
-}
 

@@ -1,5 +1,17 @@
 #include "PalOptionSubsystem.h"
 
+UPalOptionSubsystem::UPalOptionSubsystem() {
+    this->BaseFov = 75.00f;
+    this->Namespace = TEXT("production");
+    this->OptionWorldPresetTable = NULL;
+    this->OptionWorldModePresetTable = NULL;
+    this->OptionGraphicsPresetTable = NULL;
+    this->PalPlayerCharacterClass = NULL;
+}
+
+void UPalOptionSubsystem::SetUISettings(const FPalOptionUISettings& InUISettings) {
+}
+
 void UPalOptionSubsystem::SetPadSettings(const FPalOptionPadSettings& InPadSettings) {
 }
 
@@ -28,6 +40,10 @@ void UPalOptionSubsystem::RefreshBanList() {
 }
 
 void UPalOptionSubsystem::OnCompletedGetBanlist(const FString& ResponseBody, bool bResponseOK, int32 ResponseCode) {
+}
+
+FPalOptionUISettings UPalOptionSubsystem::GetUISettings() const {
+    return FPalOptionUISettings{};
 }
 
 void UPalOptionSubsystem::GetSupportScreenSizes(TArray<FIntPoint>& SupportResolutions, TEnumAsByte<EWindowMode::Type> WindowMode) {
@@ -88,12 +104,4 @@ void UPalOptionSubsystem::ApplyGraphicsPresetByBenchMark(FPalOptionGraphicsSetti
 void UPalOptionSubsystem::ApplyGraphicsPreset(FPalOptionGraphicsSettings& OutSettings, EPalOptionGraphicsLevel GraphicsLevel) {
 }
 
-UPalOptionSubsystem::UPalOptionSubsystem() {
-    this->BaseFov = 75.00f;
-    this->Namespace = TEXT("production");
-    this->OptionWorldPresetTable = NULL;
-    this->OptionWorldModePresetTable = NULL;
-    this->OptionGraphicsPresetTable = NULL;
-    this->PalPlayerCharacterClass = NULL;
-}
 

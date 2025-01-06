@@ -1,7 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "EPalGroupOperationResult.h"
 #include "PalGroupOrganization.h"
 #include "PalGuildPlayerInfo.h"
 #include "PalGroupGuildBase.generated.h"
@@ -29,22 +28,23 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_BaseCampLevel, meta=(AllowPrivateAccess=true))
     int32 BaseCampLevel;
     
-    UPROPERTY(EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     TWeakObjectPtr<APalGuildInfo> WeakGuildInfo;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, ReplicatedUsing=OnRep_Guildname, meta=(AllowPrivateAccess=true))
     FString GuildName;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FString OldGuildName;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     bool bAllPlayerNotOnlineAndAlreadyReset;
     
 public:
     UPalGroupGuildBase();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
-    UFUNCTION(BlueprintCallable)
-    EPalGroupOperationResult RequestDismantleBaseCamp(const FGuid& BaseCampId);
-    
+
     UFUNCTION(BlueprintCallable)
     void OnRep_Guildname();
     
@@ -53,11 +53,23 @@ public:
     
 private:
     UFUNCTION(BlueprintCallable)
+    void OnReceivedWordFilteringResult(const FString& ResponseBody, bool bResponseOK, int32 ResponseCode);
+    
+    UFUNCTION(BlueprintCallable)
     void OnDeletePlayerAccount_ServerInternal(UPalPlayerAccount* DeleteAccount);
     
 public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsWorkerCapacityLimited(int32 InLevel) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetWorkerCapacityNum(int32 InLevel) const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
     FString GetGuildName() const;
+    
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    int32 GetBaseCampMaxNumInGuildSpecLevel(int32 InLevel) const;
     
     UFUNCTION(BlueprintCallable, BlueprintPure)
     int32 GetBaseCampMaxNumInGuild() const;

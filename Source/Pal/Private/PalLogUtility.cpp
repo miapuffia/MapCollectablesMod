@@ -1,5 +1,8 @@
 #include "PalLogUtility.h"
 
+UPalLogUtility::UPalLogUtility() {
+}
+
 void UPalLogUtility::SetTextureToAdditionalDataFromStaticItemIDs(const UObject* WorldContextObject, FPalLogAdditionalData& targetData, const TArray<FName>& StaticItemIds) {
 }
 
@@ -49,12 +52,22 @@ void UPalLogUtility::AddWorkerCompleteBuildLog(const UObject* WorldContextObject
 void UPalLogUtility::AddSkillLog(const UObject* WorldContextObject, EPalLogType logType, const FPalLogInfo_Skill& Info) {
 }
 
+void UPalLogUtility::AddMealLog(const UObject* WorldContextObject, const FPalMealLogDisplayData& DisplayData) {
+}
+
+void UPalLogUtility::AddItemsGetLog(const UObject* WorldContextObject, const TArray<FPalItemAndNum>& ItemAndNumArray) {
+}
+
 void UPalLogUtility::AddItemGetLog(const UObject* WorldContextObject, const FPalStaticItemIdAndNum& ItemIDAndNum) {
 }
 
 void UPalLogUtility::AddDropPalLog(const UObject* WorldContextObject, const FPalLogInfo_DropPal& LogInfo) {
 }
 
-UPalLogUtility::UPalLogUtility() {
+void UPalLogUtility::AddDeathLog(const UObject* WorldContextObject, const FPalKillLogDisplayData& DeathLogDisplayData) {
 }
+
+void UPalLogUtility::AddBaseCampWorkerMovementLog(const UObject* WorldContextObject, const FPalBaseCampWorkerMovementLogDisplayData& DisplayData) {
+}
+
 

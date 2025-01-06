@@ -12,6 +12,8 @@ enum class EPalBattleBGMType : uint8 {
     Human_Villain,
     FieldBoss,
     Legend,
+    RaidBoss,
     TowerBoss,
+    RaidBoss_KingBahamut,
 };
 

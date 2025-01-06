@@ -59,13 +59,17 @@ private:
     
 public:
     UPalTechnologyData();
+
     virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-    
+
     UFUNCTION(BlueprintCallable)
     void RequestUnlockRecipeTechnology(const FName& UnlockTechnologyName);
     
     UFUNCTION(BlueprintCallable)
     void RequestAddTechnologyPointByItem(const FPalItemSlotId& ConsumeSlotId);
+    
+    UFUNCTION(BlueprintCallable)
+    void RequestAddBossTechnologyPointByItem(const FPalItemSlotId& ConsumeSlotId);
     
     UFUNCTION(BlueprintCallable)
     void RemoveNewUnlockedFlag(const FName& technologyName);

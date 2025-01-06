@@ -2,6 +2,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "LevelInstance/LevelInstanceActor.h"
+#include "EPalBossBattleDifficulty.h"
 #include "EPalBossType.h"
 #include "PalBossBattleLevelInstance.generated.h"
 
@@ -20,8 +21,12 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bIsLoaded;
     
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    EPalBossBattleDifficulty Difficulty;
+    
 public:
-    APalBossBattleLevelInstance();
+    APalBossBattleLevelInstance(const FObjectInitializer& ObjectInitializer);
+
     UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
     void SpawnBossSpawner(EPalBossType BossType, int32 JoinPlayerNum);
     

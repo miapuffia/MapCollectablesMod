@@ -1,10 +1,46 @@
 #include "PalShooterComponent.h"
 #include "Net/UnrealNetwork.h"
 
+UPalShooterComponent::UPalShooterComponent(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->WalkSpeedMultiplierInAim = 0.20f;
+    this->WalkSpeedMultiplierInHipShoot = 0.70f;
+    this->ChangeWeaponInterpTime = 0.10f;
+    this->IsUseBlurUpdate = false;
+    this->bIsAiming = false;
+    this->bIsShooting = false;
+    this->bIsRequestAim = false;
+    this->bIsRequestPullTrigger = false;
+    this->bIsReloading = false;
+    this->HasWeapon = NULL;
+    this->CacheNextWeapon = NULL;
+    this->bIsDisableShootingTemporarily = false;
+    this->PullTriggerCountDown = 0.00f;
+    this->PullTriggerCountDownCount = 0;
+    this->ElapsedTimeSinceWeaponChange = 0.00f;
+    this->OverrideWeaponType = EPalWeaponType::MAX;
+    this->bUnstoppable = false;
+    this->bIsHoldTrigger = false;
+    this->bBufferedInput = false;
+    this->bIsShootingHold = false;
+    this->bIsAttachRequest = false;
+    this->bChangeIsShootingPulling = false;
+    this->bChangeIsShootingRelaseRequest = false;
+    this->NPCWeapon = NULL;
+    this->CurrentBulletBlurRate = 0.00f;
+    this->RapidFireBlur = 0.00f;
+    this->CurrentWeaponUseLeftHandIK = false;
+}
+
 void UPalShooterComponent::StopWeaponChangeAnimation() {
 }
 
 void UPalShooterComponent::StopReloadInternal() {
+}
+
+void UPalShooterComponent::StopReload_ToServer_Implementation(int32 ID) {
+}
+
+void UPalShooterComponent::StopReload_ToALL_Implementation(int32 ID) {
 }
 
 void UPalShooterComponent::StopReload() {
@@ -26,6 +62,9 @@ void UPalShooterComponent::SetupInputComponent(UInputComponent* InputComponent) 
 }
 
 void UPalShooterComponent::SetTargetDirection_ToServer_Implementation(FVector NewTargetDirection) {
+}
+
+void UPalShooterComponent::SetTargetDirection_ByServer(FVector NewTargetDirection) {
 }
 
 void UPalShooterComponent::SetTargetDirection(const FVector& Direction) {
@@ -77,6 +116,12 @@ void UPalShooterComponent::ResetOverrideWeaponType() {
 }
 
 void UPalShooterComponent::ReloadWeaponInternal() {
+}
+
+void UPalShooterComponent::ReloadWeapon_ToServer_Implementation(int32 ID) {
+}
+
+void UPalShooterComponent::ReloadWeapon_ToALL_Implementation(int32 ID) {
 }
 
 void UPalShooterComponent::ReloadWeapon() {
@@ -152,16 +197,20 @@ FVector UPalShooterComponent::GetTargetDirection() const {
     return FVector{};
 }
 
-FWeaponAnimationInfo UPalShooterComponent::GetPrevWeaponAnimationInfo() const {
-    return FWeaponAnimationInfo{};
+UWeaponAnimationInfoWrap* UPalShooterComponent::GetPrevWeaponAnimationInfo() const {
+    return NULL;
 }
 
 APalWeaponBase* UPalShooterComponent::GetHasWeapon() const {
     return NULL;
 }
 
-FWeaponAnimationInfo UPalShooterComponent::GetCurrentWeaponAnimationInfo() const {
-    return FWeaponAnimationInfo{};
+FTransform UPalShooterComponent::GetCurrentWeaponTransformLeftHandIK() const {
+    return FTransform{};
+}
+
+UWeaponAnimationInfoWrap* UPalShooterComponent::GetCurrentWeaponAnimationInfo() const {
+    return NULL;
 }
 
 FRidingAnimationInfo UPalShooterComponent::GetCurrentRidingAnimationInfo() const {
@@ -183,10 +232,22 @@ UPalShooterAnimeAssetBase* UPalShooterComponent::GetBowAnimAsset() {
 void UPalShooterComponent::EndAim() {
 }
 
-void UPalShooterComponent::ChangeWeapon(APalWeaponBase* weapon) {
+void UPalShooterComponent::ChangeWeapon(APalWeaponBase* Weapon) {
+}
+
+void UPalShooterComponent::ChangeIsShooting_ToServer_Implementation(int32 ID, bool NewIsShooting) {
+}
+
+void UPalShooterComponent::ChangeIsShooting_ToALL_Implementation(int32 ID, bool NewIsShooting) {
 }
 
 void UPalShooterComponent::ChangeIsShooting(bool NewIsShooting) {
+}
+
+void UPalShooterComponent::ChangeIsAiming_ToServer_Implementation(int32 ID, bool NewIsAiming) {
+}
+
+void UPalShooterComponent::ChangeIsAiming_ToALL_Implementation(int32 ID, bool NewIsAiming) {
 }
 
 void UPalShooterComponent::ChangeIsAiming(bool NewIsAiming) {
@@ -196,7 +257,7 @@ bool UPalShooterComponent::CanWeaponChangeAnime() {
     return false;
 }
 
-bool UPalShooterComponent::CanUseWeapon(APalWeaponBase* weapon) const {
+bool UPalShooterComponent::CanUseWeapon(APalWeaponBase* Weapon) const {
     return false;
 }
 
@@ -239,13 +300,13 @@ bool UPalShooterComponent::CanAim() const {
 void UPalShooterComponent::BowPullAnimeEnd() {
 }
 
-void UPalShooterComponent::AttachWeapon_ForPartnerSkillPalWeapon_ToAll_Implementation(APalWeaponBase* weapon) {
+void UPalShooterComponent::AttachWeapon_ForPartnerSkillPalWeapon_ToAll_Implementation(APalWeaponBase* Weapon) {
 }
 
 void UPalShooterComponent::AttachWeapon_ForNPC_ToAll_Implementation(bool IsNotNull) {
 }
 
-void UPalShooterComponent::AttachWeapon(APalWeaponBase* weapon) {
+void UPalShooterComponent::AttachWeapon(APalWeaponBase* Weapon) {
 }
 
 void UPalShooterComponent::AddRapidFireBlur() {
@@ -258,29 +319,4 @@ void UPalShooterComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
     DOREPLIFETIME(UPalShooterComponent, RandomStream);
 }
 
-UPalShooterComponent::UPalShooterComponent() {
-    this->WalkSpeedMultiplierInAim = 0.20f;
-    this->WalkSpeedMultiplierInHipShoot = 0.70f;
-    this->ChangeWeaponInterpTime = 0.10f;
-    this->IsUseBlurUpdate = false;
-    this->bIsAiming = false;
-    this->bIsShooting = false;
-    this->bIsRequestAim = false;
-    this->bIsRequestPullTrigger = false;
-    this->bIsReloading = false;
-    this->HasWeapon = NULL;
-    this->CacheNextWeapon = NULL;
-    this->bIsDisableShootingTemporarily = false;
-    this->PullTriggerCountDown = 0.00f;
-    this->PullTriggerCountDownCount = 0;
-    this->ElapsedTimeSinceWeaponChange = 0.00f;
-    this->OverrideWeaponType = EPalWeaponType::MAX;
-    this->bUnstoppable = false;
-    this->bIsHoldTrigger = false;
-    this->bBufferedInput = false;
-    this->bIsShootingHold = false;
-    this->NPCWeapon = NULL;
-    this->CurrentBulletBlurRate = 0.00f;
-    this->RapidFireBlur = 0.00f;
-}
 

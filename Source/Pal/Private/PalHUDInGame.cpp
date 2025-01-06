@@ -2,6 +2,16 @@
 #include "PalUIHUDLayoutBase.h"
 #include "Templates/SubclassOf.h"
 
+APalHUDInGame::APalHUDInGame(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->DebugDisplay.AddDefaulted(1);
+    this->HUDLayoutClass = UPalUIHUDLayoutBase::StaticClass();
+    this->PlayerInputGuardClass = NULL;
+    this->HUDLayout = NULL;
+    this->LiftSlotModel = NULL;
+    this->HoverWidget = NULL;
+    this->SoundPlayer = NULL;
+}
+
 void APalHUDInGame::TickWorldHUDs() {
 }
 
@@ -26,6 +36,9 @@ void APalHUDInGame::OnApplicationActivationStateChanged(bool bIsFocused) {
 
 
 void APalHUDInGame::HideLiftIcon() {
+}
+
+void APalHUDInGame::Debug_DrawInteractPoints() {
 }
 
 UPalUserWidgetWorldHUD* APalHUDInGame::CreateWorldHUDWidget(TSubclassOf<UPalUserWidgetWorldHUD> WidgetClass, UPalHUDDispatchParameterBase* Parameter) {
@@ -55,12 +68,4 @@ FGuid APalHUDInGame::AddHUD(TSubclassOf<UPalUserWidget> WidgetClass, const EPalH
     return FGuid{};
 }
 
-APalHUDInGame::APalHUDInGame() {
-    this->HUDLayoutClass = UPalUIHUDLayoutBase::StaticClass();
-    this->PlayerInputGuardClass = NULL;
-    this->HUDLayout = NULL;
-    this->LiftSlotModel = NULL;
-    this->HoverWidget = NULL;
-    this->SoundPlayer = NULL;
-}
 

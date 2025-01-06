@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "InputCoreTypes.h"
 #include "PalAxisKeyConfigKeys.h"
 #include "PalKeyConfigKeys.h"
 #include "PalKeyConfigSettings.generated.h"
@@ -19,6 +20,12 @@ public:
     
     UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
     TArray<FPalAxisKeyConfigKeys> GamePadAxisMappings;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TMap<FName, FKey> MouseAndKeyboardUIInputMappings;
+    
+    UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TMap<FName, FKey> GamePadUIInputMappings;
     
     PAL_API FPalKeyConfigSettings();
 };

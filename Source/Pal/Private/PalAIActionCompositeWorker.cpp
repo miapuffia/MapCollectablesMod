@@ -3,6 +3,15 @@
 #include "PalAIActionWorkerWait.h"
 #include "PalAIActionWorkerWorking.h"
 
+UPalAIActionCompositeWorker::UPalAIActionCompositeWorker() {
+    this->WaitActionClass = UPalAIActionWorkerWait::StaticClass();
+    this->ApproachActionClass = UPalAIActionWorkerApproachToWorkArea::StaticClass();
+    this->WaitForWorkableActionClass = NULL;
+    this->WorkingActionClass = UPalAIActionWorkerWorking::StaticClass();
+    this->CurrentActionClass = NULL;
+    this->DefaultWalkSpeed = 1.00f;
+}
+
 void UPalAIActionCompositeWorker::UnregisterFixAssignWork() {
 }
 
@@ -32,9 +41,6 @@ bool UPalAIActionCompositeWorker::IsAssignedToTarget() const {
     return false;
 }
 
-void UPalAIActionCompositeWorker::ChangeActionWorking() {
-}
-
 void UPalAIActionCompositeWorker::ChangeActionWaitForWorkable() {
 }
 
@@ -44,12 +50,4 @@ void UPalAIActionCompositeWorker::ChangeActionWait() {
 void UPalAIActionCompositeWorker::ChangeActionApproachToWorkArea() {
 }
 
-UPalAIActionCompositeWorker::UPalAIActionCompositeWorker() {
-    this->WaitActionClass = UPalAIActionWorkerWait::StaticClass();
-    this->ApproachActionClass = UPalAIActionWorkerApproachToWorkArea::StaticClass();
-    this->WaitForWorkableActionClass = NULL;
-    this->WorkingActionClass = UPalAIActionWorkerWorking::StaticClass();
-    this->CurrentActionClass = NULL;
-    this->DefaultWalkSpeed = 1.00f;
-}
 

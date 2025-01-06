@@ -12,6 +12,8 @@ UCLASS(Blueprintable)
 class UPalBuildOperator : public UObject {
     GENERATED_BODY()
 public:
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMapObjectModelDynamicDelegate, UPalMapObjectModel*, MapObjectModel);
+
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FMapObjectModelDynamicDelegate OnCompleteBuildInServerDelegate;
     
@@ -22,10 +24,8 @@ protected:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     UPalBuildObjectDataMap* DataMap;
     
-    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
-    TArray<APalBuildObject*> BuildObjects;
-    
 public:
     UPalBuildOperator();
+
 };
 

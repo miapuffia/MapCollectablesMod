@@ -16,6 +16,7 @@ class COMMONGAME_API UCommonUIExtensions : public UBlueprintFunctionLibrary {
     GENERATED_BODY()
 public:
     UCommonUIExtensions();
+
     UFUNCTION(BlueprintCallable, BlueprintCosmetic)
     static FName SuspendInputForPlayer(APlayerController* PlayerController, FName SuspendReason);
     

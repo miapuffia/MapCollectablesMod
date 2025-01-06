@@ -1,10 +1,13 @@
 #include "PalItemUtility.h"
 
+UPalItemUtility::UPalItemUtility() {
+}
+
 bool UPalItemUtility::TryGetItemVisualBlueprintClass(const UObject* WorldContextObject, const FName StaticItemId, TSoftClassPtr<AActor>& VisualBlueprintClass) {
     return false;
 }
 
-void UPalItemUtility::RestoreWithItem(const UObject* WorldContextObject, FName staticItemName, UPalIndividualCharacterParameter* targetParameter) {
+void UPalItemUtility::RestoreWithItem(const UObject* WorldContextObject, FName StaticItemName, UPalIndividualCharacterParameter* TargetParameter) {
 }
 
 void UPalItemUtility::MaterialInfos(const FPalItemRecipe& Recipe, TArray<FPalStaticItemIdAndNum>& NewMaterialInfos) {
@@ -37,10 +40,20 @@ UPalItemSlot* UPalItemUtility::CreateLocalItemSlot(UObject* WorldContextObject, 
 void UPalItemUtility::CollectLocalPlayerControllableItemInfos(const UObject* WorldContextObject, TArray<FName> StaticItemIds, TArray<FPalStaticItemIdAndNum>& OutItemInfos, const bool bIncludeInRangeBaseCamp) {
 }
 
-bool UPalItemUtility::CanUseHealItem(const UObject* WorldContextObject, FName staticItemName, UPalIndividualCharacterParameter* targetParameter) {
+bool UPalItemUtility::CanUseHealItem(const UObject* WorldContextObject, FName StaticItemName, UPalIndividualCharacterParameter* TargetParameter) {
     return false;
 }
 
-UPalItemUtility::UPalItemUtility() {
+bool UPalItemUtility::CanItemLevelUp(const UPalStaticItemDataBase* ItemData, UPalIndividualCharacterParameter* TargetParameter) {
+    return false;
 }
+
+bool UPalItemUtility::CanDropFromInventory(const UObject* WorldContextObject, const FName& StaticItemId) {
+    return false;
+}
+
+bool UPalItemUtility::CanDisposeFromInventory(const UObject* WorldContextObject, const FName& StaticItemId) {
+    return false;
+}
+
 

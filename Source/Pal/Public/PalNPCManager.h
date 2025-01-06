@@ -61,6 +61,7 @@ protected:
     
 public:
     UPalNPCManager();
+
 private:
     UFUNCTION(BlueprintCallable)
     void SpawNPCCallback(FPalInstanceID ID);
@@ -77,6 +78,9 @@ private:
     void RemoveGroupWhenDestoryActor(AActor* DestoryActor);
     
 public:
+    UFUNCTION(BlueprintCallable, BlueprintPure)
+    bool IsTransientTalkCount(APalCharacter* Character);
+    
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsTalkable(APalCharacter* Character);
     
@@ -114,7 +118,7 @@ private:
     UFUNCTION(BlueprintCallable)
     void AllResetBossRespawnFlag();
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

@@ -10,6 +10,7 @@
 #include "EPalMapObjectGetModelOutPinType.h"
 #include "PalDamageInfo.h"
 #include "PalInteractiveObjectIndicatorInterface.h"
+#include "PalMapObjectComponentInfo.h"
 #include "PalMapObjectConcreteModelDelegateDelegate.h"
 #include "PalMapObjectConcreteModelMulticastDelegateDelegate.h"
 #include "PalMapObjectDisposeOptions.h"
@@ -34,6 +35,7 @@ class PAL_API APalMapObject : public AActor, public IPalInteractiveObjectIndicat
 public:
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToggleBuildProgressHUD, EPalHUDDisplayType, DisplayType);
     DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FReturnSelf, APalMapObject*, Self, EPalHUDDisplayType, DisplayType);
+    DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPalMapObjectModelDelegate, APalMapObject*, MapObject);
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FReturnSelf OnNotifiedShowStatusHUDDelegate;
@@ -43,6 +45,9 @@ public:
     
     UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FPalMapObjectConcreteModelMulticastDelegate OnSetConcreteModelDelegate;
+    
+    UPROPERTY(BlueprintAssignable, BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FPalMapObjectModelDelegate OnSetModelDelegate;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FVector SpawnLocationOffset;
@@ -70,6 +75,9 @@ protected:
     TArray<FName> AllowOverlapCollisionPresetNames;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FName> AllowOverlapActorTags;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bSpawnSlipAboveIfAnyOverlap;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
@@ -77,6 +85,9 @@ protected:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     EPalMapObjectDestroyFXType DestroyFXType;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    float PlayDestroyFXPlayerRange;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bShowOutlineInTargettingReticle;
@@ -127,10 +138,14 @@ private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     bool bShouldPlayDestroyFX;
     
-public:
-    APalMapObject();
-    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    TArray<FPalMapObjectComponentInfo> TickableComponentInfos;
     
+public:
+    APalMapObject(const FObjectInitializer& ObjectInitializer);
+
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
     UFUNCTION(BlueprintCallable)
     void TryGetConcreteModel(EPalMapObjectGetModelOutPinType& OutputPin, UPalMapObjectConcreteModelBase*& ConcreteModel);
     
@@ -182,7 +197,7 @@ protected:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void BP_OnSetConcreteModel(UPalMapObjectConcreteModelBase* ConcreteModel);
     
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

@@ -25,6 +25,7 @@ protected:
     
 public:
     UPalAIActionBaseCampBase();
+
 protected:
     UFUNCTION(BlueprintCallable)
     void StartCombatAction(TSubclassOf<UPalAIActionCombatBase> CombatActionClass);
@@ -62,10 +63,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void ChangeActionToWorker();
     
-    UFUNCTION(BlueprintCallable)
-    void ChangeActionToFighter();
-    
-    
+
     // Fix for true pure virtual functions not being implemented
 };
 

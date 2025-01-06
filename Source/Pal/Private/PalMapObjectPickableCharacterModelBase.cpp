@@ -1,6 +1,9 @@
 #include "PalMapObjectPickableCharacterModelBase.h"
 #include "Net/UnrealNetwork.h"
 
+UPalMapObjectPickableCharacterModelBase::UPalMapObjectPickableCharacterModelBase() {
+}
+
 void UPalMapObjectPickableCharacterModelBase::RequestPickup_ServerInternal(const int32 RequestPlayerId) {
 }
 
@@ -8,9 +11,6 @@ void UPalMapObjectPickableCharacterModelBase::RequestPickup() {
 }
 
 void UPalMapObjectPickableCharacterModelBase::OnRemovedStoredCharacter_ServerInternal(const FPalCharacterStoredParameterId& RemovedID) {
-}
-
-void UPalMapObjectPickableCharacterModelBase::OnDisappearTimeAt() {
 }
 
 FPalIndividualCharacterSaveParameter UPalMapObjectPickableCharacterModelBase::GetCharacterSaveParameter() const {
@@ -24,6 +24,4 @@ void UPalMapObjectPickableCharacterModelBase::GetLifetimeReplicatedProps(TArray<
     DOREPLIFETIME(UPalMapObjectPickableCharacterModelBase, LocationId);
 }
 
-UPalMapObjectPickableCharacterModelBase::UPalMapObjectPickableCharacterModelBase() {
-}
 

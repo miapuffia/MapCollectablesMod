@@ -1,6 +1,11 @@
 #include "PalFoliageInstance.h"
 #include "Net/UnrealNetwork.h"
 
+UPalFoliageInstance::UPalFoliageInstance() {
+    this->Hp = -1;
+    this->bAlive = true;
+}
+
 void UPalFoliageInstance::OnRep_WorldTransform() {
 }
 
@@ -11,13 +16,9 @@ void UPalFoliageInstance::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& 
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
     DOREPLIFETIME(UPalFoliageInstance, FoliageTypeId);
-    DOREPLIFETIME(UPalFoliageInstance, HP);
+    DOREPLIFETIME(UPalFoliageInstance, Hp);
     DOREPLIFETIME(UPalFoliageInstance, bAlive);
     DOREPLIFETIME(UPalFoliageInstance, WorldTransform);
 }
 
-UPalFoliageInstance::UPalFoliageInstance() {
-    this->HP = -1;
-    this->bAlive = true;
-}
 

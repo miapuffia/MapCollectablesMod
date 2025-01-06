@@ -1,5 +1,21 @@
 #include "PalNPCSpawnerBase.h"
 
+APalNPCSpawnerBase::APalNPCSpawnerBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {
+    this->bNetLoadOnClient = false;
+    this->bIsRunOnAnyThread = true;
+    this->Ignore_DebugSettingDisable = false;
+    this->Ignore_DistanceLocationReset = false;
+    this->Ignore_FarCheck = false;
+    this->bDoSpawnedTick = true;
+    this->SpawnRadiusType = EPalSpawnRadiusType::S;
+    this->IsSquadBehaviour = true;
+    this->LocationResetDistance_SpawnerToCharacterTooFar = 500000.00f;
+    this->LocationResetHeight_SpawnerToCharacterTooLow = 50000.00f;
+    this->NavInvokerComponent = NULL;
+    this->Squad = NULL;
+    this->ImportanceType = EPalSpwnerImportanceType::Undefined;
+}
+
 void APalNPCSpawnerBase::Tick_Spawning(float DeltaTime) {
 }
 
@@ -16,12 +32,18 @@ void APalNPCSpawnerBase::SetSpawnedFlag(bool NewIsSpawned) {
 void APalNPCSpawnerBase::SetSpawnDisableFlag(const FName& Name, bool isDisable) {
 }
 
+void APalNPCSpawnerBase::SetIgnoreRandomizer(bool bInIgnoreRandomizer) {
+}
+
 void APalNPCSpawnerBase::SetDisableBossSpawner_ToSaveData(FName KeyName) {
 }
 
 void APalNPCSpawnerBase::SetCheckRadius(float SpawnRadius, float DespawnRadius) {
 }
 
+
+void APalNPCSpawnerBase::RequestDeleteGroup() {
+}
 
 void APalNPCSpawnerBase::RequestCreateGroup(TArray<FName> CharacterIDList) {
 }
@@ -69,6 +91,14 @@ bool APalNPCSpawnerBase::IsNearBaseCamp() {
     return false;
 }
 
+bool APalNPCSpawnerBase::IsIgnoreRandomizer() const {
+    return false;
+}
+
+EPalSpawnRadiusType APalNPCSpawnerBase::GetSpawnRadiusType() const {
+    return EPalSpawnRadiusType::S;
+}
+
 float APalNPCSpawnerBase::GetSpawnRadiusCM() const {
     return 0.0f;
 }
@@ -82,13 +112,17 @@ int32 APalNPCSpawnerBase::GetSpawnLevelRandom_OneTribe(FPalSpawnerOneTribeInfo I
     return 0;
 }
 
-float APalNPCSpawnerBase::GetSpawnerRadiusByType() {
+
+
+float APalNPCSpawnerBase::GetSpawnerRadiusByType() const {
     return 0.0f;
 }
+
 
 FString APalNPCSpawnerBase::GetSpawnDisableDebugInfo() const {
     return TEXT("");
 }
+
 
 int32 APalNPCSpawnerBase::GetMaxMonsterLevel_Implementation() const {
     return 0;
@@ -114,24 +148,10 @@ EPalCheckSpawnResultType APalNPCSpawnerBase::CheckSpawnDistance(bool NewIsSpawne
 
 
 
-void APalNPCSpawnerBase::AddGroupCharacterByGroupId(UPalIndividualCharacterHandle* AddIndividualHandle, const FGuid& GroupID, const FString& DebugName) {
+void APalNPCSpawnerBase::AddGroupCharacterByGroupId(UPalIndividualCharacterHandle* AddIndividualHandle, const FGuid& GroupId, const FString& DebugName) {
 }
 
 void APalNPCSpawnerBase::AddGroupCharacter(UPalIndividualCharacterHandle* AddIndividualHandle) {
 }
 
-APalNPCSpawnerBase::APalNPCSpawnerBase() {
-    this->bIsRunOnAnyThread = true;
-    this->Ignore_DebugSettingDisable = false;
-    this->Ignore_DistanceLocationReset = false;
-    this->Ignore_FarCheck = false;
-    this->bDoSpawnedTick = true;
-    this->SpawnRadiusType = EPalSpawnRadiusType::S;
-    this->IsSquadBehaviour = true;
-    this->LocationResetDistance_SpawnerToCharacterTooFar = 500000.00f;
-    this->LocationResetHeight_SpawnerToCharacterTooLow = 50000.00f;
-    this->NavInvokerComponent = NULL;
-    this->Squad = NULL;
-    this->ImportanceType = EPalSpwnerImportanceType::Undefined;
-}
 

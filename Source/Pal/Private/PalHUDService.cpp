@@ -1,6 +1,9 @@
 #include "PalHUDService.h"
 #include "Templates/SubclassOf.h"
 
+UPalHUDService::UPalHUDService() {
+}
+
 void UPalHUDService::StartFadeOut(EPalFadeWidgetLayerType LayerType) {
 }
 
@@ -72,6 +75,9 @@ void UPalHUDService::CloseOverlayUIAll() {
 void UPalHUDService::Close(const FGuid& ID) {
 }
 
+void UPalHUDService::ClearFadeQueue() {
+}
+
 FGuid UPalHUDService::AddWorldHUD(FPalWorldHUDParameter Parameter) {
     return FGuid{};
 }
@@ -86,6 +92,4 @@ void UPalHUDService::ActivatePlayerInputGuard() {
 void UPalHUDService::ActivateFocusCursor(UWidget* TargetWidget) {
 }
 
-UPalHUDService::UPalHUDService() {
-}
 

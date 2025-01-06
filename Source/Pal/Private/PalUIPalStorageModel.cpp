@@ -1,9 +1,14 @@
 #include "PalUIPalStorageModel.h"
 
+UPalUIPalStorageModel::UPalUIPalStorageModel() {
+    this->CurrentPageIndex = -1;
+    this->DisplayModel = NULL;
+}
+
 void UPalUIPalStorageModel::ToPrevPage() {
 }
 
-void UPalUIPalStorageModel::ToPage(const int32 PageIndex, const bool bForce) {
+void UPalUIPalStorageModel::ToPage(const int32 pageIndex, const bool bForce) {
 }
 
 void UPalUIPalStorageModel::ToNextPage() {
@@ -31,8 +36,4 @@ bool UPalUIPalStorageModel::CanMoveToNext() const {
     return false;
 }
 
-UPalUIPalStorageModel::UPalUIPalStorageModel() {
-    this->CurrentPageIndex = -1;
-    this->DisplayModel = NULL;
-}
 

@@ -1,5 +1,28 @@
 #include "PalDatabaseCharacterParameter.h"
 
+UPalDatabaseCharacterParameter::UPalDatabaseCharacterParameter() {
+    this->PettingPressetClass = NULL;
+    this->PlayerParameterDataTable = NULL;
+    this->MonsterParameterDataTable = NULL;
+    this->HumanParameterDataTable = NULL;
+    this->DropItemDataTable = NULL;
+    this->MonsterNameDataTable = NULL;
+    this->HumanNameDataTable = NULL;
+    this->CharacterIconDataTable = NULL;
+    this->CharacterSkinIconDataTable = NULL;
+    this->BPClassDataTable = NULL;
+    this->PartnerSkillDataTable = NULL;
+    this->PalSizeParameterDataTable = NULL;
+    this->PalCapturedCageDataTable = NULL;
+    this->PalStatusEffectFoodDataTable = NULL;
+    this->PalGainStatusPointsItemDataTable = NULL;
+    this->PalCombiUniqueDataTable = NULL;
+    this->PalTalentUpItemDataTable = NULL;
+    this->NPCOtomoWazaDataTable = NULL;
+    this->PettingPressetInstance = NULL;
+    this->CombiMonsterParameter = NULL;
+}
+
 void UPalDatabaseCharacterParameter::UpdateApplyDatabaseToIndividualParameter(UPalIndividualCharacterParameter* IndividualParameter) {
 }
 
@@ -34,6 +57,10 @@ int32 UPalDatabaseCharacterParameter::GetViewingDistance_cm(FName RowName) {
 
 int32 UPalDatabaseCharacterParameter::GetViewingAngle_Degree(FName RowName) {
     return 0;
+}
+
+bool UPalDatabaseCharacterParameter::GetUseBossHPGauge(FName RowName) {
+    return false;
 }
 
 EPalTribeID UPalDatabaseCharacterParameter::GetTribe(FName RowName) {
@@ -104,6 +131,10 @@ bool UPalDatabaseCharacterParameter::GetIsTowerBoss(FName RowName) {
     return false;
 }
 
+bool UPalDatabaseCharacterParameter::GetIsRaidBoss(FName RowName) {
+    return false;
+}
+
 bool UPalDatabaseCharacterParameter::GetIsPal(FName RowName) {
     return false;
 }
@@ -112,11 +143,11 @@ bool UPalDatabaseCharacterParameter::GetIsBoss(FName RowName) {
     return false;
 }
 
-int32 UPalDatabaseCharacterParameter::GetHPBySaveParameter(const FPalIndividualCharacterSaveParameter& SaveParameter) {
+int32 UPalDatabaseCharacterParameter::GetHPBySaveParameter(const FPalIndividualCharacterSaveParameter& SaveParameter) const {
     return 0;
 }
 
-int32 UPalDatabaseCharacterParameter::GetHP(UPalIndividualCharacterParameter* IndividualParameter) {
+int32 UPalDatabaseCharacterParameter::GetHP(const UPalIndividualCharacterParameter* IndividualParameter) const {
     return 0;
 }
 
@@ -167,7 +198,11 @@ FSoftObjectPath UPalDatabaseCharacterParameter::GetCharacterIconTexturePath(cons
     return FSoftObjectPath{};
 }
 
-TSoftObjectPtr<UTexture2D> UPalDatabaseCharacterParameter::GetCharacterIconTextureByTribeID(const EPalTribeID TribeID) const {
+TSoftObjectPtr<UTexture2D> UPalDatabaseCharacterParameter::GetCharacterIconTextureBySkinName(const FName& SkinName) const {
+    return NULL;
+}
+
+TSoftObjectPtr<UTexture2D> UPalDatabaseCharacterParameter::GetCharacterIconTextureByIndividualHandle(const UPalIndividualCharacterHandle* IndividualHandle) const {
     return NULL;
 }
 
@@ -191,6 +226,10 @@ EPalBattleBGMType UPalDatabaseCharacterParameter::GetBattleBGM(FName RowName) {
     return EPalBattleBGMType::None;
 }
 
+bool UPalDatabaseCharacterParameter::FindTalentUpItem(FName ItemName, FPalTalentUpItemDataRow& OutData) const {
+    return false;
+}
+
 bool UPalDatabaseCharacterParameter::FindPalSizeParameter(EPalSizeType CharacterSize, FPalSizeParameterDataRow& RowData) const {
     return false;
 }
@@ -199,22 +238,4 @@ int32 UPalDatabaseCharacterParameter::CalcCorrectedLevel(const int32 TrainerLeve
     return 0;
 }
 
-UPalDatabaseCharacterParameter::UPalDatabaseCharacterParameter() {
-    this->PettingPressetClass = NULL;
-    this->PlayerParameterDataTable = NULL;
-    this->MonsterParameterDataTable = NULL;
-    this->HumanParameterDataTable = NULL;
-    this->DropItemDataTable = NULL;
-    this->MonsterNameDataTable = NULL;
-    this->HumanNameDataTable = NULL;
-    this->CharacterIconDataTable = NULL;
-    this->BPClassDataTable = NULL;
-    this->PartnerSkillDataTable = NULL;
-    this->PalSizeParameterDataTable = NULL;
-    this->PalCapturedCageDataTable = NULL;
-    this->PalStatusEffectFoodDataTable = NULL;
-    this->PalCombiUniqueDataTable = NULL;
-    this->PettingPressetInstance = NULL;
-    this->CombiMonsterParameter = NULL;
-}
 

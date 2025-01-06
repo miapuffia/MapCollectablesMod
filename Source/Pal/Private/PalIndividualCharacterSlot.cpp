@@ -1,7 +1,18 @@
 #include "PalIndividualCharacterSlot.h"
 #include "Net/UnrealNetwork.h"
 
+UPalIndividualCharacterSlot::UPalIndividualCharacterSlot() {
+    this->Handle = NULL;
+    this->ReplicateIndividualParameter = NULL;
+    this->SlotIndex = -1;
+    this->PermissionTribeID = EPalTribeID::None;
+    this->bIsReplicateCharacterParameter = true;
+}
+
 void UPalIndividualCharacterSlot::Setup(const int32 InSlotIndex, const FPalContainerId& InContainerId) {
+}
+
+void UPalIndividualCharacterSlot::OnRep_Parameter() {
 }
 
 void UPalIndividualCharacterSlot::OnRep_LockPlayerUId() {
@@ -34,24 +45,15 @@ UPalIndividualCharacterHandle* UPalIndividualCharacterSlot::GetHandle() const {
     return NULL;
 }
 
-bool UPalIndividualCharacterSlot::CanSetHandle(UPalIndividualCharacterHandle* InHandle) const {
-    return false;
-}
-
 void UPalIndividualCharacterSlot::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
     
     DOREPLIFETIME(UPalIndividualCharacterSlot, ReplicateHandleID);
+    DOREPLIFETIME(UPalIndividualCharacterSlot, ReplicateIndividualParameter);
     DOREPLIFETIME(UPalIndividualCharacterSlot, ContainerId);
     DOREPLIFETIME(UPalIndividualCharacterSlot, SlotIndex);
     DOREPLIFETIME(UPalIndividualCharacterSlot, LockPlayerUId);
     DOREPLIFETIME(UPalIndividualCharacterSlot, PermissionTribeID);
 }
 
-UPalIndividualCharacterSlot::UPalIndividualCharacterSlot() {
-    this->Handle = NULL;
-    this->SlotIndex = -1;
-    this->PermissionTribeID = EPalTribeID::None;
-    this->bIsReplicateCharacterParameter = true;
-}
 

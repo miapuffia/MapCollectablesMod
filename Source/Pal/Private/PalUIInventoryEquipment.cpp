@@ -1,5 +1,11 @@
 #include "PalUIInventoryEquipment.h"
 
+UPalUIInventoryEquipment::UPalUIInventoryEquipment() {
+}
+
+void UPalUIInventoryEquipment::ToggleHeadEquipVisible() {
+}
+
 void UPalUIInventoryEquipment::SwapItemSlot(UPalItemSlot* SlotA, UPalItemSlot* SlotB) {
 }
 
@@ -12,6 +18,7 @@ void UPalUIInventoryEquipment::RequestUpdatePlayerStatusPoint(const TMap<FName, 
 void UPalUIInventoryEquipment::QuickSortInventory() {
 }
 
-UPalUIInventoryEquipment::UPalUIInventoryEquipment() {
+void UPalUIInventoryEquipment::ChangeLocalPlayerNickname(const FString& NewName) {
 }
+
 

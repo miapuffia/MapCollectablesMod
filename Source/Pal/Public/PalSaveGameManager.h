@@ -2,7 +2,13 @@
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Engine/EngineTypes.h"
+#include "SocialId.h"
+#include "EPalInLoadCollectionType.h"
+#include "FlagContainer.h"
 #include "PalAsyncSaveProcessParallel.h"
+#include "PalContainerId.h"
+#include "PalDynamicItemId.h"
+#include "PalInstanceID.h"
 #include "PalWorldBaseInfoData.h"
 #include "PalSaveGameManager.generated.h"
 
@@ -45,10 +51,19 @@ public:
     
 private:
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool bIsLoadedWorldSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     UPalWorldSaveGame* LoadedWorldSaveData;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool bIsLoadedLocalWorldSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     UPalLocalWorldSaveGame* LoadedLocalWorldSaveData;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    bool bIsLoadedWorldOptionSaveData;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
     UPalWorldOptionSaveGame* LoadedWorldOptionSaveData;
@@ -58,6 +73,9 @@ private:
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FTimerHandle AutoSaveLocalWorldDataTimerHandle;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
+    FTimerHandle AutoGDKBackupTimerHandle;
     
     UPROPERTY(BlueprintReadWrite, EditAnywhere, meta=(AllowPrivateAccess=true))
     FString AutoSaveWorldDefaultName;
@@ -92,8 +110,27 @@ private:
     UPROPERTY(BlueprintReadWrite, Config, EditAnywhere, meta=(AllowPrivateAccess=true))
     int32 DaySaveBackupNum;
     
+    UPROPERTY(EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TMap<EPalInLoadCollectionType, FFlagContainer> bIsCollectIDInLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TSet<FPalInstanceID> UsedInstanceIDSetInLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TSet<FPalContainerId> UsedContainerIDSetInLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    TSet<FPalDynamicItemId> UsedDynamicItemIDSetInLoad;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 GDKMaxBackupSlotNum;
+    
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Transient, meta=(AllowPrivateAccess=true))
+    int32 GDKBackupFrequency;
+    
 public:
     UPalSaveGameManager();
+
     UFUNCTION(BlueprintCallable)
     void StartWorldDataAutoSave();
     
@@ -124,6 +161,11 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsLoadedLocalWorldData() const;
     
+private:
+    UFUNCTION(BlueprintCallable)
+    bool IsExistSocialId(FSocialId ID);
+    
+public:
     UFUNCTION(BlueprintCallable, BlueprintPure)
     bool IsAppliedPlayerData();
     
