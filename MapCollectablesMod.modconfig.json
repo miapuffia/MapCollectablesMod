@@ -1,0 +1,95 @@
+{
+  "note": "THIS JSON FILE WAS CREATED USING THE `DekModConfigMenu` MOD FOR PALWORLD! DO NOT MANUALLY EDIT THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING -- USE THE `DekModConfigMenu` MOD INSTEAD <3",
+  "meta": {
+    "vers": "5.0.0",
+    "auth": "Robert Rioja (miapuffia)",
+    "desc": "Shows Lifmunk effigies, lore notes, dungeons, nearby chests, nearby eggs, nearby outposts, fruit trees, nearby junk, coal, copper, quartz, sulfur, hexolite, and oil as icons on the map with the options to toggle each.",
+    "link": {
+      "nexus-mod-id": "466",
+      "curse-slug": "blueprint-code-mods/map-collectables-helper-effigy-and-notes",
+      "donate": "https://paypal.me/miapuffia"
+    }
+  },
+  "UI SETTINGS": {
+    "type": "header"
+  },
+  "UI position": {
+    "type": "option",
+    "opts": [
+      "Top left",
+      "Top middle",
+      "Top right",
+      "Middle left",
+      "Middle right",
+      "Bottom left",
+      "Bottom middle",
+      "Bottom right"
+    ],
+    "init": "Top left",
+    "live": "Top left"
+  },
+  "UI scale": {
+    "type": "float",
+    "opts": {
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.05
+    },
+    "init": 1,
+    "live": 1
+  },
+  "Hide hidden effigy teleport buttons": {
+    "type": "option",
+    "opts": [
+      "Never",
+      "After collecting",
+      "Always"
+    ],
+    "init": "After collecting",
+    "live": "After collecting"
+  },
+  "DISPLAY SETTINGS": {
+    "type": "header"
+  },
+  "Show inaccessible effigy": {
+    "type": "boolean",
+    "init": false,
+    "live": false
+  },
+  "Show inaccessible (underwater) resources": {
+    "type": "boolean",
+    "init": false,
+    "live": false
+  },
+  "PERFORMANCE SETTINGS": {
+    "type": "header"
+  },
+  "Hide icons when dragging map (reduces lag)": {
+    "type": "boolean",
+    "init": true,
+    "live": true
+  },
+  "Hide tightly clustered icons (reduces lag)": {
+    "type": "boolean",
+    "init": true,
+    "live": true
+  },
+  "Use most accurate resource search (makes opening the map slower)": {
+    "type": "boolean",
+    "init": false,
+    "live": false
+  },
+  "FOR INTERNAL USE - DO NOT MODIFY": {
+    "type": "header"
+  },
+  "Checkboxes should be hidden": {
+    "type": "boolean",
+    "init": false,
+    "live": false
+  },
+  "Current checkboxes state": {
+    "type": "string",
+    "init": "{\"checkboxesState\":[]}",
+    "live": "{\"checkboxesState\":[]}"
+  }
+}

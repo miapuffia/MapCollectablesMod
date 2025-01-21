@@ -1,0 +1,84 @@
+Search for actor you want to add:
+    - Palworld\Pal\Binaries\Win64\CXXHeaderDump
+    - MapCollectablesMod\Source\Pal\Public
+    - Actor data dump
+    - FModel
+
+If file is not already in source, add it in Content/Pal/Blueprint/path...
+Confirm it's the right one by making it pink
+Add new icon image in Images/Icons
+Add filename to MapCollectablesMod/MapCollectablesMod.ImageOverrides/README.txt
+Add new struct in Structs/Collectables
+Add icon to Structs/CollectablesActionStruct
+Add icon to Structs/CollectablesStateStruct
+Update MapCollectablesFunctionLibrary->GetCollectablesNeedInitializing()
+Update IconManager
+    - Add variable
+    - Add Get function
+        - Replace variable getter and setter
+        - Replace filename and default texture
+Update ResourceManager if new icon is a resource
+    - Add vector array variable
+    - If new resource needs to be searched for:
+        - Prepare to track:
+            - Add PrepareTrack and DoTrack functions
+            - Attach PrepareTrack function to mod button press
+            - Attach VectorArrayToJSON() to mod button press with new resource as input, print output
+            - To event tick, attach:
+                - TeleportToMapCursorLocationOnMapFilterOpen()
+                - EventToTickLimiter (set to 1 second)
+                - The new DoTrack function with new resource GetAllActorsOfClass as input
+                - Print count of tracked resource to confirm it's working
+        - Do track:
+            - Press mod button to PrepareTrack once loaded into the game
+            - Teleport around the map, open map, wait 1 second, observe count increase in output
+            - When done, press mod button to print resource JSON
+        - Load JSON into JSON pretty website, save to Data folder as .json file
+        - Reparent Data/PreloadedLocationsDataAssetType to DCPrimaryImportedDataAsset
+        - Drag new JSON file into Data folder
+        - Reparent Data/PreloadedLocationsDataAssetType back to PrimaryDataAsset
+        - Update LoadPreloadedData() with new resource asset
+Update CollectablesManager
+    - Add struct array variable
+    - Update InitializeCollectables()
+        - Remove new icon pins from every Break CollectablesActionStruct
+        - Add new icon Init section
+        - Don't forget to connect the pin from the sequence
+    - Update AddCollectables()
+        - Remove new icon pins from every Break CollectablesActionStruct
+        - Add new icon Add section
+        - Don't forget to connect the pin from the sequence
+    - Update RemoveCollectables()
+        - Remove new icon pins from every Break CollectablesActionStruct
+        - Add new icon Remove section
+        - Don't forget to connect the pin from the sequence
+    - Update AreOldMarkersPresent()
+        - Remove new icon pins from Make CollectablesActionStruct
+    - Update RemoveOldMarkers()
+        - Remove new icon pins from Make CollectablesActionStruct
+Update MapCollectablesUI
+    - Update in Designer
+        - Add label, image (no need to update image asset, it will happen automatically later), and checkbox
+        - If icon is under resources, add Get_ShowResourcesCheckBox_IsEnabled() binding to checkbox's IsEnabled
+    - Update SetupIconImages()
+        - Replace filename, default texture, and variable
+        - Don't forget to connect the pin from the sequence
+Update ModActor
+    - Update EventGraph
+        - Remove new icon pins from Make CollectablesActionStruct attached to Event Tick
+        - Remove new icon pins from Make CollectablesActionStruct attached to PostBeginPlay
+    - Update SaveCheckboxesStateJSON()
+        - Add new icon JSON section and replace checkboxes state string
+        - Don't forget to connect the pin from the sequence
+    - Update LoadCheckboxesStateJSON()
+        - Add new icon JSON section and add switch on string value
+        - Don't forget to connect the pin from the sequence
+    - Update AddCollectablesWithCurrentOptions()
+    - Update HandleCollectablesCheckbox_ShowResources()
+        - Remove new icon pins from both Make CollectablesActionStruct unless new icon is resource
+        - Add new icon section if resource
+    - Update UIEvents
+        - Remove new icon pins from Make CollectablesActionStruct attached to OnWidgetDeactivated_MapBase_Event
+        - Check new icon pin on Make CollectablesActionStruct at the end of OnPushed_StackableUI_Event
+        - Remove new icon pins from every Make CollectablesActionStruct atached to checkbox events
+        - Add new icon checkbox event

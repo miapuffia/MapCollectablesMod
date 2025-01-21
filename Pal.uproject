@@ -236,12 +236,18 @@
 			"Name": "ElectronicNodes",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/5cb2a394d0c04e73891762be4cbd7216"
+		},
+		{
+			"Name": "DcJsonAsset",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/fc5910262d2c4528aa20055afdcf2d5a"
 		}
 	],
 	"TargetPlatforms": [
 		"Linux",
 		"Windows",
 		"XB1",
-		"XSX"
+		"XSX",
+		"HoloLens"
 	]
 }
