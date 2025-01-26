@@ -1,7 +1,7 @@
 {
   "note": "THIS JSON FILE WAS CREATED USING THE `DekModConfigMenu` MOD FOR PALWORLD! DO NOT MANUALLY EDIT THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING -- USE THE `DekModConfigMenu` MOD INSTEAD <3",
   "meta": {
-    "vers": "5.0.0",
+    "vers": "5.1.1",
     "auth": "Robert Rioja (miapuffia)",
     "desc": "Shows Lifmunk effigies, lore notes, dungeons, nearby chests, nearby eggs, nearby outposts, fruit trees, nearby junk, coal, copper, quartz, sulfur, hexolite, and oil as icons on the map with the options to toggle each.",
     "link": {
@@ -38,6 +38,16 @@
     "init": 1,
     "live": 1
   },
+  "Checkboxes to show": {
+    "type": "option",
+    "opts": [
+      "Everything",
+      "Only collectables (effigies and relics)",
+      "Only resources"
+    ],
+    "init": "Everything",
+    "live": "Everything"
+  },
   "Hide hidden effigy teleport buttons": {
     "type": "option",
     "opts": [
@@ -47,6 +57,11 @@
     ],
     "init": "After collecting",
     "live": "After collecting"
+  },
+  "Show teleport buttons even if not the host (probably won't work)": {
+    "type": "boolean",
+    "init": false,
+    "live": false
   },
   "DISPLAY SETTINGS": {
     "type": "header"
