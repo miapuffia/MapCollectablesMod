@@ -1,7 +1,7 @@
 {
   "note": "THIS JSON FILE WAS CREATED USING THE `DekModConfigMenu` MOD FOR PALWORLD! DO NOT MANUALLY EDIT THIS FILE UNLESS YOU KNOW WHAT YOU'RE DOING -- USE THE `DekModConfigMenu` MOD INSTEAD <3",
   "meta": {
-    "vers": "5.1.1",
+    "vers": "5.1.2",
     "auth": "Robert Rioja (miapuffia)",
     "desc": "Shows Lifmunk effigies, lore notes, dungeons, nearby chests, nearby eggs, nearby outposts, fruit trees, nearby junk, coal, copper, quartz, sulfur, hexolite, and oil as icons on the map with the options to toggle each.",
     "link": {
